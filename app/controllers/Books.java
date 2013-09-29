@@ -51,7 +51,7 @@ public class Books extends Controller {
       Integer pages = allFoundBooks.count() / PAGE_SIZE;
       allFoundBooks = allFoundBooks.skip(PAGE_SIZE * page).limit(PAGE_SIZE);
       List<Book> result = books.fromMongoRecord(allFoundBooks);
-      return ok(views.html.Books.index.render(null, result, page, pages, null));
+      return ok(views.html.Books.index.render("All Books", result, page, pages, null));
     }
 
     public static Result searchForm() {
@@ -79,25 +79,25 @@ public class Books extends Controller {
       Integer pages = allFoundBooks.count() / PAGE_SIZE;
       allFoundBooks = allFoundBooks.skip(PAGE_SIZE * page).limit(PAGE_SIZE);
       List<Book> results = books.fromMongoRecord(allFoundBooks);
-      return ok(views.html.Books.index.render("Results for: " + query, results, page, pages, query));
+      return ok(views.html.Books.index.render("Results for '" + query + "'", results, page, pages, query));
     }
 
     public static Result cover(String isbn) {
-      // db['covers.files'].find({ aliases: { $in: ["9780596000059"] } })
-      try {
+      try
+      {
         BasicDBObject isbnQueryPortion = new BasicDBObject("$in", Arrays.asList(isbn));
         BasicDBObject query = new BasicDBObject("aliases", isbnQueryPortion);
         DB db = MongoDatabaseConnection.getInstance().getDB();
         GridFS gfsCovers = new GridFS(db, "covers");
         List<GridFSDBFile> files = gfsCovers.find(query);
         GridFSDBFile gfsCover = files.get(0);
-        System.out.println(gfsCover.toString());
         response().setContentType("image/gif");
         return ok(gfsCover.getInputStream());
-      } catch (Exception e) {
-        System.out.println(e.toString());
       }
-      return notFound();
+      catch (Exception e)
+      {
+        return notFound();
+      }
     }
 
     public static Result recommendations() {
