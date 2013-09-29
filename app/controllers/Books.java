@@ -37,7 +37,7 @@ public class Books extends Controller {
       Integer pages = allFoundBooks.count() / PAGE_SIZE;
       allFoundBooks = allFoundBooks.skip(PAGE_SIZE * page).limit(PAGE_SIZE);
       List<Book> result = books.fromMongoRecord(allFoundBooks);
-      return ok(views.html.Books.index.render("Books", result, page, pages));
+      return ok(views.html.Books.index.render(null, result, page, pages));
     }
 
     public static Result show(String isbn) {
