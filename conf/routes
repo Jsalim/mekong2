@@ -3,29 +3,30 @@
 # ~~~~
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file                controllers.Assets.at(path="/public", file)
+GET     /assets/*file       controllers.Assets.at(path="/public", file)
 
 # Root
-GET     /                            controllers.Users.startLogin()
+GET     /                   controllers.Users.startLogin()
 
 # Users
-GET     /users/register              controllers.Users.startRegister()
-POST    /users/register              controllers.Users.finishRegister()
-GET     /users/login                 controllers.Users.startLogin()
-POST    /users/login                 controllers.Users.finishLogin()
-GET     /users/logout                controllers.Users.logout()
+GET     /users/register     controllers.Users.startRegister()
+POST    /users/register     controllers.Users.finishRegister()
+GET     /users/login        controllers.Users.startLogin()
+POST    /users/login        controllers.Users.finishLogin()
+GET     /users/logout       controllers.Users.logout()
 
 # Books
-GET     /books                       controllers.Books.index(page: Integer ?=1)
-GET     /books/:isbn                 controllers.Books.show(isbn: String)
-GET     /books/cover/:isbn           controllers.Books.cover(isbn: String)
-POST    /books/search                controllers.Books.search()
-GET     /recommendations             controllers.Books.recommendations()
+GET     /books              controllers.Books.index(page: Integer ?=1)
+POST    /books/search       controllers.Books.searchForm()
+GET     /books/search       controllers.Books.search(query: String, page:Integer ?= 1)
+GET     /books/:isbn        controllers.Books.show(isbn: String)
+GET     /books/cover/:isbn  controllers.Books.cover(isbn: String)
+GET     /recommendations    controllers.Books.recommendations()
 
 # Carts
-GET      /cart                       controllers.Carts.find()
-POST     /cart                       controllers.Carts.find()
-PUT      /cart/add/:isbn             controllers.Carts.add(isbn: String)
-PUT      /cart/remove/:isbn          controllers.Carts.remove(isbn: String)
-GET      /cart/checkout              controllers.Carts.checkout()
-POST     /cart/checkout              controllers.Carts.checkout()
+GET      /cart              controllers.Carts.find()
+POST     /cart              controllers.Carts.find()
+PUT      /cart/add/:isbn    controllers.Carts.add(isbn: String)
+PUT      /cart/remove/:isbn controllers.Carts.remove(isbn: String)
+GET      /cart/checkout     controllers.Carts.checkout()
+POST     /cart/checkout     controllers.Carts.checkout()

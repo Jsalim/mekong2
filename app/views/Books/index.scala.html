@@ -1,4 +1,11 @@
-@(title: String = "Books", books: List[models.Book], page: Int, pages: Int)
+@(title: String = "Books", books: List[models.Book], page: Int, pages: Int, query:String)
+@pageRoute(p:Int) = {
+  @if(query) {
+    @routes.Books.search(query, p)
+  } else {
+    @routes.Books.index(p)
+  }
+}
 
 @pagination() = {
 <div class="row">
@@ -8,21 +15,21 @@
       @for(p <- page - 5 to page - 1) {
         @if(p >= 1 && p != page) {
         <li>
-          <a href="@routes.Books.index(p)">@String.valueOf(p)</a>
+          <a href="@pageRoute(p)">@String.valueOf(p)</a>
         </li>
         }
       }
       <li class="active">
-        <a href="@routes.Books.index(page)">@String.valueOf(page)</a>
+        <a href="@pageRoute(page)">@String.valueOf(page)</a>
       </li>
       @for(p <- page to page + 5) {
         @if(p <= pages && p != page) {
         <li>
-          <a href="@routes.Books.index(p)">@String.valueOf(p)</a>
+          <a href="@pageRoute(p)">@String.valueOf(p)</a>
         </li>
         }
       }
-      <li><a href="@routes.Books.index(page + 1)">&raquo;</a></li>
+      <li><a href="@pageRoute(page + 1)">&raquo;</a></li>
     </ul>
   </div>
 </div>

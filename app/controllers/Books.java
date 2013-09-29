@@ -29,17 +29,6 @@ public class Books extends Controller {
 
     private static Integer PAGE_SIZE = 3;
 
-    public static Result index(Integer page) {
-      DynamicForm requestData = Form.form().bindFromRequest();
-      Book books = Book.getModel();
-      DBCollection booksCollection = books.getMongoCollection();
-      DBCursor allFoundBooks = booksCollection.find();
-      Integer pages = allFoundBooks.count() / PAGE_SIZE;
-      allFoundBooks = allFoundBooks.skip(PAGE_SIZE * page).limit(PAGE_SIZE);
-      List<Book> result = books.fromMongoRecord(allFoundBooks);
-      return ok(views.html.Books.index.render(null, result, page, pages));
-    }
-
     public static Result show(String isbn) {
       Book books = Book.getModel();
       BasicDBObject byIsbn = new BasicDBObject("isbn", Long.valueOf(isbn));
@@ -54,9 +43,28 @@ public class Books extends Controller {
       }
     }
 
-    public static Result search() {
+    public static Result index(Integer page) {
+      DynamicForm requestData = Form.form().bindFromRequest();
+      Book books = Book.getModel();
+      DBCollection booksCollection = books.getMongoCollection();
+      DBCursor allFoundBooks = booksCollection.find();
+      Integer pages = allFoundBooks.count() / PAGE_SIZE;
+      allFoundBooks = allFoundBooks.skip(PAGE_SIZE * page).limit(PAGE_SIZE);
+      List<Book> result = books.fromMongoRecord(allFoundBooks);
+      return ok(views.html.Books.index.render(null, result, page, pages, null));
+    }
+
+    public static Result searchForm() {
       DynamicForm requestData = Form.form().bindFromRequest();
       String query = requestData.get("query");
+      Integer page = 1;
+      if (null != requestData.get("page")) {
+        page = Integer.valueOf(requestData.get("page"));
+      }
+      return search(query, page);
+    }
+
+    public static Result search(String query, Integer page) {
       List<BasicDBObject> search = new ArrayList<BasicDBObject>();
       if (null != query && 0 < query.length()) {
           Pattern compiledQuery = Pattern.compile(query, Pattern.CASE_INSENSITIVE);
@@ -67,10 +75,11 @@ public class Books extends Controller {
       }
       Book books = Book.getModel();
       BasicDBObject searchQuery = new BasicDBObject("$or", search.toArray());
-      DBCursor foundBooks = books.getMongoCollection().find(searchQuery);
-      List<Book> results = books.fromMongoRecord(foundBooks);
-
-      return ok(views.html.Books.index.render("Results for: " + query, results, 1, 1));
+      DBCursor allFoundBooks = books.getMongoCollection().find(searchQuery);
+      Integer pages = allFoundBooks.count() / PAGE_SIZE;
+      allFoundBooks = allFoundBooks.skip(PAGE_SIZE * page).limit(PAGE_SIZE);
+      List<Book> results = books.fromMongoRecord(allFoundBooks);
+      return ok(views.html.Books.index.render("Results for: " + query, results, page, pages, query));
     }
 
     public static Result cover(String isbn) {
@@ -117,7 +126,7 @@ public class Books extends Controller {
         }
 
         List<Book> result = new ArrayList<Book>();
-        return ok(views.html.Books.index.render("Your recommendations", result, 1, 1));
+        return ok(views.html.Books.index.render("Your recommendations", result, 1, 1, null));
     }
 
 }

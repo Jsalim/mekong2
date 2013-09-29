@@ -10,7 +10,7 @@
         <li><a href="@routes.Books.recommendations()">Recommendations</a></li>
       </ul>
     </div>
-      <form class="navbar-form navbar-left pull-right" role="search" method="POST" action="@routes.Books.search()">
+      <form class="navbar-form navbar-left pull-right" role="search" method="GET" action="@routes.Books.searchForm()">
         <div class="form-group">
           <input type="text" class="form-control" name="query" placeholder="Search">
         </div>
