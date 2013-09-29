@@ -11,7 +11,8 @@
 <div class="row">
   <div class="col-md-12 text-center">
     <ul class="pagination">
-      <li><a href="@pageRoute(page - 1)">&laquo;</a></li>
+      <li><a href="@pageRoute(1)">&laquo;</a></li>
+      <li><a href="@pageRoute(page - 1)">&lsaquo;</a></li>
       @for(p <- page - 5 to page - 1) {
         @if(p >= 1 && p != page) {
         <li>
@@ -29,7 +30,8 @@
         </li>
         }
       }
-      <li><a href="@pageRoute(page + 1)">&raquo;</a></li>
+      <li><a href="@pageRoute(page + 1)">&rsaquo;</a></li>
+      <li><a href="@pageRoute(pages - 1)">&raquo;</a></li>
     </ul>
   </div>
 </div>
