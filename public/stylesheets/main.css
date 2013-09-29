@@ -1,0 +1,12 @@
+body {
+    padding-top: 25px;
+}
+
+#book-list .book-item.row {
+    margin-top: 10px;
+}
+
+#book-list .book-item .btn-group,
+#book-list .book-item .btn-group button {
+    width: 100%;
+}

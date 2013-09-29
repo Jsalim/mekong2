@@ -1,0 +1,53 @@
+@(title: String, books: List[models.Book], page: Int, pages: Int)
+
+@views.html.Application.main(title) {
+  <div id="book-list">
+    <div class="book-item row">
+      <div class="col-md-12">
+          <h2>@title</h2>
+      </div>
+    </div>
+    @for(book <- books) {
+    <div class="book-item row">
+      <div class="col-md-10">
+        <div class="media">
+          <a class="pull-left" href="@routes.Books.show(String.valueOf(book.getMongo("isbn")))">
+            <img class="media-object" style="height: 128px;" src="@routes.Books.cover(String.valueOf(book.getMongo("isbn")))">
+          </a>
+          <div class="media-body">
+            <h4 class="media-heading">
+              @String.valueOf(book.getMongo("title"))
+            </h4>
+            @Html(String.valueOf(book.getMongo("description")))
+          </div>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <ul class="pagination pagination-centered">
+        <li><a href="@routes.Books.index(page - 1)">&laquo;</a></li>
+        @for(p <- page - 5 to page - 1) {
+          @if(p >= 1 && p != page) {
+          <li>
+            <a href="@routes.Books.index(p)">@String.valueOf(p)</a>
+          </li>
+          }
+        }
+        <li class="active">
+          <a href="@routes.Books.index(page)">@String.valueOf(page)</a>
+        </li>
+        @for(p <- page to page + 5) {
+          @if(p <= pages && p != page) {
+          <li>
+            <a href="@routes.Books.index(p)">@String.valueOf(p)</a>
+          </li>
+          }
+        }
+        <li><a href="@routes.Books.index(page + 1)">&raquo;</a></li>
+      </ul>
+    </div>
+  </div>
+}
