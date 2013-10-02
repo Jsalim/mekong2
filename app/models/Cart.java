@@ -14,34 +14,34 @@ import org.neo4j.cypher.javacompat.ExecutionResult;
 
 import java.net.UnknownHostException;
 
-public class Book extends Record<Book> {
+public class Cart extends Record<Cart> {
 
-    private static final String BOOK_COLLECTION = "books";
+    private static final String BOOK_COLLECTION = "transactions";
     private static MongoDatabaseConnection mongoDatabase = null;
     private static Neo4jDatabaseConnection neo4jDatabase = null;
     private static DBCollection mongoBooksDatabase = null;
-    private static volatile Book instance = null;
+    private static volatile Cart instance = null;
 
-    protected Book(DBObject record) {
+    protected Cart(DBObject record) {
         super(record);
     }
 
-    protected Book() throws UnknownHostException {
+    protected Cart() throws UnknownHostException {
         super();
         this.mongoDatabase = MongoDatabaseConnection.getInstance();
         this.neo4jDatabase = Neo4jDatabaseConnection.getInstance();
     }
 
-    public static Book getInstance() throws UnknownHostException {
+    public static Cart getInstance() throws UnknownHostException {
         if (instance == null) {
-           instance = new Book();
+           instance = new Cart();
         }
         return instance;
     }
 
-    public static Book getModel() {
+    public static Cart getModel() {
       try {
-        return Book.getInstance();
+        return Cart.getInstance();
       } catch (Exception e) {
         System.out.println("Failed to get instance" + e.toString());
         return null;
@@ -69,8 +69,8 @@ public class Book extends Record<Book> {
     }
 
     @Override
-    public Book fromMongoRecord(DBObject record) {
-        return new Book(record);
+    public Cart fromMongoRecord(DBObject record) {
+        return new Cart(record);
     }
 
 }

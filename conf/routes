@@ -24,9 +24,7 @@ GET     /books/cover/:isbn  controllers.Books.cover(isbn: String)
 GET     /recommendations    controllers.Books.recommendations()
 
 # Carts
-GET      /cart              controllers.Carts.find()
-POST     /cart              controllers.Carts.find()
 PUT      /cart/add/:isbn    controllers.Carts.add(isbn: String)
 PUT      /cart/remove/:isbn controllers.Carts.remove(isbn: String)
-GET      /cart/checkout     controllers.Carts.checkout()
+GET      /cart/checkout     controllers.Carts.find()
 POST     /cart/checkout     controllers.Carts.checkout()

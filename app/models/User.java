@@ -30,7 +30,7 @@ public class User extends Record<User> {
     }
 
     public static User getInstance() throws UnknownHostException {
-        if (null == instance) {
+        if (instance == null) {
             instance = new User();
         }
         return instance;

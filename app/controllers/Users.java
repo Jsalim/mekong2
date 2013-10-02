@@ -13,15 +13,6 @@ import models.User;
 
 public class Users extends Controller {
 
-    private static User getModel() {
-      try {
-        return User.getInstance();
-      } catch (Exception e) {
-        Logger.info("Failed to get instance" + e.toString());
-        return null;
-      }
-    }
-
     public static Result startRegister() {
       return ok(views.html.Users.register.render(null, null));
     }
@@ -33,7 +24,7 @@ public class Users extends Controller {
       String password = requestData.get("password");
 
       // Create the new user record.
-      User users = getModel();
+      User users = User.getModel();
       BasicDBObject newUserRegistration = new BasicDBObject().
               append("username", username).
               append("password", password);
@@ -71,7 +62,7 @@ public class Users extends Controller {
           append("password", password);
 
       // Find the user, redirect to home if unable.
-      User users = getModel();
+      User users = User.getModel();
       DBObject foundUser = users.getMongoCollection().findOne(loginQuery);
       if (null == foundUser) {
         String message = "Unable to login with username or password";

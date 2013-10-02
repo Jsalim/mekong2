@@ -18,9 +18,22 @@
         </div>
       </div>
       <div class="col-md-3">
-        <a href="@routes.Carts.add(String.valueOf(book.getMongo("isbn")))" class="btn btn-success btn-block">
-          Add to cart ($@String.valueOf(book.getMongo("price")) USD)
-        </a>
+        <form method="PUT" action="@routes.Carts.add">
+          <fieldset>
+            <input type="hidden" name="isbn" value="@String.valueOf(book.getMongo("isbn"))">
+            <label class="checkbox" name="quantity">
+              Quantity
+              <select>
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+              </select>
+            </label>
+            <button type="submit" class="btn">Add to cart</button>
+          </fieldset>
+        </form>
       </div>
     </div>
   </div>

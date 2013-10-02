@@ -29,21 +29,26 @@ public class Books extends Controller {
 
     private static Integer PAGE_SIZE = 3;
 
-    public static Result show(String isbn) {
+    public static Result show(String isbn)
+    {
       Book books = Book.getModel();
       BasicDBObject byIsbn = new BasicDBObject("isbn", Long.valueOf(isbn));
       DBObject mgBook = books.getMongoCollection().findOne(byIsbn);
       Book book = books.fromMongoRecord(mgBook);
 
-      if (null == book) {
+      if (null == book)
+      {
         return notFound();
-      } else {
+      }
+      else
+      {
         Logger.info("Found book ... " + book.toString());
         return ok(views.html.Books.show.render(book));
       }
     }
 
-    public static Result index(Integer page) {
+    public static Result index(Integer page)
+    {
       DynamicForm requestData = Form.form().bindFromRequest();
       Book books = Book.getModel();
       DBCollection booksCollection = books.getMongoCollection();
@@ -54,24 +59,28 @@ public class Books extends Controller {
       return ok(views.html.Books.index.render("All Books", result, page, pages, null));
     }
 
-    public static Result searchForm() {
+    public static Result searchForm()
+    {
       DynamicForm requestData = Form.form().bindFromRequest();
       String query = requestData.get("query");
       Integer page = 1;
-      if (null != requestData.get("page")) {
+      if (null != requestData.get("page"))
+      {
         page = Integer.valueOf(requestData.get("page"));
       }
       return search(query, page);
     }
 
-    public static Result search(String query, Integer page) {
+    public static Result search(String query, Integer page)
+    {
       List<BasicDBObject> search = new ArrayList<BasicDBObject>();
-      if (null != query && 0 < query.length()) {
-          Pattern compiledQuery = Pattern.compile(query, Pattern.CASE_INSENSITIVE);
-          BasicDBObject isbnQuery = new BasicDBObject("isbn", compiledQuery);
-          BasicDBObject titleQuery = new BasicDBObject("title", compiledQuery);
-          search.add(isbnQuery);
-          search.add(titleQuery);
+      if (null != query && 0 < query.length())
+      {
+        Pattern compiledQuery = Pattern.compile(query, Pattern.CASE_INSENSITIVE);
+        BasicDBObject isbnQuery = new BasicDBObject("isbn", compiledQuery);
+        BasicDBObject titleQuery = new BasicDBObject("title", compiledQuery);
+        search.add(isbnQuery);
+        search.add(titleQuery);
       }
       Book books = Book.getModel();
       BasicDBObject searchQuery = new BasicDBObject("$or", search.toArray());
@@ -82,7 +91,8 @@ public class Books extends Controller {
       return ok(views.html.Books.index.render("Results for '" + query + "'", results, page, pages, query));
     }
 
-    public static Result cover(String isbn) {
+    public static Result cover(String isbn)
+    {
       try
       {
         BasicDBObject isbnQueryPortion = new BasicDBObject("$in", Arrays.asList(isbn));
@@ -100,7 +110,8 @@ public class Books extends Controller {
       }
     }
 
-    public static Result recommendations() {
+    public static Result recommendations()
+    {
         Book books = Book.getModel();
         String username = session("username");
         String query =  "START user = node:User(username=\""+username+"\"),\n" +
@@ -117,12 +128,14 @@ public class Books extends Controller {
 
         ExecutionResult results = books.executeNeo4jQuery(query);
         Iterator<Node> bookNodes = results.columnAs("n");
-        while (bookNodes.hasNext()) {
-            Node bookNode = bookNodes.next();
-            System.out.println("Kind #" + bookNode.getId());
-            for (String propertyKey : bookNode.getPropertyKeys()) {
-                System.out.println("\t" + propertyKey + " : " + bookNode.getProperty(propertyKey));
-            }
+        while (bookNodes.hasNext())
+        {
+          Node bookNode = bookNodes.next();
+          System.out.println("Kind #" + bookNode.getId());
+          for (String propertyKey : bookNode.getPropertyKeys())
+          {
+            System.out.println("\t" + propertyKey + " : " + bookNode.getProperty(propertyKey));
+          }
         }
 
         List<Book> result = new ArrayList<Book>();
