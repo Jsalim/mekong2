@@ -1,0 +1,6 @@
+@(items: List[models.Item])
+
+<div class="panel panel-default">
+  <div class="panel-heading">Your cart</div>
+  @views.html.Carts.partials.items(items)
+</div>

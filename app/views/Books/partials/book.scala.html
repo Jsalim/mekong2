@@ -1,0 +1,14 @@
+@(book: Book)
+
+<div class="media">
+  <a class="pull-left" href="@routes.Books.show(String.valueOf(book.getMongo("isbn")))">
+    <img class="media-object img-thumbnail" style="width: 128px;"
+      src="@routes.Books.cover(String.valueOf(book.getMongo("isbn")))">
+  </a>
+  <div class="media-body">
+    <h4 class="media-heading">
+      @String.valueOf(book.getMongo("title"))
+    </h4>
+    @Html(String.valueOf(book.getMongo("description")))
+  </div>
+</div>

@@ -1,0 +1,20 @@
+@(title: String, books: List[models.Book])
+
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <strong>@title</strong>
+  </div>
+  <ul class="list-group">
+  @if(books.length > 0) {
+    @for(book <- books) {
+      <li class="list-group-item">
+        @views.html.Books.partials.book(book)
+      </li>
+    }
+  } else {
+    <li class="list-group-item">
+      No results
+    </li>
+  }
+  </ul>
+</div>

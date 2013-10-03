@@ -6,7 +6,6 @@
     @routes.Books.index(p)
   }
 }
-
 @pagination() = {
 <div class="row">
   <div class="col-md-12 text-center">
@@ -36,32 +35,7 @@
   </div>
 </div>
 }
-
 @views.html.Application.main(title) {
-  <div id="book-list">
-    <div class="book-item row">
-      <div class="col-md-12 text-center">
-          <h2>@title</h2>
-      </div>
-    </div>
-    @pagination()
-    @for(book <- books) {
-    <div class="book-item row">
-      <div class="col-md-12">
-        <div class="media">
-          <a class="pull-left" href="@routes.Books.show(String.valueOf(book.getMongo("isbn")))">
-            <img class="media-object" style="width: 128px;" src="@routes.Books.cover(String.valueOf(book.getMongo("isbn")))">
-          </a>
-          <div class="media-body">
-            <h4 class="media-heading">
-              @String.valueOf(book.getMongo("title"))
-            </h4>
-            @Html(String.valueOf(book.getMongo("description")))
-          </div>
-        </div>
-      </div>
-    </div>
-    }
-    @pagination()
-  </div>
+  @views.html.Books.partials.books(title, books)
+  @pagination()
 }

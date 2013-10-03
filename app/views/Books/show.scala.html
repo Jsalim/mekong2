@@ -1,39 +1,53 @@
 @(book: models.Book)
 
 @views.html.Application.main(String.valueOf(book.getMongo("title"))) {
+  <div class="page-header">
+    <h1>
+      @String.valueOf(book.getMongo("title")) <br />
+      <small>by: @String.valueOf(book.getMongo("author"))</small>
+    </h1>
+  </div>
   <div id="book-list">
     <div class="book-item row">
       <div class="col-md-9">
         <div class="media">
-          <a class="pull-left" href="#">
-            <img class="media-object" style="width: 256px;" src="@routes.Books.cover(String.valueOf(book.getMongo("isbn")))">
-          </a>
+          <img class="pull-left media-object img-thumbnail" style="width: 256px;" src="@routes.Books.cover(String.valueOf(book.getMongo("isbn")))">
           <div class="media-body">
-            <h4 class="media-heading">@String.valueOf(book.getMongo("title"))</h4>
-            <h5>By: @String.valueOf(book.getMongo("author"))</h5>
-            <p>
-              @Html(String.valueOf(book.getMongo("abstract")))
-            </p>
+            @Html(String.valueOf(book.getMongo("abstract")))
           </div>
         </div>
       </div>
       <div class="col-md-3">
-        <form method="PUT" action="@routes.Carts.add">
-          <fieldset>
-            <input type="hidden" name="isbn" value="@String.valueOf(book.getMongo("isbn"))">
-            <label class="checkbox" name="quantity">
-              Quantity
-              <select>
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-              </select>
-            </label>
-            <button type="submit" class="btn">Add to cart</button>
-          </fieldset>
-        </form>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <span class="glyphicon glyphicon-book"></span> Purchase book
+          </div>
+          <div class="panel-body">
+            <div><strong>Price:&nbsp;</strong>$12.99</div>
+            <hr />
+            <div><strong>Copies</strong></div>
+            <br />
+            <form method="POST" action="@routes.Carts.add()">
+              <input type="hidden" name="isbn" id="isbn"
+                value="@String.valueOf(book.getMongo("isbn"))">
+              <div class="form-group">
+                <select class="form-control" id="quantity" name="quantity">
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <button type="submit" class="btn btn-success btn-lg btn-block">
+                  <span class="glyphicon glyphicon-plus-sign"></span>
+                  Add to cart
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
   </div>

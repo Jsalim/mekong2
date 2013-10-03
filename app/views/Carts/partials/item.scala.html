@@ -1,0 +1,11 @@
+@(isbn: String, title: String, quantity: Integer)
+
+<tr>
+  <td>
+    <a href="@routes.Books.show(isbn)">@isbn</a>
+  </td>
+  <td>@title</td>
+  <td>
+    <input type="text" class="form-control" id="@isbn" placeholder="@quantity">
+  </td>
+</tr>

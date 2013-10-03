@@ -54,7 +54,7 @@ public class Books extends Controller {
       DBCollection booksCollection = books.getMongoCollection();
       DBCursor allFoundBooks = booksCollection.find();
       Integer pages = allFoundBooks.count() / PAGE_SIZE;
-      allFoundBooks = allFoundBooks.skip(PAGE_SIZE * page).limit(PAGE_SIZE);
+      allFoundBooks = allFoundBooks.skip(PAGE_SIZE * page - 1).limit(PAGE_SIZE);
       List<Book> result = books.fromMongoRecord(allFoundBooks);
       return ok(views.html.Books.index.render("All Books", result, page, pages, null));
     }
@@ -86,7 +86,7 @@ public class Books extends Controller {
       BasicDBObject searchQuery = new BasicDBObject("$or", search.toArray());
       DBCursor allFoundBooks = books.getMongoCollection().find(searchQuery);
       Integer pages = allFoundBooks.count() / PAGE_SIZE;
-      allFoundBooks = allFoundBooks.skip(PAGE_SIZE * page).limit(PAGE_SIZE);
+      allFoundBooks = allFoundBooks.skip(PAGE_SIZE * page - 1).limit(PAGE_SIZE);
       List<Book> results = books.fromMongoRecord(allFoundBooks);
       return ok(views.html.Books.index.render("Results for '" + query + "'", results, page, pages, query));
     }
@@ -112,34 +112,34 @@ public class Books extends Controller {
 
     public static Result recommendations()
     {
-        Book books = Book.getModel();
-        String username = session("username");
-        String query =  "START user = node:User(username=\""+username+"\"),\n" +
-                    "similar_user = node(*),\n" +
-                    "other_book = node(*)\n" +
-         "WHERE HAS (similar_user.username)\n" +
-             "MATCH (user)-[*]->(book)<-[*]-(similar_user)\n" +
-               "AND user <> similar_user\n" +
-              "WITH user, similar_user\n" +
-             "MATCH (similar_user)-[*]->(other_book)\n" +
-         "WHERE NOT ((user)-[:CONDUCTS]->()-[:CONTAIN]->(other_book))\n" +
-           "AND HAS (other_book.title)\n" +
-            "RETURN distinct(other_book)";
+        // Book books = Book.getModel();
+        // String username = session("username");
+        // String query =  "START user = node:User(username=\""+username+"\"),\n" +
+        //             "similar_user = node(*),\n" +
+        //             "other_book = node(*)\n" +
+        //  "WHERE HAS (similar_user.username)\n" +
+        //      "MATCH (user)-[*]->(book)<-[*]-(similar_user)\n" +
+        //        "AND user <> similar_user\n" +
+        //       "WITH user, similar_user\n" +
+        //      "MATCH (similar_user)-[*]->(other_book)\n" +
+        //  "WHERE NOT ((user)-[:CONDUCTS]->()-[:CONTAIN]->(other_book))\n" +
+        //    "AND HAS (other_book.title)\n" +
+        //     "RETURN distinct(other_book)";
 
-        ExecutionResult results = books.executeNeo4jQuery(query);
-        Iterator<Node> bookNodes = results.columnAs("n");
-        while (bookNodes.hasNext())
-        {
-          Node bookNode = bookNodes.next();
-          System.out.println("Kind #" + bookNode.getId());
-          for (String propertyKey : bookNode.getPropertyKeys())
-          {
-            System.out.println("\t" + propertyKey + " : " + bookNode.getProperty(propertyKey));
-          }
-        }
+        // ExecutionResult results = books.executeNeo4jQuery(query);
+        // Iterator<Node> bookNodes = results.columnAs("n");
+        // while (bookNodes.hasNext())
+        // {
+        //   Node bookNode = bookNodes.next();
+        //   System.out.println("Kind #" + bookNode.getId());
+        //   for (String propertyKey : bookNode.getPropertyKeys())
+        //   {
+        //     System.out.println("\t" + propertyKey + " : " + bookNode.getProperty(propertyKey));
+        //   }
+        // }
 
         List<Book> result = new ArrayList<Book>();
-        return ok(views.html.Books.index.render("Your recommendations", result, 1, 1, null));
+        return ok(views.html.Books.index.render("Recommended books", result, 1, 1, null));
     }
 
 }

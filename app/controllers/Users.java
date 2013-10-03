@@ -76,7 +76,7 @@ public class Users extends Controller {
 
     public static Result logout() {
       session().clear();
-      return ok(views.html.Users.logout.render(null));
+      return redirect("/");
     }
 
 }

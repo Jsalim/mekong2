@@ -13,6 +13,7 @@ import com.mongodb.ServerAddress;
 import java.net.UnknownHostException;
 
 import models.User;
+import models.Cart;
 import models.Book;
 
 import utils.seeds.*;
@@ -20,6 +21,7 @@ import utils.seeds.*;
 public class Global extends GlobalSettings {
 
     public static User users;
+    public static Cart carts;
     public static Book books;
 
     public void onStart(Application app) {
@@ -36,6 +38,7 @@ public class Global extends GlobalSettings {
       // Setup the database connections by default.
       try {
         users = User.getInstance();
+        carts = Cart.getInstance();
         books = Book.getInstance();
       } catch (Exception e) {
         Logger.info("Unable to access MongoDB");

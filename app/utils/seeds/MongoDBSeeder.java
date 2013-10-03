@@ -32,6 +32,25 @@ public class MongoDBSeeder {
     return null;
   }
 
+  public static File download(String folder, String requestUrl) throws MalformedURLException, IOException
+  {
+    BufferedImage image = null;
+    URL inputUrl = new URL(requestUrl);
+    String outputFileName = folder + requestUrl.substring(requestUrl.lastIndexOf('/') + 1);
+    File outputFile = new File(outputFileName);
+    if (!outputFile.exists())
+    {
+        System.out.println("Downloading " + inputUrl + " and writing to " + outputFileName);
+        image = ImageIO.read(inputUrl);
+        ImageIO.write(image, "GIF", outputFile);
+    }
+    else
+    {
+        System.out.println("File " + outputFileName + " already exists, skipping.");
+    }
+    return outputFile;
+  }
+
   public static GridFSDBFile imageAlreadyOnGridFS(File file) throws UnknownHostException {
     DB db = MongoDatabaseConnection.getInstance().getDB();
     GridFS gfsCovers = new GridFS(db, "covers");
@@ -54,8 +73,8 @@ public class MongoDBSeeder {
     return gfsFile;
   }
 
-  public static GridFSDBFile createGridFSImageRecord(String url) throws MalformedURLException {
-    File coverImage = download(url);
+  public static GridFSDBFile createGridFSImageRecord(String folder, String url, String isbn) throws MalformedURLException, IOException {
+    File coverImage = download(folder, url);
     GridFSDBFile gfsCoverImage = imageAlreadyOnGridFS(coverImage);
     if (null == gfsCoverImage)
     {
@@ -75,6 +94,7 @@ public class MongoDBSeeder {
       System.out.println("File already existed in GridFS added " + isbn + " to alias.");
       System.out.println(gfsCoverImage.toString());
     }
+    return gfsCoverImage;
   }
 
 }

@@ -5,17 +5,35 @@
   <nav class="navbar navbar-default" role="navigation">
     <div class="navbar-header">
       <a class="navbar-brand" href="@routes.Books.index()">mekong</a>
-        <ul class="nav navbar-nav">
+      <ul class="nav navbar-nav">
         <li><a href="@routes.Books.index()">Books</a></li>
         <li><a href="@routes.Books.recommendations()">Recommendations</a></li>
       </ul>
     </div>
-      <form class="navbar-form navbar-left pull-right" role="search" method="GET" action="@routes.Books.searchForm()">
-        <div class="form-group">
-          <input type="text" class="form-control" name="query" placeholder="Search">
-        </div>
-        <input type="submit" class="btn btn-default" />
-      </form>
+    <form class="navbar-form navbar-left" role="search" method="GET" action="@routes.Books.searchForm()">
+      <div class="form-group">
+        <input type="text" class="form-control" name="query" placeholder="ISBN or Title">
+      </div>
+      <input type="submit" class="btn btn-default" value="Search"/>
+    </form>
+    <ul class="nav navbar-nav navbar-right">
+      <li>
+        <a href="@routes.Carts.find()">
+          <span class="glyphicon glyphicon-shopping-cart"></span> Checkout
+          <span class="badge">@session.get("cartSize")</span>
+        </a>
+      </li>
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+          <span class="glyphicon glyphicon-user"></span>
+          @session.get("username")
+          <b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="@routes.Users.logout()">Logout</a></li>
+        </ul>
+      </li>
+    </ul>
   </nav>
   @content
   </div>

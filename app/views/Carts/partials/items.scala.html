@@ -1,0 +1,25 @@
+@(items: List[models.Item])
+
+<form role="form" method="POST" action="@routes.Carts.update()">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ISBN</th>
+        <th>Title</th>
+        <th>Quantity</th>
+      </tr>
+    </thead>
+    <tbody>
+    @for(item <- items) {
+      @views.html.Carts.partials.item(item.get("isbn"),
+        item.get("title"),
+        Integer.valueOf(item.get("quantity")))
+    }
+    </tbody>
+  </table>
+   <ul class="list-group">
+    <li class="list-group-item">
+      <button type="button" class="btn btn-warning pull-right">Update</button>
+    </li>
+  </ul>
+</form>
