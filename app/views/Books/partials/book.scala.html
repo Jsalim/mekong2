@@ -1,4 +1,4 @@
-@(book: Book)
+@(book: models.Book)
 
 <div class="media">
   <a class="pull-left" href="@routes.Books.show(String.valueOf(book.getMongo("isbn")))">

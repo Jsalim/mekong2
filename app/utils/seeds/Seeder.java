@@ -20,49 +20,52 @@ public class Seeder {
 
    private String folder;
 
-   private Book books;
-   private User users;
+   private MongoDatabaseConnection connection = null;
+   private GridFSSeeder gridfsSeeder = null;
+   private MongoDBSeeder mongoSeeder = null;
 
    public Seeder(String folder)
+   throws UnknownHostException
    {
-     books = Book.getModel();
-     users = User.getModel();
-     if (null == folder)
-     {
-       folder = "";
-     }
      this.folder = folder;
+     this.connection = MongoDatabaseConnection.getInstance();
+     this.gridfsSeeder = new GridFSSeeder(connection, folder);
+     this.mongoSeeder = new MongoDBSeeder(connection, gridfsSeeder);
    }
 
-   private String xmlDocument(String filename) throws FileNotFoundException, IOException
+   private String xmlDocument(String filename)
+   throws FileNotFoundException, IOException
    {
-     FileReader fr = new FileReader(folder + filename);
-     BufferedReader br = new BufferedReader(fr);
+     FileReader fileReader = new FileReader(folder + filename);
+     BufferedReader bufferedReader = new BufferedReader(fileReader);
      String xmlContent;
      try
      {
-       StringBuilder sb = new StringBuilder();
-       String line = br.readLine();
+       StringBuilder contentBuilder = new StringBuilder();
+       String line = bufferedReader.readLine();
        while (line != null)
        {
-         sb.append(line);
-         sb.append('\n');
-         line = br.readLine();
+         contentBuilder.append(line);
+         contentBuilder.append('\n');
+         line = bufferedReader.readLine();
        }
-       xmlContent = sb.toString();
+       xmlContent = contentBuilder.toString();
      }
      finally
      {
-       br.close();
+       bufferedReader.close();
      }
      return xmlContent;
    }
 
-   public void run(String filename) throws FileNotFoundException, IOException, JSONException, MalformedURLException
+   public void run(String filename)
+   throws FileNotFoundException, IOException, JSONException, MalformedURLException
    {
      File seedLock = new File(folder + "seeds.lock");
      if (!seedLock.exists())
      {
+       connection.dropDB();
+       mongoSeeder.createCollections();
        JSONObject books = XML.toJSONObject(xmlDocument(filename));
        JSONArray bookList = books.getJSONObject("books").getJSONArray("book");
        for (int pass = 0; pass < 2; pass++)
@@ -75,11 +78,11 @@ public class Seeder {
            }
            else
            {
-             // cleanSeed(bookList.getJSONObject(i));
+             cleanSeed(bookList.getJSONObject(i));
            }
          }
        }
-       seedLock.createNewFile();
+//       seedLock.createNewFile();
      }
      else
      {
@@ -87,30 +90,21 @@ public class Seeder {
      }
    }
 
-   private void createSeed(JSONObject book) throws JSONException, MalformedURLException, IOException {
-     DBObject bookRecord = (DBObject) com.mongodb.util.JSON.parse(book.toString());
-     String isbn = String.valueOf(bookRecord.get("isbn"));
-     System.out.println("Seeding ... " + isbn);
-     try {
-       // Create the Neo4j information.
-       // - If it fails abort the transaction
+  private void createSeed(JSONObject book)
+  throws JSONException, IOException
+  {
+    String isbn = String.valueOf(book.get("isbn"));
+    System.out.println("Seeding ... " + isbn);
+    // neo4jSeeder.createBookRecord(book);
+    mongoSeeder.createBookRecord(book);
+    System.out.println("Seeded " + isbn);
+    System.out.println();
+    return;
+  }
 
-       // Create the MongoDB document.
-       // - If it fails abort the transaction, this will roll back the Neo4j.
-       // DBObject newBookRecord = MongoDBSeeder.createRecord(book);
-       // books.getMongoCollection().insert(newBookRecord);
+  public void cleanSeed(JSONObject book)
+  {
 
-       // Download, open, and store the cover image in MongoDB.
-       // - If it fails don't abort the transaction.
-       String coverUrl = String.valueOf(bookRecord.get("cover"));
-       GridFSDBFile coverImage = MongoDBSeeder.createGridFSImageRecord(folder, coverUrl, isbn);
-     } catch (MalformedURLException malformedUrlException) {
-       System.out.println("Failed to load image for " + isbn + ", MalformedURLException");
-     } catch (IOException ioException) {
-       System.out.println("Failed to load image for " + isbn + ", IOException");
-     }
-     System.out.println("Seeded " + isbn);
-     System.out.println();
-     return;
-   }
+  }
+
 }

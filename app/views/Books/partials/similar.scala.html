@@ -1,0 +1,25 @@
+@(book: models.Book)
+
+<!-- similar books -->
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">
+    <strong>Similar Books</strong>
+  </div>
+  <div class="panel-body">
+    Books related to @String.valueOf(book.getMongo("title"))
+  </div>
+  <!-- List group -->
+  <ul class="list-group">
+    <li class="list-group-item">
+      <div class="media">
+        <a class="pull-left" href="#">
+          <img class="media-object" src="holder.js/64x64" alt="..." />
+        </a>
+        <div class="media-body">
+          <h4 class="media-heading">Title of book</h4>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>

@@ -25,20 +25,11 @@ public class MongoDatabaseConnection extends DatabaseConnection {
     private final MongoClient mongoClient;
     private final DB mongoDB;
 
-    /**
-     *
-     * @throws UnknownHostException
-     */
     protected MongoDatabaseConnection() throws UnknownHostException {
         this.mongoClient = new MongoClient("localhost" , 27017);
         this.mongoDB = this.mongoClient.getDB(DATABASE);
     }
 
-    /**
-     *
-     * @return
-     * @throws UnknownHostException
-     */
     public static MongoDatabaseConnection getInstance() throws UnknownHostException {
         if (null == instance) {
             instance = new MongoDatabaseConnection();
@@ -46,11 +37,6 @@ public class MongoDatabaseConnection extends DatabaseConnection {
         return instance;
     }
 
-    /**
-     *
-     * @param collection
-     * @return
-     */
     public DBCollection getCollection(String collection) {
         return this.mongoDB.getCollection(collection);
     }
@@ -59,19 +45,11 @@ public class MongoDatabaseConnection extends DatabaseConnection {
       return this.mongoDB;
     }
 
-    /**
-     *
-     * @param json
-     * @return
-     */
-    public static DBObject createQueryObjectFor(String json) {
-        return (DBObject) JSON.parse(json);
+    public void dropDB()
+    {
+      mongoClient.dropDatabase(DATABASE);
     }
 
-    /**
-     *
-     * @return
-     */
     public DatabaseType getDatabaseType() {
         return DatabaseType.MONGODB;
     }

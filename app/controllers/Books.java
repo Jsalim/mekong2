@@ -32,7 +32,7 @@ public class Books extends Controller {
     public static Result show(String isbn)
     {
       Book books = Book.getModel();
-      BasicDBObject byIsbn = new BasicDBObject("isbn", Long.valueOf(isbn));
+      BasicDBObject byIsbn = new BasicDBObject("isbn", isbn);
       DBObject mgBook = books.getMongoCollection().findOne(byIsbn);
       Book book = books.fromMongoRecord(mgBook);
 
@@ -54,7 +54,7 @@ public class Books extends Controller {
       DBCollection booksCollection = books.getMongoCollection();
       DBCursor allFoundBooks = booksCollection.find();
       Integer pages = allFoundBooks.count() / PAGE_SIZE;
-      allFoundBooks = allFoundBooks.skip(PAGE_SIZE * page - 1).limit(PAGE_SIZE);
+      allFoundBooks = allFoundBooks.skip(PAGE_SIZE * page).limit(PAGE_SIZE);
       List<Book> result = books.fromMongoRecord(allFoundBooks);
       return ok(views.html.Books.index.render("All Books", result, page, pages, null));
     }

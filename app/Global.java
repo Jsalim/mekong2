@@ -27,8 +27,8 @@ public class Global extends GlobalSettings {
     public void onStart(Application app) {
 
       Logger.info("Starting seeds ... ");
-      Seeder seeder = new Seeder("seeds/");
       try {
+        Seeder seeder = new Seeder("seeds/");
         seeder.run("seeds.xml");
         Logger.info("Finishing seeds ... ");
       } catch (Exception e) {

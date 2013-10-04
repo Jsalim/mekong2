@@ -20,7 +20,7 @@
         }
       }
       <li class="active">
-        <a href="@pageRoute(page)">@String.valueOf(page)</a>
+        <a href="@pageRoute(page)">@String.valueOf(page + 1)</a>
       </li>
       @for(p <- page to page + 5) {
         @if(p <= pages && p != page) {
