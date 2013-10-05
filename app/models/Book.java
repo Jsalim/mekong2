@@ -1,6 +1,7 @@
 package models;
 
 import com.mongodb.*;
+import org.neo4j.graphdb.RelationshipType;
 import utils.Record;
 import utils.mongodb.MongoDatabaseConnection;
 import utils.neo4j.Neo4jDatabaseConnection;
@@ -21,6 +22,12 @@ public class Book extends Record<Book> {
     private static Neo4jDatabaseConnection neo4jDatabase = null;
     private static DBCollection mongoBooksDatabase = null;
     private static volatile Book instance = null;
+
+    public static enum RELATIONSHIPS implements RelationshipType
+    {
+        WRITTEN_BY,
+        ABOUT
+    }
 
     protected Book(DBObject record) {
         super(record);

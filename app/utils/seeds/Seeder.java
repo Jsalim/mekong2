@@ -1,36 +1,38 @@
 package utils.seeds;
 
 import java.io.*;
-import java.util.*;
 
 import java.net.*;
 
-import javax.imageio.*;
-import java.awt.image.BufferedImage;
-
 import org.json.*;
 
-import models.*;
-
 import com.mongodb.*;
+import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Transaction;
 import utils.mongodb.*;
-import com.mongodb.gridfs.*;
+import utils.neo4j.Neo4jDatabaseConnection;
 
 public class Seeder {
 
    private String folder;
 
-   private MongoDatabaseConnection connection = null;
+   private MongoDatabaseConnection mongoConnection = null;
+   private Neo4jDatabaseConnection neo4jConnection = null;
    private GridFSSeeder gridfsSeeder = null;
    private MongoDBSeeder mongoSeeder = null;
+   private Neo4jSeeder neo4jSeeder = null;
 
    public Seeder(String folder)
    throws UnknownHostException
    {
      this.folder = folder;
-     this.connection = MongoDatabaseConnection.getInstance();
-     this.gridfsSeeder = new GridFSSeeder(connection, folder);
-     this.mongoSeeder = new MongoDBSeeder(connection, gridfsSeeder);
+     System.out.println("Getting MongoDB Seeder");
+     this.mongoConnection = MongoDatabaseConnection.getInstance();
+     this.mongoSeeder = new MongoDBSeeder(mongoConnection, gridfsSeeder);
+     this.gridfsSeeder = new GridFSSeeder(mongoConnection, folder);
+     System.out.println("Getting Neo4j Seeder");
+     this.neo4jConnection = Neo4jDatabaseConnection.getInstance();
+     this.neo4jSeeder = new Neo4jSeeder(neo4jConnection);
    }
 
    private String xmlDocument(String filename)
@@ -64,8 +66,9 @@ public class Seeder {
      File seedLock = new File(folder + "seeds.lock");
      if (!seedLock.exists())
      {
-       connection.dropDB();
+       mongoConnection.dropDB();
        mongoSeeder.createCollections();
+       neo4jSeeder.setupDatabase();
        JSONObject books = XML.toJSONObject(xmlDocument(filename));
        JSONArray bookList = books.getJSONObject("books").getJSONArray("book");
        for (int pass = 0; pass < 2; pass++)
@@ -94,12 +97,29 @@ public class Seeder {
   throws JSONException, IOException
   {
     String isbn = String.valueOf(book.get("isbn"));
+    System.out.println("\n\n###################################################");
     System.out.println("Seeding ... " + isbn);
-    // neo4jSeeder.createBookRecord(book);
-    mongoSeeder.createBookRecord(book);
-    System.out.println("Seeded " + isbn);
-    System.out.println();
-    return;
+    BasicDBObject mongoBookRecord = mongoSeeder.createBookRecord(book);
+    GraphDatabaseService db = neo4jConnection.getService();
+    Transaction tx = db.beginTx();
+    try
+    {
+        System.out.println("Neo4j");
+        neo4jSeeder.enhanceBookRecord(tx, mongoBookRecord);
+        System.out.println("MongoDB");
+        mongoSeeder.insertBookRecord(mongoBookRecord);
+    }
+    catch (Exception e)
+    {
+      System.out.println("Failed to create seed for " + isbn + ", reason " + e.toString());
+    }
+    finally
+    {
+      tx.finish();
+      System.out.println("Seeded " + isbn);
+      System.out.println("###################################################\n\n");
+      return;
+    }
   }
 
   public void cleanSeed(JSONObject book)

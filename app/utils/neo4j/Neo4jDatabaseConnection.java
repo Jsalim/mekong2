@@ -2,6 +2,7 @@ package utils.neo4j;
 
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
+import org.neo4j.graphdb.factory.GraphDatabaseSettings;
 import utils.DatabaseConnection;
 import utils.DatabaseType;
 
@@ -25,9 +26,13 @@ public class Neo4jDatabaseConnection extends DatabaseConnection {
      * @throws java.net.UnknownHostException
      */
     protected Neo4jDatabaseConnection() {
-        GraphDatabaseFactory graphDbFactory = new GraphDatabaseFactory();
-        graphDb = graphDbFactory.newEmbeddedDatabase(DB_PATH);
-        registerShutdownHook(graphDb);
+      GraphDatabaseFactory graphDbFactory = new GraphDatabaseFactory();
+      this.graphDb = new GraphDatabaseFactory().
+      newEmbeddedDatabaseBuilder(DB_PATH).
+      setConfig( GraphDatabaseSettings.node_auto_indexing, "true" ).
+      setConfig( GraphDatabaseSettings.relationship_auto_indexing, "true" ).
+      newGraphDatabase();
+      registerShutdownHook(graphDb);
     }
 
     private static void registerShutdownHook( final GraphDatabaseService graphDb )

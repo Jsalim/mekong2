@@ -1,102 +1,109 @@
 package utils.seeds;
 
-import java.io.*;
-import java.util.*;
+import com.mongodb.BasicDBList;
+import com.mongodb.BasicDBObject;
+import models.Book;
+import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Relationship;
+import org.neo4j.graphdb.Transaction;
+import org.neo4j.graphdb.index.Index;
+import org.neo4j.graphdb.index.UniqueFactory;
+import utils.neo4j.Neo4jDatabaseConnection;
 
-import java.net.*;
-
-import javax.imageio.*;
-import java.awt.image.BufferedImage;
-
-import org.json.*;
-
-import models.*;
-
-import com.mongodb.*;
-import utils.mongodb.*;
-import com.mongodb.gridfs.*;
-
+import java.util.Map;
 
 public class Neo4jSeeder {
 
-  // private boolean setupNeo4jIndexes() {
-  //   return true;
-  // }
+  private GraphDatabaseService graphDb = null;
+  private Neo4jDatabaseConnection connection = null;
 
-  // private void createNeo4j(JSONObject book) {
+  private Index<Node> usersIndex;
+  private Index<Node> booksIndex;
+  private Index<Node> authorsIndex;
+  private Index<Node> subjectsIndex;
 
-  //   //
-  //   // -------------------------------------------------------------------------
-  //   // # 1. CREATE THE BOOK IF NOT EXISTS OR ABORT OTHERWISE
-  //   // -------------------------------------------------------------------------
-  //   // CREATE UNIQUE (book {isbn: '1234'})
-  //   // -------------------------------------------------------------------------
-  //   // # 1.1. For each author create the author nodes if it does not exist
-  //   // -------------------------------------------------------------------------
-  //   // START author=node:Author(name="{AuthorName}")
-  //   // WITH COUNT(*) AS number
-  //   // WHERE number = 0
-  //   // CREATE (author { name: '{AuthorName}' })
-  //   // RETURN author
-  //   // -------------------------------------------------------------------------
-  //   // # 1.2. Create all of the written by relationships for the book
-  //   // -------------------------------------------------------------------------
-  //   // START book=node(*), author=node(*)
-  //   // WHERE book.isbn! = {isbn} AND author.name! IN {author_list}
-  //   // CREATE UNIQUE book-[written_by:WRITTEN_BY]->author
-  //   // RETURN book, written_by, author
-  //   // -------------------------------------------------------------------------
-  //   // # 1.3. For each subject create the subject node if it does not exist
-  //   // -------------------------------------------------------------------------
-  //   // START author=node:subject(name="{Subjectname}")
-  //   // WITH COUNT(*) AS number
-  //   // WHERE number = 0
-  //   // CREATE (subject { name: '{SubjectName}' })
-  //   // RETURN author
-  //   // -------------------------------------------------------------------------
-  //   // # 1.4. Create all of the about relationships for the book
-  //   // -------------------------------------------------------------------------
-  //   // START book=node:Book(isbn = {isbn}), subject=node(*)
-  //   // WHERE subject.name! IN {subject_list}
-  //   // CREATE UNIQUE book-[about:ABOUT]->subject
-  //   // RETURN book, about, subject
-  //   // -------------------------------------------------------------------------
-  //   //
+  public Neo4jSeeder(Neo4jDatabaseConnection connection)
+  {
+    this.connection = connection;
+    this.graphDb = this.connection.getService();
+  }
 
-  //   // Create a query to add the node to the database.
-  //   String query = "CREATE (book {isbn:{isbn}})";
-  //   Map<String, Object> parameters = new HashMap<String, Object>();
-  //   parameters.put("isbn", book.get("isbn"));
+  public void setupDatabase()
+  {
+    usersIndex = connection.getService().index().forNodes("Users");
+    booksIndex = connection.getService().index().forNodes("Books");
+    authorsIndex = connection.getService().index().forNodes("Authors");
+    booksIndex = connection.getService().index().forNodes("Subjects");
+    return;
+  }
 
-  //   // Create a connection with the Neo4j database.
-  //   GraphDatabaseService db = Neo4jDatabaseConnection.getInstance().getService();
-  //   ExecutionEngine engine = new ExecutionEngine(db);
-  //   engine.execute(query);
+  public UniqueFactory<Node> uniqueNodeFactoryFor(String index)
+  {
+    UniqueFactory<Node> factory = new UniqueFactory.UniqueNodeFactory(graphDb, index)
+    {
+      @Override
+      protected void initialize(Node created, Map<String, Object> properties)
+      {
+        created.setProperty("name", properties.get("name"));
+      }
+    };
+    return factory;
+  }
 
-  //   // Start a transaction to index all of the books that have been created.
-  //   Transaction tx = db.beginTx();
-  //   try
-  //   {
-  //     Iterable<Node> allNodes = GlobalGraphOperations.at(db).getAllNodes();
-  //     for (Node node : allNodes)
-  //     {
-  //       if (node.hasProperty("isbn"))
-  //       {
-  //         db.index().forNodes("book").add(node, "isbn", node.getProperty("isbn"));
-  //       }
-  //     }
-  //   }
-  //   // If something went wrong with the transactions cancel it, return nothing.
-  //   catch (Exception e)
-  //   {
-  //     return null;
-  //   }
-  //   // If the transaction was OK return the result and close it.
-  //   finally
-  //   {
-  //     tx.finish();
-  //     return tx;
-  //   }
-  // }
+  public void enhanceBookRecord(Transaction tx, BasicDBObject book)
+  {
+    // Book
+    System.out.println("Establishing unique Book node factory");
+    UniqueFactory<Node> bookFactory = uniqueNodeFactoryFor("Books");
+    System.out.println("Creating or finding book" + book.getString("isbn"));
+    Node bookNode = bookFactory.getOrCreate("name", book.getString("isbn"));
+    System.out.println("Setting node properties");
+    bookNode.setProperty("title", book.getString("title"));
+    bookNode.setProperty("stock", book.getInt("stock"));
+    bookNode.setProperty("price", book.getDouble("price"));
+
+    // Authors
+    System.out.println("Creating author nodes");
+    UniqueFactory<Node> authorFactory = uniqueNodeFactoryFor("Authors");
+    BasicDBList authors = (BasicDBList) book.get("authors");
+    for (int i = 0; i < authors.size(); i++)
+    {
+      BasicDBObject author = (BasicDBObject) authors.get(i);
+      System.out.println(author.toString());
+      StringBuilder fullnameBuilder = new StringBuilder();
+      fullnameBuilder.append(author.getString("firstname"));
+      fullnameBuilder.append(" ");
+      fullnameBuilder.append(author.getString("lastname"));
+      String fullname = fullnameBuilder.toString();
+      System.out.println("Creating author node for " + fullname);
+      Node authorNode = authorFactory.getOrCreate("name", fullname);
+      System.out.println("Setting author additional properties " + authorNode.toString());
+      // authorNode.setProperty("firstname", book.getString("firstname"));
+      // authorNode.setProperty("lastname", book.getString("lastname"));
+      System.out.println("Creating author WRITTEN_BY relationship");
+      Relationship writtenBy = bookNode.createRelationshipTo(authorNode,
+              Book.RELATIONSHIPS.WRITTEN_BY);
+      System.out.println("Created author node");
+    }
+
+    // Subjects
+    System.out.println("Creating subject nodes");
+    UniqueFactory<Node> subjectFactory = uniqueNodeFactoryFor("Subjects");
+    BasicDBList subjects = (BasicDBList) book.get("subjects");
+    for (int i = 0; i < authors.size(); i++)
+    {
+      System.out.println("Creating subject node");
+      String subject = String.valueOf(subjects.get(i));
+      Node subjectNode = subjectFactory.getOrCreate("name", subject);
+      System.out.println("Creating author ABOUT relationship");
+      Relationship aboutSubject = bookNode.createRelationshipTo(subjectNode,
+              Book.RELATIONSHIPS.ABOUT);
+      System.out.println("Created subject node");
+    }
+
+    System.out.println("Finishing enhancement");
+    return;
+  }
 
 }

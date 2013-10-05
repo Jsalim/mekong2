@@ -1,0 +1,41 @@
+  // ---------------------------------------------------------------------------
+  // # 1. CREATE THE BOOK IF NOT EXISTS OR ABORT OTHERWISE
+  // ---------------------------------------------------------------------------
+  // CREATE UNIQUE (book {isbn: '1234'})
+  // ---------------------------------------------------------------------------
+
+  // ------------------------------------------------------------------------
+  // # 3.1. For each subject create the subject node if it does not exist
+  // ------------------------------------------------------------------------
+  // START author=node:subject(name="{SubjectName}")
+  // WITH COUNT(*) AS number
+  // WHERE number = 0
+  // CREATE (subject { name: '{SubjectName}' })
+  // RETURN author
+  // ------------------------------------------------------------------------
+  // # 3.2. Create all of the about relationships for the book
+  // ------------------------------------------------------------------------
+  // START book=node:Book(isbn = {isbn}), subject=node(*)
+  // WHERE subject.name! IN {subject_list}
+  // CREATE UNIQUE book-[about:ABOUT]->subject
+  // RETURN book, about, subject
+  // ------------------------------------------------------------------------
+
+
+
+  // ---------------------------------------------------------------------------
+  // # 2.1. For each author create the author nodes if it does not exist
+  // ---------------------------------------------------------------------------
+  // START author=node:Author(name="{AuthorName}")
+  // WITH COUNT(*) AS number
+  // WHERE number = 0
+  // CREATE (author { name: '{AuthorName}' })
+  // RETURN author
+  // ---------------------------------------------------------------------------
+  // # 2.2. Create all of the written by relationships for the book
+  // ---------------------------------------------------------------------------
+  // START book=node(*), author=node(*)
+  // WHERE book.isbn! = {isbn} AND author.name! IN {author_list}
+  // CREATE UNIQUE book-[written_by:WRITTEN_BY]->author
+  // RETURN book, written_by, author
+  // ---------------------------------------------------------------------------
