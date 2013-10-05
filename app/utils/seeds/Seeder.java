@@ -28,8 +28,8 @@ public class Seeder {
      this.folder = folder;
      System.out.println("Getting MongoDB Seeder");
      this.mongoConnection = MongoDatabaseConnection.getInstance();
-     this.mongoSeeder = new MongoDBSeeder(mongoConnection, gridfsSeeder);
      this.gridfsSeeder = new GridFSSeeder(mongoConnection, folder);
+     this.mongoSeeder = new MongoDBSeeder(mongoConnection, gridfsSeeder);
      System.out.println("Getting Neo4j Seeder");
      this.neo4jConnection = Neo4jDatabaseConnection.getInstance();
      this.neo4jSeeder = new Neo4jSeeder(neo4jConnection);
@@ -67,6 +67,7 @@ public class Seeder {
      if (!seedLock.exists())
      {
        mongoConnection.dropDB();
+//       neo4jConnection.dropDB();
        mongoSeeder.createCollections();
        neo4jSeeder.setupDatabase();
        JSONObject books = XML.toJSONObject(xmlDocument(filename));
@@ -86,6 +87,7 @@ public class Seeder {
          }
        }
 //       seedLock.createNewFile();
+         neo4jSeeder.displayDatabase();
      }
      else
      {
@@ -99,15 +101,14 @@ public class Seeder {
     String isbn = String.valueOf(book.get("isbn"));
     System.out.println("\n\n###################################################");
     System.out.println("Seeding ... " + isbn);
-    BasicDBObject mongoBookRecord = mongoSeeder.createBookRecord(book);
-    GraphDatabaseService db = neo4jConnection.getService();
-    Transaction tx = db.beginTx();
     try
     {
-        System.out.println("Neo4j");
-        neo4jSeeder.enhanceBookRecord(tx, mongoBookRecord);
-        System.out.println("MongoDB");
+        System.out.println("\n\n# MongoDB\n");
+        BasicDBObject mongoBookRecord = mongoSeeder.createBookRecord(book);
         mongoSeeder.insertBookRecord(mongoBookRecord);
+
+        System.out.println("\n\n# Neo4j\n");
+        neo4jSeeder.enhanceBookRecord(mongoBookRecord);
     }
     catch (Exception e)
     {
@@ -115,7 +116,6 @@ public class Seeder {
     }
     finally
     {
-      tx.finish();
       System.out.println("Seeded " + isbn);
       System.out.println("###################################################\n\n");
       return;
