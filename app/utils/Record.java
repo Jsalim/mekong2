@@ -46,11 +46,11 @@ public abstract class Record<R extends Record> {
 
     public abstract R fromMongoRecord(DBObject record);
 
-    private DBObject getMongoRecord() {
+    protected DBObject getMongoRecord() {
         return this.mongoRecord;
     }
 
-    private Node getNeo4jRecord() {
+    protected Node getNeo4jRecord() {
         return this.neo4jRecord;
     }
 

@@ -1,4 +1,4 @@
-@(success: Boolean, quantity: Integer, bookTitle: String)
+@(success: Boolean, cart: models.Cart)
 
 @views.html.Application.main("Checkout") {
   @if(success) {
@@ -10,7 +10,7 @@
       </div>
       <div class="panel-body">
         <ul>
-          <li>@quantity copies of @bookTitle added your cart</li>
+          @*<li>@quantity copies of @bookTitle added your cart</li>*@
         </ul>
       </div>
     </div>
@@ -22,7 +22,7 @@
         </h3>
       </div>
       <div class="panel-body">
-        Unable to add @quantity of @bookTitle to your cart
+        @*Unable to add @quantity of @bookTitle to your cart*@
       </div>
     </div>
   }

@@ -17,11 +17,12 @@
     <div><strong>Copies</strong></div>
     <br />
     <!-- select stock -->
-    <form method="POST" action="@routes.Carts.add()">
-      <input type="hidden" name="isbn" id="isbn"
-        value="@String.valueOf(book.getMongo("isbn"))" />
+    <form method="POST" action="@routes.Carts.update()">
       <div class="form-group">
-        <select class="form-control" id="quantity" name="quantity">
+        <input id="relative" name="relative" type="hidden" value="false" />
+        <select class="form-control"
+          id="isbn@String.valueOf(book.getMongo("isbn"))"
+          name="isbn@String.valueOf(book.getMongo("isbn"))">
         @for(stock <- 0 to book.getMongo("stock").asInstanceOf[Int]) {
           <option>@stock</option>
         }

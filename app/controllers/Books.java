@@ -29,13 +29,8 @@ public class Books extends Controller {
 
     private static Integer PAGE_SIZE = 3;
 
-    public static Result show(String isbn)
-    {
-      Book books = Book.getModel();
-      BasicDBObject byIsbn = new BasicDBObject("isbn", isbn);
-      DBObject mgBook = books.getMongoCollection().findOne(byIsbn);
-      Book book = books.fromMongoRecord(mgBook);
-
+    public static Result show(String isbn) {
+      Book book = Book.findByISBN(isbn);
       if (null == book)
       {
         return notFound();
@@ -47,20 +42,15 @@ public class Books extends Controller {
       }
     }
 
-    public static Result index(Integer page)
-    {
-      DynamicForm requestData = Form.form().bindFromRequest();
-      Book books = Book.getModel();
-      DBCollection booksCollection = books.getMongoCollection();
-      DBCursor allFoundBooks = booksCollection.find();
-      Integer pages = allFoundBooks.count() / PAGE_SIZE;
-      allFoundBooks = allFoundBooks.skip(PAGE_SIZE * page).limit(PAGE_SIZE);
-      List<Book> result = books.fromMongoRecord(allFoundBooks);
-      return ok(views.html.Books.index.render("All Books", result, page, pages, null));
+    public static Result index(Integer page) {
+      Map<String, Object> result = Book.all(PAGE_SIZE, page);
+      List<Book> books = (List) result.get("records");
+      Integer pages = (Integer) result.get("pages");
+        System.out.printf("%s %s %s", result.toString(), books.toString(), pages.toString());
+      return ok(views.html.Books.index.render("All Books", books, page, pages, null));
     }
 
-    public static Result searchForm()
-    {
+    public static Result searchForm() {
       DynamicForm requestData = Form.form().bindFromRequest();
       String query = requestData.get("query");
       Integer page = 1;
@@ -71,47 +61,24 @@ public class Books extends Controller {
       return search(query, page);
     }
 
-    public static Result search(String query, Integer page)
-    {
-      List<BasicDBObject> search = new ArrayList<BasicDBObject>();
-      if (null != query && 0 < query.length())
-      {
-        Pattern compiledQuery = Pattern.compile(query, Pattern.CASE_INSENSITIVE);
-        BasicDBObject isbnQuery = new BasicDBObject("isbn", compiledQuery);
-        BasicDBObject titleQuery = new BasicDBObject("title", compiledQuery);
-        search.add(isbnQuery);
-        search.add(titleQuery);
-      }
-      Book books = Book.getModel();
-      BasicDBObject searchQuery = new BasicDBObject("$or", search.toArray());
-      DBCursor allFoundBooks = books.getMongoCollection().find(searchQuery);
-      Integer pages = allFoundBooks.count() / PAGE_SIZE;
-      allFoundBooks = allFoundBooks.skip(PAGE_SIZE * page - 1).limit(PAGE_SIZE);
-      List<Book> results = books.fromMongoRecord(allFoundBooks);
-      return ok(views.html.Books.index.render("Results for '" + query + "'", results, page, pages, query));
+    public static Result search(String query, Integer page) {
+      Map<String, Object> result = Book.searchByTitleAndISBN(query, PAGE_SIZE, page);
+      List<Book> books = (List) result.get("records");
+      Integer pages = (Integer) result.get("pages");
+      return ok(views.html.Books.index.render("Results for '" + query + "'", books, page, pages, query));
     }
 
-    public static Result cover(String isbn)
-    {
-      try
-      {
-        BasicDBObject isbnQueryPortion = new BasicDBObject("$in", Arrays.asList(isbn));
-        BasicDBObject query = new BasicDBObject("aliases", isbnQueryPortion);
-        DB db = MongoDatabaseConnection.getInstance().getDB();
-        GridFS gfsCovers = new GridFS(db, "covers");
-        List<GridFSDBFile> files = gfsCovers.find(query);
-        GridFSDBFile gfsCover = files.get(0);
-        response().setContentType("image/gif");
-        return ok(gfsCover.getInputStream());
-      }
-      catch (Exception e)
-      {
+    public static Result cover(String isbn) {
+      GridFSDBFile cover = Book.findCoverByISBN(isbn);
+      response().setContentType("image/gif");
+      if (null != cover) {
+        return ok(cover.getInputStream());
+      } else {
         return notFound();
       }
     }
 
-    public static Result recommendations()
-    {
+    public static Result recommendations() {
         // Book books = Book.getModel();
         // String username = session("username");
         // String query =  "START user = node:User(username=\""+username+"\"),\n" +
