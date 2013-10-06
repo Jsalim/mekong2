@@ -4,6 +4,7 @@ import com.mongodb.*;
 import com.mongodb.gridfs.GridFS;
 import com.mongodb.gridfs.GridFSDBFile;
 import org.neo4j.graphdb.RelationshipType;
+import org.neo4j.helpers.collection.IteratorUtil;
 import utils.Record;
 import utils.mongodb.MongoDatabaseConnection;
 import utils.neo4j.Neo4jDatabaseConnection;
@@ -19,6 +20,9 @@ import java.net.UnknownHostException;
 import java.util.*;
 import java.util.regex.Pattern;
 
+/**
+ *
+ */
 public class Book extends Record<Book> {
 
     private static final String BOOK_COLLECTION = "books";
@@ -30,6 +34,10 @@ public class Book extends Record<Book> {
     public static enum RELATIONSHIPS implements RelationshipType {
         WRITTEN_BY,
         ABOUT
+    }
+
+    protected Book(Node node) {
+        super(node);
     }
 
     protected Book(DBObject record) {
@@ -49,15 +57,6 @@ public class Book extends Record<Book> {
         return instance;
     }
 
-    public static Book getModel() {
-      try {
-        return Book.getInstance();
-      } catch (Exception e) {
-        System.out.println("Failed to get instance" + e.toString());
-        return null;
-      }
-    }
-
     @Override
     public DBCollection getMongoCollection() {
         if (this.mongoBooksDatabase == null) {
@@ -66,23 +65,31 @@ public class Book extends Record<Book> {
         return this.mongoBooksDatabase;
     }
 
-    public Transaction getNeo4jTransaction() {
-      if (this.neo4jDatabase == null) {
-        this.neo4jDatabase = Neo4jDatabaseConnection.getInstance();
-      }
-      return this.neo4jDatabase.getService().beginTx();
-    }
-
+    /**
+     *
+     * @param query
+     * @return
+     */
     public ExecutionResult executeNeo4jQuery(String query) {
       ExecutionEngine exe = new ExecutionEngine(this.neo4jDatabase.getService());
       return exe.execute(query);
     }
 
+    /**
+     *
+     * @param record
+     * @return
+     */
     @Override
     public Book fromMongoRecord(DBObject record) {
         return new Book(record);
     }
 
+    /**
+     *
+     * @param isbn
+     * @return
+     */
     public static Book findByISBN(String isbn) {
         Book result = null;
         try {
@@ -97,15 +104,29 @@ public class Book extends Record<Book> {
         }
     }
 
-    public static Map<String, Object> all(Integer pageSize, Integer page) {
+    /**
+     *
+     * @param query
+     * @param pageSize
+     * @param page
+     * @return
+     */
+    private static Map<String, Object> paginateQuery(BasicDBObject query, Integer pageSize, Integer page) {
         Map<String, Object> result = new HashMap<String, Object>();
         result.put("records", new ArrayList<Book>());
         try {
             Book instance = getInstance();
-            DBCursor allFoundBooks = instance.getMongoCollection().find();
+            DBCursor allFoundBooks = instance.getMongoCollection().find(query);
+            Integer pages = allFoundBooks.count() / pageSize;
+            if (pages > page) {
+                page = pages - 1;
+            } else if (page < 0) {
+                page = 0;
+            }
+            Integer pageSkip = pageSize * page;
+            allFoundBooks = allFoundBooks.skip(pageSkip).limit(pageSize);
             result.put("page", page);
-            result.put("pages", allFoundBooks.count() / pageSize);
-            allFoundBooks = allFoundBooks.skip(pageSize * page).limit(pageSize);
+            result.put("pages", pages);
             ((List) result.get("records")).addAll(instance.fromMongoRecord(allFoundBooks));
         } catch (Exception e) {
             e.printStackTrace();
@@ -114,30 +135,32 @@ public class Book extends Record<Book> {
         }
     }
 
-    public static Map<String, Object> searchByTitleAndISBN(String query, Integer pageSize, Integer page) {
-        Map<String, Object> result = new HashMap<String, Object>();
-        result.put("records", new ArrayList<Book>());
-        try {
-            Book instance = Book.getInstance();
-            List<BasicDBObject> search = new ArrayList<BasicDBObject>();
-            if (null != query && 0 < query.length()) {
-                Pattern compiledQuery = Pattern.compile(query, Pattern.CASE_INSENSITIVE);
-                BasicDBObject isbnQuery = new BasicDBObject("isbn", compiledQuery);
-                BasicDBObject titleQuery = new BasicDBObject("title", compiledQuery);
-                search.add(isbnQuery);
-                search.add(titleQuery);
-            }
-            BasicDBObject searchQuery = new BasicDBObject("$or", search.toArray());
-            DBCursor allFoundBooks = instance.getMongoCollection().find(searchQuery);
-            result.put("page", page);
-            result.put("pages", allFoundBooks.count() / pageSize);
-            allFoundBooks = allFoundBooks.skip(pageSize * page - 1).limit(pageSize);
-            ((List) result.get("records")).addAll(instance.fromMongoRecord(allFoundBooks));
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            return result;
-        }
+    /**
+     *
+     * @param pageSize
+     * @param page
+     * @return
+     */
+    public static Map<String, Object> all(Integer pageSize, Integer page) {
+        return paginateQuery(new BasicDBObject(), pageSize, page);
+    }
+
+    /**
+     *
+     * @param rawQuery
+     * @param pageSize
+     * @param page
+     * @return
+     */
+    public static Map<String, Object> searchByTitleAndISBN(String rawQuery, Integer pageSize, Integer page) {
+        List<BasicDBObject> search = new ArrayList<BasicDBObject>();
+        Pattern compiledQuery = Pattern.compile(rawQuery, Pattern.CASE_INSENSITIVE);
+        BasicDBObject isbnQuery = new BasicDBObject("isbn", compiledQuery);
+        BasicDBObject titleQuery = new BasicDBObject("title", compiledQuery);
+        search.add(isbnQuery);
+        search.add(titleQuery);
+        BasicDBObject query = new BasicDBObject("$or", search.toArray());
+        return paginateQuery(query, pageSize, page);
     }
 
     /**
@@ -159,6 +182,67 @@ public class Book extends Record<Book> {
         } finally {
             return result;
         }
+    }
+
+    /**
+     *
+     * @param query
+     * @param params
+     * @param column
+     * @return
+     */
+    public static List<Book> queryToNodes(String query, Map<String, Object> params, String column) {
+        List<Book> result = new ArrayList<Book>();
+        GraphDatabaseService graphDB = neo4jDatabase.getService();
+        Transaction tx = graphDB.beginTx();
+        try {
+            ExecutionEngine queryExecuter = new ExecutionEngine(graphDB);
+            ExecutionResult executionResult = queryExecuter.execute(query, params);
+            Iterator<Node> bookNodes = executionResult.columnAs(column);
+            for (Node bookNode : IteratorUtil.asIterable(bookNodes)) {
+                Book book = new Book(bookNode);
+                result.add(book);
+            }
+            tx.success();
+        } catch (Exception e) {
+            tx.failure();
+            e.printStackTrace();
+        } finally {
+            tx.finish();
+            return result;
+        }
+    }
+
+    /**
+     *
+     * @return
+     */
+    public List<Book> similarTo() {
+        String query = "START n=node:Books(isbn = {isbn}), b=node(*)\n" +
+                "MATCH n-[:SIMILAR_TO]->b\n" +
+                "RETURN b";
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("isbn", String.valueOf(getMongo("isbn")));
+        return queryToNodes(query, params, "b");
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String byLine() {
+        StringBuilder sb = new StringBuilder();
+        BasicDBList authors = (BasicDBList) getMongoRecord().get("authors");
+        for (int i = 0; i < authors.size(); i++) {
+            BasicDBObject author = (BasicDBObject) authors.get(i);
+            sb.append(author.getString("firstname"));
+            sb.append(" ");
+            sb.append(author.getString("lastname"));
+            if (i != authors.size() - 1) {
+                sb.append(", ");
+            }
+        }
+        return sb.toString();
     }
 
 }

@@ -39,14 +39,14 @@ public class Neo4jSeeder {
     return;
   }
 
-  public UniqueFactory<Node> uniqueNodeFactoryFor(Index<Node> index)
+  public UniqueFactory<Node> uniqueNodeFactoryFor(Index<Node> index, final String indexName)
   {
     UniqueFactory<Node> factory = new UniqueFactory.UniqueNodeFactory(index)
     {
       @Override
       protected void initialize(Node created, Map<String, Object> properties)
       {
-        created.setProperty("name", properties.get("name"));
+        created.setProperty(indexName, properties.get(indexName));
       }
     };
     return factory;
@@ -66,7 +66,7 @@ public class Neo4jSeeder {
   {
       System.out.println("Creating author nodes");
       List<Node> connectedAuthors = alreadyConnectedNodes(bookNode, Book.RELATIONSHIPS.WRITTEN_BY);
-      UniqueFactory<Node> authorFactory = uniqueNodeFactoryFor(authorsIndex);
+      UniqueFactory<Node> authorFactory = uniqueNodeFactoryFor(authorsIndex, "name");
       BasicDBList authors = (BasicDBList) book.get("authors");
       for (int i = 0; i < authors.size(); i++)
       {
@@ -112,7 +112,7 @@ public class Neo4jSeeder {
   {
       System.out.println("Creating subject nodes");
       List<Node> connectedSubjects = alreadyConnectedNodes(bookNode, Book.RELATIONSHIPS.ABOUT);
-      UniqueFactory<Node> subjectFactory = uniqueNodeFactoryFor(subjectsIndex);
+      UniqueFactory<Node> subjectFactory = uniqueNodeFactoryFor(subjectsIndex, "name");
       BasicDBList subjects = (BasicDBList) book.get("subjects");
       for (int i = 0; i < subjects.size(); i++)
       {
@@ -139,9 +139,9 @@ public class Neo4jSeeder {
     {
         // Book
         System.out.println("Establishing unique Book node factory");
-        UniqueFactory<Node> bookFactory = uniqueNodeFactoryFor(booksIndex);
+        UniqueFactory<Node> bookFactory = uniqueNodeFactoryFor(booksIndex, "isbn");
         System.out.println("Creating or finding book" + book.getString("isbn"));
-        Node bookNode = bookFactory.getOrCreate("name", book.getString("isbn"));
+        Node bookNode = bookFactory.getOrCreate("isbn", book.getString("isbn"));
         System.out.println("Setting node properties");
         bookNode.setProperty("title", book.getString("title"));
         bookNode.setProperty("stock", book.getInt("stock"));
@@ -168,6 +168,40 @@ public class Neo4jSeeder {
        tx.finish();
        return;
     }
+  }
+
+  public void createSimilarToRelationships(BasicDBObject book) {
+      Transaction tx = graphDb.beginTx();
+      try {
+          List<String> similarIsbns = new ArrayList<String>();
+          BasicDBList similarities = (BasicDBList) book.get("similar");
+          for (int i = 0; i < similarities.size(); i++)
+          {
+              String similarIsbn = String.valueOf(similarities.get(i));
+              similarIsbns.add(similarIsbn);
+          }
+          System.out.println("Found similar" + similarIsbns);
+
+          String query = "START root=node:Books(isbn={isbn}), book=node(*)\n" +
+                  "WHERE book.isbn! IN {similarities}\n" +
+                  "CREATE UNIQUE root-[:SIMILAR_TO]->book\n" +
+                  "RETURN root, book";
+
+          Map<String, Object> params = new HashMap<String, Object>();
+          params.put("isbn", book.getString("isbn"));
+          params.put("similarities", similarIsbns);
+
+          ExecutionEngine executionEngine = new ExecutionEngine(graphDb);
+          ExecutionResult executionResult = executionEngine.execute(query, params);
+          System.out.println("Query results " + executionResult);
+
+          tx.success();
+      } catch (Exception e) {
+          e.printStackTrace();
+          tx.failure();
+      } finally {
+          tx.finish();
+      }
   }
 
   public void displayDatabase()

@@ -1,10 +1,10 @@
-@(book: models.Book)
+@(book: models.Book, similarBooks: List[models.Book])
 
 @views.html.Application.main(String.valueOf(book.getMongo("title"))) {
   <div class="page-header">
     <h1>
       @String.valueOf(book.getMongo("title")) <br />
-      <small>by: @String.valueOf(book.getMongo("author"))</small>
+      <small>by: @String.valueOf(book.byLine())</small>
     </h1>
   </div>
   <div class="row">
@@ -21,7 +21,7 @@
     <!-- purchase -->
     <div class="col-md-3">
       @views.html.Books.partials.purchase(book)
-      @views.html.Books.partials.similar(book)
+      @views.html.Books.partials.similar(similarBooks)
     </div>
   </div>
 }

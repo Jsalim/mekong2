@@ -15,24 +15,40 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ *
+ */
 public class Cart extends Record<Cart> {
 
-    private static final String BOOK_COLLECTION = "transactions";
+    private static final String CARTS_COLLECTION = "carts";
     private static MongoDatabaseConnection mongoDatabase = null;
     private static Neo4jDatabaseConnection neo4jDatabase = null;
     private static DBCollection mongoBooksDatabase = null;
     private static volatile Cart instance = null;
 
+    /**
+     *
+     * @param record
+     */
     protected Cart(DBObject record) {
         super(record);
     }
 
+    /**
+     *
+     * @throws UnknownHostException
+     */
     protected Cart() throws UnknownHostException {
         super();
         this.mongoDatabase = MongoDatabaseConnection.getInstance();
         this.neo4jDatabase = Neo4jDatabaseConnection.getInstance();
     }
 
+    /**
+     *
+     * @return
+     * @throws UnknownHostException
+     */
     public static Cart getInstance() throws UnknownHostException {
         if (instance == null) {
            instance = new Cart();
@@ -40,14 +56,23 @@ public class Cart extends Record<Cart> {
         return instance;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public DBCollection getMongoCollection() {
         if (this.mongoBooksDatabase == null) {
-          this.mongoBooksDatabase = mongoDatabase.getCollection(BOOK_COLLECTION);
+          this.mongoBooksDatabase = mongoDatabase.getCollection(CARTS_COLLECTION);
         }
         return this.mongoBooksDatabase;
     }
 
+    /**
+     *
+     * @param record
+     * @return
+     */
     @Override
     public Cart fromMongoRecord(DBObject record) {
         return new Cart(record);
@@ -65,24 +90,29 @@ public class Cart extends Record<Cart> {
             Cart instance = Cart.getInstance();
             DBCollection cartCollection = instance.getMongoCollection();
             BasicDBObject cartQuery = new BasicDBObject();
-            System.out.println("user " + user.toString());
             cartQuery.append("user_id", user.getMongo("_id"));
             cartQuery.append("status", "pending");
 
             // Find the cart.
+            System.out.println("Attempting to find user cart with query" + cartQuery.toString());
             BasicDBObject record = (BasicDBObject) cartCollection.findOne(cartQuery);
             if (null == record) {
                 System.out.println("Failed to find user cart " + record);
+            } else {
+                result = instance.fromMongoRecord(record);
             }
-            result = instance.fromMongoRecord(record);
 
-            // Create the cart if not found.
+            // Create the cart
+            System.out.println("Attempting to create user cart");
             if (null == result) {
                 cartQuery.put("items", new BasicDBList());
                 WriteResult recordWritten = cartCollection.insert(cartQuery);
                 CommandResult isRecordWritten = recordWritten.getLastError();
                 if (null == isRecordWritten.get("err")) {
-                    result= instance.fromMongoRecord(cartQuery);
+                    System.out.println("Created new user cart");
+                    result = instance.fromMongoRecord(cartQuery);
+                } else {
+                    System.out.println("Failed to create user cart " + isRecordWritten.toString());
                 }
             }
 
@@ -92,7 +122,6 @@ public class Cart extends Record<Cart> {
             return result;
         }
     }
-
 
     /**
      *
@@ -131,15 +160,16 @@ public class Cart extends Record<Cart> {
                         item.put("quantity", quantity);
                     }
                 }
-
             }
 
             // If the book is not in the cart add it.
-            BasicDBObject updateFields = new BasicDBObject();
+            BasicDBObject updateFields = (BasicDBObject) getMongoRecord();
             updateFields.put("items", items);
             BasicDBObject updateQuery = new BasicDBObject("$set", updateFields);
             DBCollection collection = instance.getMongoCollection();
-            WriteResult recordWritten = collection.update(getMongoRecord(), updateQuery);
+
+            // Update the items in the cart
+            WriteResult recordWritten = collection.update(updateFields, updateQuery);
             CommandResult isRecordWritten = recordWritten.getLastError();
             if (null == isRecordWritten.get("err")) {
                 return this;

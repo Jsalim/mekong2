@@ -3,6 +3,8 @@ package utils.seeds;
 import java.io.*;
 
 import java.net.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.json.*;
 
@@ -67,25 +69,27 @@ public class Seeder {
      if (!seedLock.exists())
      {
        mongoConnection.dropDB();
-//       neo4jConnection.dropDB();
+       neo4jConnection.dropDB();
        mongoSeeder.createCollections();
        neo4jSeeder.setupDatabase();
        JSONObject books = XML.toJSONObject(xmlDocument(filename));
        JSONArray bookList = books.getJSONObject("books").getJSONArray("book");
-       for (int pass = 0; pass < 2; pass++)
-       {
-         for (int i = 0; i < bookList.length(); i++)
-         {
-           if (0 == pass)
-           {
-             createSeed(bookList.getJSONObject(i));
-           }
-           else
-           {
-             cleanSeed(bookList.getJSONObject(i));
-           }
+
+       List<BasicDBObject> seeded = new ArrayList<BasicDBObject>();
+       for (int i = 0; i < bookList.length(); i++) {
+         BasicDBObject seed = createSeed(bookList.getJSONObject(i));
+         if (null != seed) {
+            seeded.add(seed);
          }
        }
+
+       System.out.println("Connecting seeds");
+       System.out.println(seeded);
+       for (BasicDBObject seed : seeded) {
+           System.out.println("Connecting");
+           cleanSeed(seed);
+       }
+       System.out.println("Finished connecting seeds");
 //       seedLock.createNewFile();
          neo4jSeeder.displayDatabase();
      }
@@ -95,16 +99,16 @@ public class Seeder {
      }
    }
 
-  private void createSeed(JSONObject book)
-  throws JSONException, IOException
+  private BasicDBObject createSeed(JSONObject book) throws JSONException, IOException
   {
+    BasicDBObject mongoBookRecord = null;
     String isbn = String.valueOf(book.get("isbn"));
     System.out.println("\n\n###################################################");
     System.out.println("Seeding ... " + isbn);
     try
     {
         System.out.println("\n\n# MongoDB\n");
-        BasicDBObject mongoBookRecord = mongoSeeder.createBookRecord(book);
+        mongoBookRecord = mongoSeeder.createBookRecord(book);
         mongoSeeder.insertBookRecord(mongoBookRecord);
 
         System.out.println("\n\n# Neo4j\n");
@@ -118,13 +122,13 @@ public class Seeder {
     {
       System.out.println("Seeded " + isbn);
       System.out.println("###################################################\n\n");
-      return;
+      return mongoBookRecord;
     }
   }
 
-  public void cleanSeed(JSONObject book)
+  public void cleanSeed(BasicDBObject book)
   {
-
+      neo4jSeeder.createSimilarToRelationships(book);
   }
 
 }

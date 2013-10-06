@@ -36,9 +36,13 @@ public class Carts extends Controller {
     public static Result update() {
 
         // Find or create a cart for the user which is pending checkout.
-        User user = null; // User.findByUsername(session("username"));
+        String username = session("username");
+        User user = User.findByUsername(username);
         if (null == user) {
+            Logger.info("Failed to find user " + username);
             return badRequest();
+        } else {
+            Logger.info("Found user " + user.toString());
         }
 
         // Map the ISBN to quantity to update.
@@ -54,7 +58,6 @@ public class Carts extends Controller {
 
         // Update the cart
         Cart cart = Cart.findOrCreateUsersCart(user);
-        System.out.printf("\n### DEBUG #### %s\n%s\n%s\n", isbnToQuantity, relativeUpdate, cart);
         cart = cart.adjustQuantityOfBook(isbnToQuantity, relativeUpdate);
 
         // Find the book the user wants to add to the cart.

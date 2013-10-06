@@ -1,14 +1,14 @@
 package utils.neo4j;
 
+import org.neo4j.cypher.javacompat.ExecutionEngine;
+import org.neo4j.cypher.javacompat.ExecutionResult;
 import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 import org.neo4j.graphdb.factory.GraphDatabaseSettings;
-import org.neo4j.kernel.impl.util.FileUtils;
 import utils.DatabaseConnection;
 import utils.DatabaseType;
 
-import java.io.File;
-import java.io.IOException;
 import java.net.UnknownHostException;
 
 /**
@@ -53,19 +53,31 @@ public class Neo4jDatabaseConnection extends DatabaseConnection {
         } );
     }
 
+    /**
+     *
+     * @return
+     */
     public GraphDatabaseService getService() {
       return this.graphDb;
     }
 
+    /**
+     *
+     */
     public void dropDB()
     {
-        try
-        {
-            FileUtils.deleteRecursively(new File(DB_PATH));
-        }
-        catch (IOException e)
-        {
-            throw new RuntimeException(e);
+        Transaction tx = graphDb.beginTx();
+        try {
+            String query = "START n=node(*), r=rel(*) DELETE n, r";
+            ExecutionEngine executor = new ExecutionEngine(graphDb);
+            ExecutionResult result = executor.execute(query);
+            System.out.println("Dropped data in Neo4j " + result);
+            tx.success();
+        } catch (Exception e) {
+            e.printStackTrace();
+            tx.failure();
+        } finally {
+            tx.finish();
         }
     }
 

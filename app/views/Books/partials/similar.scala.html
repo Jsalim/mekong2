@@ -1,25 +1,31 @@
-@(book: models.Book)
+@(similarBooks: List[models.Book])
 
 <!-- similar books -->
 <div class="panel panel-default">
   <!-- Default panel contents -->
   <div class="panel-heading">
-    <strong>Similar Books</strong>
+    <strong>Recommendations</strong>
   </div>
   <div class="panel-body">
-    Books related to @String.valueOf(book.getMongo("title"))
+    Similar books that might be of interest to you.
   </div>
   <!-- List group -->
   <ul class="list-group">
+    @for(record <- similarBooks) {
     <li class="list-group-item">
       <div class="media">
-        <a class="pull-left" href="#">
-          <img class="media-object" src="holder.js/64x64" alt="..." />
+        <a class="pull-left" href="@routes.Books.show(String.valueOf(record.getNeo4j("isbn")))">
+          <img class="media-object" style="width: 64px;" src="@routes.Books.cover(String.valueOf(record.getNeo4j("isbn")))" alt="..." />
         </a>
         <div class="media-body">
-          <h4 class="media-heading">Title of book</h4>
+          <h4 class="media-heading">
+            <a href="@routes.Books.show(String.valueOf(record.getNeo4j("isbn")))">
+              @String.valueOf(record.getNeo4j("title"))
+            </a>
+          </h4>
         </div>
       </div>
     </li>
+    }
   </ul>
 </div>

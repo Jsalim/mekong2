@@ -1,14 +1,14 @@
-@(book: models.Book)
+@(record: models.Book)
 
 <div class="media">
-  <a class="pull-left" href="@routes.Books.show(String.valueOf(book.getMongo("isbn")))">
+  <a class="pull-left" href="@routes.Books.show(String.valueOf(record.getMongo("isbn")))">
     <img class="media-object img-thumbnail" style="width: 128px;"
-      src="@routes.Books.cover(String.valueOf(book.getMongo("isbn")))">
+      src="@routes.Books.cover(String.valueOf(record.getMongo("isbn")))">
   </a>
   <div class="media-body">
     <h4 class="media-heading">
-      @String.valueOf(book.getMongo("title"))
+      @String.valueOf(record.getMongo("title"))
     </h4>
-    @Html(String.valueOf(book.getMongo("description")))
+    @Html(String.valueOf(record.getMongo("description")))
   </div>
 </div>

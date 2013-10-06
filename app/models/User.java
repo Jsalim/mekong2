@@ -12,6 +12,8 @@ import utils.mongodb.MongoDatabaseConnection;
 import utils.neo4j.Neo4jDatabaseConnection;
 
 import java.net.UnknownHostException;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class User extends Record<User> {
@@ -29,10 +31,18 @@ public class User extends Record<User> {
         BUYS
     }
 
+    /**
+     *
+     * @param record
+     */
     protected User(DBObject record) {
         super(record);
     }
 
+    /**
+     *
+     * @throws UnknownHostException
+     */
     protected User() throws UnknownHostException {
         super();
         this.mongoDatabase = MongoDatabaseConnection.getInstance();
@@ -40,6 +50,11 @@ public class User extends Record<User> {
         this.neo4jDatabaseConnection = Neo4jDatabaseConnection.getInstance();
     }
 
+    /**
+     *
+     * @return
+     * @throws UnknownHostException
+     */
     public static User getInstance() throws UnknownHostException {
         if (instance == null) {
             instance = new User();
@@ -57,119 +72,123 @@ public class User extends Record<User> {
         return new User(record);
     }
 
-    public static User registerWith(String username, String password)
-    {
-      GraphDatabaseService graphDB = neo4jDatabaseConnection.getService();
-      Transaction tx = graphDB.beginTx();
-      User user = null;
-      try
-      {
-        // User
-        User instance = User.getInstance();
+    /**
+     *
+     * @param username
+     * @param password
+     * @return
+     */
+    public static User registerWith(String username, String password) {
+        GraphDatabaseService graphDB = neo4jDatabaseConnection.getService();
+        Transaction tx = graphDB.beginTx();
+        User user = null;
+        try {
+            // User
+            User instance = User.getInstance();
 
-        // Neo4j
-        Index<Node> usersIndex = graphDB.index().forNodes("Users");
-        UniqueFactory<Node> userFactory = new UniqueFactory.UniqueNodeFactory(usersIndex)
-        {
-          @Override
-          protected void initialize(Node created, Map<String, Object> properties)
-          {
-            created.setProperty("username", properties.get("username"));
-          }
-        };
+            // Neo4j
+            Index<Node> usersIndex = graphDB.index().forNodes("Users");
+            UniqueFactory<Node> userFactory = new UniqueFactory.UniqueNodeFactory(usersIndex) {
+                @Override
+                protected void initialize(Node created, Map<String, Object> properties) {
+                    created.setProperty("username", properties.get("username"));
+                }
+            };
 
-        // Attempt to create a new user node, but also check that the user
-        // does not already exist.
-        UniqueFactory.UniqueEntity<Node> userEntity = userFactory.getOrCreateWithOutcome("username", username);
-        Node userNode = userEntity.entity();
+            // Attempt to create a new user node, but also check that the user
+            // does not already exist.
+            UniqueFactory.UniqueEntity<Node> userEntity = userFactory.getOrCreateWithOutcome("username", username);
+            Node userNode = userEntity.entity();
 
-        // Check that the user did not exist.
-        if (userEntity.wasCreated())
-        {
-          // MongoDB
-          BasicDBObject registration = new BasicDBObject();
-          registration.put("username", username);
-          registration.put("password", password);
+            // Check that the user did not exist.
+            if (userEntity.wasCreated()) {
+                // MongoDB
+                BasicDBObject registration = new BasicDBObject();
+                registration.put("username", username);
+                registration.put("password", password);
 
-          // Check that the user was created in MongoDB as well, otherwise
-          // abort the creation in Neo4j also.
-          WriteResult recordWritten = getInstance().getMongoCollection().insert(registration);
-          CommandResult isRecordWritten = recordWritten.getLastError();
-          if (null == isRecordWritten.get("err"))
-          {
-            user = instance.fromMongoRecord(registration);
-            tx.success();
-          }
-          else
-          {
-            System.out.println("User " + username + " already exists in MongoDB");
+                // Check that the user was created in MongoDB as well, otherwise
+                // abort the creation in Neo4j also.
+                WriteResult recordWritten = getInstance().getMongoCollection().insert(registration);
+                CommandResult isRecordWritten = recordWritten.getLastError();
+                if (null == isRecordWritten.get("err")) {
+                    user = instance.fromMongoRecord(registration);
+                    tx.success();
+                } else {
+                    System.out.println("User " + username + " already exists in MongoDB");
+                    tx.failure();
+                }
+
+            // Since the user exists abort the transaction.
+            } else {
+                System.out.println("User " + username + " already exists in Neo4j");
+                tx.failure();
+            }
+
+        // If anything goes wrong make sure that the transaction is aborted.
+        } catch (Exception e) {
+            e.printStackTrace();
             tx.failure();
-          }
+        } finally {
+            tx.finish();
+            return user;
         }
-        // Since the user exists abort the transaction.
-        else
-        {
-          System.out.println("User " + username + " already exists in Neo4j");
-          tx.failure();
+    }
+
+    /**
+     *
+     * @param username
+     * @return
+     */
+    public static User findByUsername(String username) {
+        User result = null;
+        try {
+            BasicDBObject userQuery = new BasicDBObject("username", username);
+            User instance = getInstance();
+            DBObject record = instance.getMongoCollection().findOne(userQuery);
+            System.out.println("Found user " + record.toString());
+            if (null != record) {
+                result = instance.fromMongoRecord(record);
+            }
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        } finally {
+            return result;
         }
-      }
-      // If anything goes wrong make sure that the transaction is aborted.
-      catch (Exception e)
-      {
-        e.printStackTrace();
-        tx.failure();
-      }
-      finally
-      {
-        tx.finish();
-        return user;
-      }
     }
 
-    public static User findByUsername(String username)
-    {
-      User result = null;
-      try
-      {
-        BasicDBObject userQuery = new BasicDBObject("username", username);
-        User instance = getInstance();
-        DBObject record = instance.getMongoCollection().findOne(userQuery);
-        result = instance.fromMongoRecord(record);
-      }
-      catch (UnknownHostException e)
-      {
-        e.printStackTrace();
-      }
-      finally
-      {
-        return result;
-      }
+    /**
+     *
+     * @param username
+     * @param password
+     * @return
+     */
+    public static User findByUsernameAndPassword(String username, String password) {
+        User result = null;
+        try {
+            BasicDBObject userQuery = new BasicDBObject();
+            userQuery.put("username", username);
+            userQuery.put("password", password);
+            User instance = getInstance();
+            DBObject record = instance.getMongoCollection().findOne(userQuery);
+            if (null != record) {
+                result = instance.fromMongoRecord(record);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            return result;
+        }
     }
 
-    public static User findByUsernameAndPassword(String username, String password)
-    {
-      User result = null;
-      try
-      {
-        BasicDBObject userQuery = new BasicDBObject();
-        userQuery.put("username", username);
-        userQuery.put("password", password);
-        User instance = getInstance();
-        DBObject record = instance.getMongoCollection().findOne(userQuery);
-        result = instance.fromMongoRecord(record);
-      }
-      catch (Exception e)
-      {
-        e.printStackTrace();
-      }
-      finally
-      {
-        return result;
-      }
+    /**
+     *
+     * @return
+     */
+    public List<Book> recommendedBooks() {
+        String query = "";
+        Map<String, Object> params = new HashMap<String, Object>();
+        return Book.queryToNodes(query, params, "books");
     }
-
-
-
-
 
 }

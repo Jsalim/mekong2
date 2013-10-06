@@ -7,7 +7,9 @@ import com.mongodb.DBObject;
 import org.neo4j.graphdb.Node;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -22,7 +24,7 @@ public abstract class Record<R extends Record> {
     private DBObject mongoRecord;
 
     protected Record() {
-
+        this.mongoRecord = new BasicDBObject();
     }
 
     protected Record(DBObject record) {
