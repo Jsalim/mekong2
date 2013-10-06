@@ -1,6 +1,6 @@
-@(items: List[models.Item])
+@(cart: models.Cart)
 
 <div class="panel panel-default">
   <div class="panel-heading">Your cart</div>
-  @views.html.Carts.partials.items(items)
+  @views.html.Carts.partials.items()
 </div>

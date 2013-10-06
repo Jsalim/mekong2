@@ -79,7 +79,7 @@ public class User extends Record<User> {
      * @return
      */
     public static User registerWith(String username, String password) {
-        GraphDatabaseService graphDB = neo4jDatabaseConnection.getService();
+        GraphDatabaseService graphDB = Neo4jDatabaseConnection.getInstance().getService();
         Transaction tx = graphDB.beginTx();
         User user = null;
         try {

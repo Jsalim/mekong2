@@ -1,4 +1,4 @@
-@(items: List[models.Item])
+@()
 
 <form role="form" method="POST" action="@routes.Carts.update()">
   <table class="table">
@@ -10,11 +10,7 @@
       </tr>
     </thead>
     <tbody>
-    @for(item <- items) {
-      @views.html.Carts.partials.item(item.get("isbn"),
-        item.get("title"),
-        Integer.valueOf(item.get("quantity")))
-    }
+
     </tbody>
   </table>
    <ul class="list-group">

@@ -1,6 +1,7 @@
 package models;
 
 import com.mongodb.*;
+import org.bson.types.ObjectId;
 import org.neo4j.graphdb.*;
 import utils.Record;
 import utils.mongodb.MongoDatabaseConnection;
@@ -132,6 +133,8 @@ public class Cart extends Record<Cart> {
     public Cart adjustQuantityOfBook(Map<Book, Integer> entries, boolean relative) {
         try {
             Cart instance = Cart.getInstance();
+            ObjectId cartId = (ObjectId) getMongo("_id");
+            ObjectId userId = (ObjectId) getMongo("user_id");
             BasicDBObject item = null;
             BasicDBList items = (BasicDBList) this.getMongo("items");
             for (Map.Entry<Book, Integer> entry : entries.entrySet()) {
@@ -147,38 +150,72 @@ public class Cart extends Record<Cart> {
                     }
                 }
 
-                // Add the item to the basket
+                // Item is not in the cart it must be added.
+                BasicDBObject cartProjection = new BasicDBObject();
+                cartProjection.append("_id", cartId);
+                cartProjection.append("user_id", userId);
+                cartProjection.append("status", "pending");
+
+                BasicDBObject updateQuery = new BasicDBObject();
                 if (item == null) {
+                    System.out.println("Item is not in the cart, adding ...");
+
                     item = new BasicDBObject();
                     item.put("isbn", String.valueOf(book.getMongo("isbn")));
                     item.put("quantity", quantity);
-                    items.add(item);
+                    updateQuery.append("$push", new BasicDBObject("items", item));
+
+                    System.out.println("Built add query (" + cartProjection + ", " + updateQuery);
+
+                // Item is already in the cart it must be updated.
                 } else {
+                    System.out.println("Item is already in the cart, updating ...");
+
+                    cartProjection.append("items.isbn", item.get("isbn"));
                     if (relative) {
-                        item.put("quantity", item.getInt("quantity") + quantity);
-                    } else {
-                        item.put("quantity", quantity);
+                        quantity += item.getInt("quantity");
                     }
+
+                    // Prevent a relative update of more stock that is available
+                    // Silently correct the users wish.
+                    if (quantity > (Integer) book.getMongo("stock")) {
+                        quantity = (Integer) book.getMongo("stock");
+                        // TODO: Add an error message to the record.
+                    }
+
+                    // The item has actually been removed, remove it from items.
+                    if (quantity == 0) {
+                        updateQuery.append("$pull", new BasicDBObject("items",
+                            new BasicDBObject("isbn", item.get("isbn")) ));
+
+                    // Update the item in the items list.
+                    } else {
+                        updateQuery.append("$set", new BasicDBObject("items.$.quantity", quantity));
+                    }
+
+                    System.out.println("Built adjust query (" + cartProjection + ", " + updateQuery + ")");
+                }
+
+                // Update the items in the cart
+                DBCollection collection = instance.getMongoCollection();
+                WriteResult recordWritten = collection.update(cartProjection, updateQuery);
+                CommandResult isRecordWritten = recordWritten.getLastError();
+
+                // If there was an error then add the error to the record.
+                if (null != isRecordWritten.get("err")) {
+                    BasicDBList errors = (BasicDBList) getMongoRecord().get("errors");
+                    if (null == errors) {
+                        errors = new BasicDBList();
+                    }
+                    errors.add(isRecordWritten.get("err"));
+                    getMongoRecord().put("errors", errors);
                 }
             }
 
-            // If the book is not in the cart add it.
-            BasicDBObject updateFields = (BasicDBObject) getMongoRecord();
-            updateFields.put("items", items);
-            BasicDBObject updateQuery = new BasicDBObject("$set", updateFields);
-            DBCollection collection = instance.getMongoCollection();
-
-            // Update the items in the cart
-            WriteResult recordWritten = collection.update(updateFields, updateQuery);
-            CommandResult isRecordWritten = recordWritten.getLastError();
-            if (null == isRecordWritten.get("err")) {
-                return this;
-            } else {
-                return null;
-            }
-
         } catch (Exception e) {
-            return null;
+            e.printStackTrace();
+        } finally {
+            return this;
         }
     }
 
