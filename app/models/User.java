@@ -188,9 +188,18 @@ public class User extends Record<User> {
      * @return
      */
     public List<Book> recommendedBooks() {
-        String query = "START book=node(*) WHERE HAS(book.isbn) RETURN book";
+        String query = "START user=node:Users(username={username})\n" +
+                "MATCH (user)-[:BUYS]->(book)<-[:BUYS]-(other)\n" +
+                "WHERE HAS(book.isbn) AND HAS(other.username) AND user <> other\n" +
+                "WITH user, other\n" +
+                "MATCH (other)-[:BUYS]->(recommendation)\n" +
+                "WHERE NOT ((user)-[:BUYS]->(recommendation))\n" +
+                "AND HAS (recommendation.isbn)\n" +
+                "WITH distinct(recommendation) AS recommendations\n" +
+                "RETURN recommendations";
         Map<String, Object> params = new HashMap<String, Object>();
-        return Book.queryToNodes(query, params, "book");
+        params.put("username", getMongo("username").toString());
+        return Book.queryToNodes(query, params, "recommendations");
     }
 
     /**
