@@ -11,6 +11,7 @@ import utils.neo4j.Neo4jDatabaseConnection;
 import org.neo4j.cypher.javacompat.ExecutionEngine;
 import org.neo4j.cypher.javacompat.ExecutionResult;
 
+import java.math.BigDecimal;
 import java.net.UnknownHostException;
 import java.util.*;
 
@@ -163,6 +164,7 @@ public class Cart extends Record<Cart> {
                     item.put("isbn", String.valueOf(book.getMongo("isbn")));
                     item.put("title", String.valueOf(book.getMongo("title")));
                     item.put("quantity", quantity);
+                    item.put("price", Double.valueOf(book.getMongo("price").toString()));
                     updateQuery.append("$push", new BasicDBObject("items", item));
                     addMessage(MessageType.SUCCESS, "Added " + quantity + " copies of '" + book.getMongo("title") + "(" + book.getMongo("isbn") + ")" + "' to cart.");
 
@@ -248,9 +250,23 @@ public class Cart extends Record<Cart> {
 
     /**
      *
+     * @param priceOne
+     * @param priceTwo
      * @return
      */
-    public boolean checkout(String username) {
+    private boolean pricesAreEqual(Double priceOne, Double priceTwo) {
+        BigDecimal scaledPriceOne = new BigDecimal(priceOne);
+        BigDecimal scaledPriceTwo = new BigDecimal(priceTwo);
+        scaledPriceOne = scaledPriceOne.setScale(2, BigDecimal.ROUND_DOWN);
+        scaledPriceTwo = scaledPriceTwo.setScale(2, BigDecimal.ROUND_DOWN);
+        return scaledPriceOne.equals(scaledPriceTwo);
+    }
+
+    /**
+     *
+     * @return
+     */
+    public boolean checkout(String username, BasicDBObject creditcard, BasicDBObject address) {
 
         // Linkup with the database connections.
         Cart instance = null;
@@ -270,7 +286,6 @@ public class Cart extends Record<Cart> {
         List<Lock> locks = new ArrayList<Lock>();
         try {
 
-
             /*
              * ACQUIRE THE USER NODE FOR CREATING RELATIONS AGAINST
              */
@@ -289,11 +304,11 @@ public class Cart extends Record<Cart> {
              * THAT IS TO BE PURCHASED
              * isbn => quantity
              */
-            Map<String, Integer> isbnToQuantity = new HashMap<String, Integer>();
+            Map<String, BasicDBObject> isbnToQuantity = new HashMap<String, BasicDBObject>();
             BasicDBList requestedBooks = (BasicDBList) this.getMongo("items");
             for (int i = 0; i < requestedBooks.size(); i++) {
                 BasicDBObject book = (BasicDBObject) requestedBooks.get(i);
-                isbnToQuantity.put(book.getString("isbn"), book.getInt("quantity"));
+                isbnToQuantity.put(book.getString("isbn"), book);
             }
             System.out.println("Checking out with books" + isbnToQuantity);
 
@@ -312,6 +327,7 @@ public class Cart extends Record<Cart> {
              * CHECKOUT ALL OF THE BOOKS BY UPDATING THE STOCK LEVELS AND CREATING
              * AN APPROPRIATE BUYS RELATIONSHIP BETWEEN THEM AND THE USER.
              */
+            Double total = 0.0;
             Iterator<Node> bookNodes = executionResult.columnAs("book");
             for (Node bookNode : IteratorUtil.asIterable(bookNodes)) {
                 locks.add(tx.acquireWriteLock(bookNode));
@@ -320,14 +336,29 @@ public class Cart extends Record<Cart> {
 
                 // Check how much the user wants, and what we have available.
                 String isbn = bookNode.getProperty("isbn").toString();
-                Integer requiredQuantity = isbnToQuantity.get(isbn);
-                Integer availableQuantity = Integer.valueOf(bookNode.getProperty("stock").toString());
+                BasicDBObject bookRecord = isbnToQuantity.get(isbn);
+
+                // Get the information the user assumed, and the information
+                // that is true now.
+                Double cartedPrice = bookRecord.getDouble("price");
+                Double currentPrice = (Double) bookNode.getProperty("price");
+                Integer requiredQuantity = bookRecord.getInt("quantity");
+                Integer availableQuantity = (Integer) bookNode.getProperty("stock");
+
                 System.out.println("Purchasing " + requiredQuantity + " from " + isbn + " with " + availableQuantity + "in stock.");
+
+                // Update the total cost of the transcation
+                total += currentPrice * requiredQuantity;
 
                 // If one book is available force the transaction to fail.
                 if (requiredQuantity > availableQuantity) {
                     result = false;
                     addMessage(MessageType.ERROR, requiredQuantity + " of '" + bookNode.getProperty("title").toString() + "' no longer available. Only " + availableQuantity + "left!");
+
+                // Make sure that the price has not changed on the user since the the time they started checking out and now.
+                } else if (!pricesAreEqual(cartedPrice, currentPrice)) {
+                    result = false;
+                    addMessage(MessageType.ERROR, "'" + bookNode.getProperty("title").toString() + "' is no longer available for " + cartedPrice + ", it is now " + currentPrice);
 
                 // Otherwise update the stock for the book, create a buys relation
                 } else {
@@ -349,6 +380,9 @@ public class Cart extends Record<Cart> {
                 BasicDBObject updateFields = new BasicDBObject();
                 updateFields.put("status", "complete");
                 updateFields.put("when", when);
+                updateFields.put("creditcard", creditcard);
+                updateFields.put("address", address);
+                updateFields.put("total", total);
                 BasicDBObject updateQuery = new BasicDBObject("$set", updateFields);
                 DBCollection collection = instance.getMongoCollection();
                 WriteResult recordWritten = collection.update(getMongoRecord(), updateQuery);

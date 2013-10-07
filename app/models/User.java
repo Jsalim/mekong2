@@ -1,6 +1,7 @@
 package models;
 
 import com.mongodb.*;
+import org.bson.types.ObjectId;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.RelationshipType;
@@ -26,8 +27,7 @@ public class User extends Record<User> {
 
     private static User instance = null;
 
-    public static enum RELATIONSHIPS implements RelationshipType
-    {
+    public static enum RELATIONSHIPS implements RelationshipType {
         BUYS
     }
 
@@ -106,6 +106,8 @@ public class User extends Record<User> {
                 BasicDBObject registration = new BasicDBObject();
                 registration.put("username", username);
                 registration.put("password", password);
+                registration.put("address", new BasicDBObject());
+                registration.put("creditcard", new BasicDBObject());
 
                 // Check that the user was created in MongoDB as well, otherwise
                 // abort the creation in Neo4j also.
@@ -191,4 +193,31 @@ public class User extends Record<User> {
         return Book.queryToNodes(query, params, "book");
     }
 
+    /**
+     *
+     * @param address
+     * @return
+     */
+    public boolean updateCreditcardAndAddress(BasicDBObject creditcard, BasicDBObject address) {
+        try {
+            User instance = User.getInstance();
+            BasicDBObject updateFields = new BasicDBObject();
+            updateFields.append("address", address);
+            updateFields.append("creditcard", creditcard);
+            BasicDBObject updateQuery = new BasicDBObject("$set", updateFields);
+            ObjectId oid = new ObjectId(getMongo("_id").toString());
+            BasicDBObject findQuery = new BasicDBObject("_id", oid);
+            DBCollection collection = instance.getMongoCollection();
+            WriteResult recordWritten = collection.update(findQuery, updateQuery);
+            CommandResult isRecordWritten = recordWritten.getLastError();
+            if (null == isRecordWritten.get("err")) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

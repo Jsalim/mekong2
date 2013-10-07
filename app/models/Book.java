@@ -31,6 +31,7 @@ public class Book extends Record<Book> {
     private static DBCollection mongoBooksDatabase = null;
     private static volatile Book instance = null;
 
+    // Cache controls to prevent constant Neo4j queries.
     private Integer stockCache = null;
 
     public static enum RELATIONSHIPS implements RelationshipType {
@@ -229,9 +230,6 @@ public class Book extends Record<Book> {
             if (!neo4jRecordLoaded()) {
                 loadNeo4jRecord();
             }
-            System.out.println("Mongo record " + this.getMongoRecord());
-            System.out.println("Reading from" + this.getNeo4jRecord());
-
             stockCache = Integer.valueOf(getNeo4j("stock").toString());
         }
         return stockCache;
@@ -241,7 +239,7 @@ public class Book extends Record<Book> {
      *
      * @return
      */
-    public String byLine() {
+    public String getByLine() {
         StringBuilder sb = new StringBuilder();
         BasicDBList authors = (BasicDBList) getMongoRecord().get("authors");
         for (int i = 0; i < authors.size(); i++) {

@@ -1,9 +1,11 @@
+@(userAddress: com.mongodb.BasicDBObject, userCreditcard: com.mongodb.BasicDBObject)
+
 <form class="form-horizontal" role="form" method="POST" action="@routes.Carts.checkout()">
   <legend>Credit Card</legend>
   <div class="form-group">
     <label for="inputEmail1" class="col-lg-2 control-label">Type</label>
     <div class="col-lg-10">
-      <select class="form-control" name="cardtype" id="cardtype">
+      <select class="form-control" name="card_type">
         <option>Visa</option>
         <option>Mastercard</option>
       </select>
@@ -12,40 +14,40 @@
   <div class="form-group">
     <label for="cardnumber" class="col-lg-2 control-label">Card Number</label>
     <div class="col-lg-10">
-      <input type="password" class="form-control" id="cardnumber" name="cardnumber" placeholder="XXXX-XXXX-XXXX-XXXX">
+      <input type="password" class="form-control" name="card_number" placeholder="XXXX-XXXX-XXXX-XXXX">
     </div>
   </div>
   <legend>Shipping</legend>
   <div class="form-group">
     <label for="address" class="col-lg-2 control-label">Street</label>
     <div class="col-lg-10">
-      <input type="text" class="form-control" name="address_street" id="address_street" />
+      <input type="text" class="form-control" name="address_street"/>
     </div>
   </div>
   <div class="form-group">
     <label for="address" class="col-lg-2 control-label">Suburb</label>
     <div class="col-lg-10">
-      <input type="text" class="form-control" name="address_suburb" id="address_suburb" />
+      <input type="text" class="form-control" name="address_suburb"/>
     </div>
   </div>
   <div class="form-group">
     <label for="address" class="col-lg-2 control-label">Postcode</label>
     <div class="col-lg-10">
-      <input type="text" class="form-control" name="address_postcode" id="address_postcode" />
+      <input type="text" class="form-control" name="address_postcode"/>
     </div>
   </div>
   <div class="form-group">
     <label for="address" class="col-lg-2 control-label">Country</label>
     <div class="col-lg-10">
-      <input type="text" class="form-control" name="address_country" id="address_country" />
+      <input type="text" class="form-control" name="address_country"/>
     </div>
   </div>
   <div class="form-group">
     <div class="col-lg-offset-2 col-lg-10">
       <div class="checkbox">
         <label>
-          <input type="checkbox" name="address_remember" id="address_remember">
-          Remember this address as my default address
+          <input type="checkbox" name="remember_address">
+          Remember this information
         </label>
       </div>
     </div>

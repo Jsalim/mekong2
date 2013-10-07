@@ -21,7 +21,7 @@
     <form method="POST" action="@routes.Carts.update()">
       <div class="form-group">
         <input id="relative" name="relative" type="hidden" value="true" />
-        <select class="form-control" id="isbn@String.valueOf(book.getMongo("isbn"))" name="isbn@String.valueOf(book.getMongo("isbn"))">
+        <select class="form-control" name="isbn_@String.valueOf(book.getMongo("isbn"))">
         @for(stock <- 1 to book.getStock()) {
           <option>@stock</option>
         }

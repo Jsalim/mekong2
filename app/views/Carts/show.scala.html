@@ -1,5 +1,5 @@
-@(cart: models.Cart)
+@(user: models.User, cart: models.Cart)
 
 @views.html.Application.main("Checkout") {
-  @views.html.Carts.partials.cart(cart)
+  @views.html.Carts.partials.cart(user, cart)
 }
