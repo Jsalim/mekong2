@@ -1,6 +1,25 @@
 @(cart: models.Cart)
-
-<div class="panel panel-default">
-  <div class="panel-heading">Your cart</div>
-  @views.html.Carts.partials.items()
+<div class="page-header">
+  <h1>Checkout</h1>
+</div>
+@if(cart.hasMessages()) {
+  @views.html.Carts.partials.messages(cart.getMessages())
+}
+<div class="row">
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">Your cart</div>
+      <div class="panel-body">
+        @views.html.Carts.partials.items(cart.getItemsInCart())
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">Complete Checkout</div>
+      <div class="panel-body">
+      @views.html.Carts.partials.checkout()
+      </div>
+    </div>
+  </div>
 </div>

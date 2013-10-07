@@ -3,13 +3,17 @@ package utils.neo4j;
 import org.neo4j.cypher.javacompat.ExecutionEngine;
 import org.neo4j.cypher.javacompat.ExecutionResult;
 import org.neo4j.graphdb.GraphDatabaseService;
+import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 import org.neo4j.graphdb.factory.GraphDatabaseSettings;
+import org.neo4j.helpers.collection.IteratorUtil;
 import utils.DatabaseConnection;
 import utils.DatabaseType;
 
 import java.net.UnknownHostException;
+import java.util.Iterator;
 
 /**
  * Created with IntelliJ IDEA.
@@ -96,6 +100,35 @@ public class Neo4jDatabaseConnection extends DatabaseConnection {
     @Override
     public DatabaseType getDatabaseType() {
         return DatabaseType.NEO4J;
+    }
+
+    public void printDatabase() {
+        ExecutionEngine engine = new ExecutionEngine(graphDb);
+        ExecutionResult result = engine.execute("start n=node(*) return n");
+        Iterator<Node> nodes = result.columnAs("n");
+        for (Node node : IteratorUtil.asIterable(nodes))
+        {
+            System.out.println("Node: " + node);
+            System.out.println("\tProperties:");
+            for (String key : node.getPropertyKeys())
+            {
+                System.out.println("\t\t" + key + ": " + node.getProperty(key));
+            }
+            System.out.println("\tRelationships:");
+            for (Relationship rel : node.getRelationships())
+            {
+                System.out.println("\t\t" +
+                        rel.getStartNode().toString() +
+                        "<-" + rel.getType().toString() + "->" +
+                        rel.getEndNode().toString());
+                System.out.println("\t\tProperties:");
+                for (String key : rel.getPropertyKeys())
+                {
+                    System.out.println("\t\t\t" + key + ": " + rel.getProperty(key));
+                }
+            }
+        }
+        return;
     }
 
 }

@@ -186,9 +186,9 @@ public class User extends Record<User> {
      * @return
      */
     public List<Book> recommendedBooks() {
-        String query = "";
+        String query = "START book=node(*) WHERE HAS(book.isbn) RETURN book";
         Map<String, Object> params = new HashMap<String, Object>();
-        return Book.queryToNodes(query, params, "books");
+        return Book.queryToNodes(query, params, "book");
     }
 
 }

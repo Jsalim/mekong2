@@ -4,12 +4,16 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
+import org.bson.types.ObjectId;
+import org.neo4j.cypher.javacompat.ExecutionEngine;
+import org.neo4j.cypher.javacompat.ExecutionResult;
+import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Transaction;
+import org.neo4j.helpers.collection.IteratorUtil;
+import utils.neo4j.Neo4jDatabaseConnection;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,7 +22,7 @@ import java.util.Map;
  * Time: 8:31 PM
  * To change this template use File | Settings | File Templates.
  */
-public abstract class Record<R extends Record> {
+public abstract class Record<R extends Record> extends MessageContainer {
 
     private Node neo4jRecord;
     private DBObject mongoRecord;
@@ -46,21 +50,50 @@ public abstract class Record<R extends Record> {
         return result;
     }
 
-    public abstract R fromMongoRecord(DBObject record);
-
-    protected DBObject getMongoRecord() {
-        return this.mongoRecord;
-    }
-
-    protected Node getNeo4jRecord() {
-        return this.neo4jRecord;
+    /**
+     *
+     * @param type
+     * @return
+     */
+    protected boolean loadRecord(DatabaseType type) {
+        if (type.equals(DatabaseType.MONGODB) && null != this.mongoRecord) {
+            ObjectId oid = (ObjectId) this.mongoRecord.get("_id");
+            if (null != oid) {
+                BasicDBObject query = new BasicDBObject("_id", oid);
+                this.mongoRecord = this.getMongoCollection().findOne(query);
+                return true;
+            } else {
+                return false;
+            }
+        } else if (type.equals(DatabaseType.NEO4J) && null != this.mongoRecord) {
+            try {
+                Long nodeId = Long.valueOf(this.mongoRecord.get("_node").toString());
+                Neo4jDatabaseConnection instance = Neo4jDatabaseConnection.getInstance();
+                GraphDatabaseService graphDB = instance.getService();
+                this.neo4jRecord = graphDB.getNodeById(nodeId);
+                if (neo4jRecord != null) {
+                    return true;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
     public Object get(String key, DatabaseType type) {
         if (DatabaseType.MONGODB.equals(type)) {
             return getMongoRecord().get(key);
         } else if (DatabaseType.NEO4J.equals(type)) {
-            return getNeo4jRecord().getProperty(key);
+            try {
+                return getNeo4jRecord().getProperty(key);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
         } else {
             return null;
         }
@@ -77,20 +110,55 @@ public abstract class Record<R extends Record> {
         }
     }
 
-    public Object getNeo4j(String key) {
-        return get(key, DatabaseType.NEO4J);
+    public Node getNeo4jRecord() {
+        return this.neo4jRecord;
     }
 
-    public Object getMongo(String key) {
-        return get(key, DatabaseType.MONGODB);
+    public Object getNeo4j(String key) {
+        return get(key, DatabaseType.NEO4J);
     }
 
     public Object putNeo4j(String key, Object value) {
         return put(key, value, DatabaseType.NEO4J);
     }
 
+    public boolean loadNeo4jRecord() {
+        return loadRecord(DatabaseType.NEO4J);
+    }
+
+    public boolean neo4jRecordLoaded() {
+        if (this.neo4jRecord == null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public abstract R fromMongoRecord(DBObject record);
+
+    public DBObject getMongoRecord() {
+        return this.mongoRecord;
+    }
+
+    public Object getMongo(String key) {
+        return get(key, DatabaseType.MONGODB);
+    }
+
     public Object putMongo(String key, Object value) {
         return put(key, value, DatabaseType.MONGODB);
+    }
+
+    public boolean mongoRecordLoaded() {
+        if (null != mongoRecord) {
+            if (mongoRecord.get("_id") != null) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean loadMongoRecord() {
+        return loadRecord(DatabaseType.MONGODB);
     }
 
     public String toString() {

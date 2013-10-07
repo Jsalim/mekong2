@@ -1,30 +1,5 @@
-@(success: Boolean, cart: models.Cart)
+@(cart: models.Cart)
 
 @views.html.Application.main("Checkout") {
-  @if(success) {
-    <div class="panel panel-success">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          Book added to cart
-        </h3>
-      </div>
-      <div class="panel-body">
-        <ul>
-          @*<li>@quantity copies of @bookTitle added your cart</li>*@
-        </ul>
-      </div>
-    </div>
-  } else {
-    <div class="panel panel-danger">
-      <div class="panel-heading">
-        <h3 class="panel-title">
-          Unable to add Book to cart
-        </h3>
-      </div>
-      <div class="panel-body">
-        @*Unable to add @quantity of @bookTitle to your cart*@
-      </div>
-    </div>
-  }
-
+  @views.html.Carts.partials.cart(cart)
 }

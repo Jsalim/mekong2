@@ -2,6 +2,7 @@ package utils.seeds;
 
 import com.mongodb.*;
 import com.mongodb.gridfs.GridFSDBFile;
+import org.bson.types.ObjectId;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -152,41 +153,52 @@ public class MongoDBSeeder
     }
   }
 
-  public DBObject insertBookRecord(BasicDBObject newBookRecordQuery)
-  throws IOException
-  {
-      System.out.println("Inserting BSON Object");
-      System.out.println(newBookRecordQuery.toString());
+    public DBObject insertBookRecord(BasicDBObject newBookRecordQuery) throws IOException {
+        System.out.println("Inserting BSON Object");
+        System.out.println(newBookRecordQuery.toString());
 
-      System.out.println("Parsing cover");
-      String isbn = newBookRecordQuery.getString("isbn");
-      String cover = newBookRecordQuery.getString("cover");
-      System.out.println("Download and uploading " + isbn + " cover image " + cover);
-      GridFSDBFile coverImage = gridFsSeeder.createGridFSImageRecord(cover, isbn);
-      newBookRecordQuery.put("cover", coverImage.get("filename"));
+        System.out.println("Parsing cover");
+        String isbn = newBookRecordQuery.getString("isbn");
+        String cover = newBookRecordQuery.getString("cover");
+        System.out.println("Download and uploading " + isbn + " cover image " + cover);
+        GridFSDBFile coverImage = gridFsSeeder.createGridFSImageRecord(cover, isbn);
+        newBookRecordQuery.put("cover", coverImage.get("filename"));
 
-      DB mekongDB = this.connection.getDB();
-      DBCollection books = mekongDB.getCollection("books");
-      WriteResult recordWritten = books.insert(newBookRecordQuery);
-      CommandResult isRecordWritten = recordWritten.getLastError();
-      if (null != isRecordWritten.get("err"))
-      {
+        DB mekongDB = this.connection.getDB();
+        DBCollection books = mekongDB.getCollection("books");
+        WriteResult recordWritten = books.insert(newBookRecordQuery);
+        CommandResult isRecordWritten = recordWritten.getLastError();
+        if (null != isRecordWritten.get("err")) {
           System.out.println("Unable to create book record");
           return null;
-      }
-      System.out.println("Created mongo record");
-      System.out.println(recordWritten.toString());
-      System.out.println();
-      return newBookRecordQuery;
-  }
+        }
+        System.out.println("Created mongo record");
+        System.out.println(recordWritten.toString());
+        System.out.println();
+        return newBookRecordQuery;
+    }
 
-  public DBObject retrieveBookRecord(String isbn)
-  {
-    DB mekongDB = this.connection.getDB();
-    DBCollection books = mekongDB.getCollection("books");
-    BasicDBObject isbnQuery = new BasicDBObject("isbn", isbn);
-    DBObject bookRecord = books.findOne(isbnQuery);
-    return bookRecord;
-  }
+    public DBObject retrieveBookRecord(String isbn) {
+        DB mekongDB = this.connection.getDB();
+        DBCollection books = mekongDB.getCollection("books");
+        BasicDBObject isbnQuery = new BasicDBObject("isbn", isbn);
+        DBObject bookRecord = books.findOne(isbnQuery);
+        return bookRecord;
+    }
 
+    public boolean updateRecord(BasicDBObject book) {
+        DB mekongDB = this.connection.getDB();
+        DBCollection books = mekongDB.getCollection("books");
+        ObjectId oid = new ObjectId(book.getString("_id"));
+
+        WriteResult recordWritten = books.update(new BasicDBObject("_id", oid), book);
+        CommandResult isRecordWritten = recordWritten.getLastError();
+        if (null != isRecordWritten.get("err")) {
+            System.out.println("Unable to update record");
+            return false;
+        } else {
+            System.out.println("Updated mongo record with neo4j");
+            return true;
+        }
+    }
 }

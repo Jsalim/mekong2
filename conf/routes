@@ -21,7 +21,6 @@ POST    /books/search       controllers.Books.searchForm()
 GET     /books/search       controllers.Books.search(query: String, page:Integer ?=0)
 GET     /books/:isbn        controllers.Books.show(isbn: String)
 GET     /books/cover/:isbn  controllers.Books.cover(isbn: String)
-GET     /recommendations    controllers.Books.recommendations()
 
 # Carts
 GET      /cart/checkout     controllers.Carts.find()

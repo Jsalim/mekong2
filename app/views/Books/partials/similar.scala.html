@@ -1,31 +1,36 @@
-@(similarBooks: List[models.Book])
+@(title: String, similarBooks: List[models.Book])
 
 <!-- similar books -->
 <div class="panel panel-default">
   <!-- Default panel contents -->
   <div class="panel-heading">
-    <strong>Recommendations</strong>
+    <strong>@title</strong>
   </div>
   <div class="panel-body">
-    Similar books that might be of interest to you.
+    Books that might be of interest to you.
   </div>
   <!-- List group -->
   <ul class="list-group">
-    @for(record <- similarBooks) {
-    <li class="list-group-item">
-      <div class="media">
-        <a class="pull-left" href="@routes.Books.show(String.valueOf(record.getNeo4j("isbn")))">
-          <img class="media-object" style="width: 64px;" src="@routes.Books.cover(String.valueOf(record.getNeo4j("isbn")))" alt="..." />
-        </a>
-        <div class="media-body">
-          <h4 class="media-heading">
-            <a href="@routes.Books.show(String.valueOf(record.getNeo4j("isbn")))">
-              @String.valueOf(record.getNeo4j("title"))
-            </a>
-          </h4>
+    @if(!(null == similarBooks || similarBooks.size() == 0)) {
+      @for(record <- similarBooks) {
+      <li class="list-group-item">
+        <div class="media">
+          <a class="pull-left" href="@routes.Books.show(String.valueOf(record.getNeo4j("isbn")))">
+            <img class="media-object" style="width: 64px;" src="@routes.Books.cover(String.valueOf(record.getNeo4j("isbn")))" alt="..." />
+          </a>
+          <div class="media-body">
+            <h4 class="media-heading">
+              <a href="@routes.Books.show(String.valueOf(record.getNeo4j("isbn")))">
+                @String.valueOf(record.getNeo4j("title"))
+              </a>
+            </h4>
+          </div>
         </div>
-      </div>
-    </li>
+      </li>
+      }
+    }
+    @if(null == similarBooks || similarBooks.size() == 0) {
+      <li class="list-group-item">No recommendations</li>
     }
   </ul>
 </div>

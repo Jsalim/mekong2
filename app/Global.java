@@ -16,6 +16,7 @@ import models.User;
 import models.Cart;
 import models.Book;
 
+import utils.neo4j.Neo4jDatabaseConnection;
 import utils.seeds.*;
 
 public class Global extends GlobalSettings {
@@ -37,13 +38,15 @@ public class Global extends GlobalSettings {
 
       // Setup the database connections by default.
       try {
+        System.out.println("");
         users = User.getInstance();
         carts = Cart.getInstance();
         books = Book.getInstance();
       } catch (Exception e) {
-        Logger.info("Unable to access MongoDB");
+        Logger.info("Unable to access MongoDB OR Neo4j");
       }
       Logger.info("Application has started");
+      Neo4jDatabaseConnection.getInstance().printDatabase();
       return;
     }
 

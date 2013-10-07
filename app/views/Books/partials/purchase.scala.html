@@ -7,7 +7,7 @@
   <div class="panel-body">
     <div>
       <strong>Stock:&nbsp;</strong>
-      @String.valueOf(book.getMongo("stock"))
+      @book.getStock()
     </div>
     <div>
       <strong>Price:&nbsp;</strong>
@@ -17,13 +17,12 @@
     <div><strong>Copies</strong></div>
     <br />
     <!-- select stock -->
+    @if(book.getStock() > 0) {
     <form method="POST" action="@routes.Carts.update()">
       <div class="form-group">
-        <input id="relative" name="relative" type="hidden" value="false" />
-        <select class="form-control"
-          id="isbn@String.valueOf(book.getMongo("isbn"))"
-          name="isbn@String.valueOf(book.getMongo("isbn"))">
-        @for(stock <- 0 to book.getMongo("stock").asInstanceOf[Int]) {
+        <input id="relative" name="relative" type="hidden" value="true" />
+        <select class="form-control" id="isbn@String.valueOf(book.getMongo("isbn"))" name="isbn@String.valueOf(book.getMongo("isbn"))">
+        @for(stock <- 1 to book.getStock()) {
           <option>@stock</option>
         }
         </select>
@@ -35,5 +34,9 @@
         </button>
       </div>
     </form>
+    }
+    @if(book.getNeo4j("stock").asInstanceOf[Int] == 0) {
+      <span class="label label-warning">Out of stock!</span>
+    }
   </div>
 </div>

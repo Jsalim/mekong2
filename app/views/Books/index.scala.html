@@ -1,4 +1,4 @@
-@(title: String = "Books", books: List[models.Book], page: Int, pages: Int, query:String)
+@(title: String = "Books", books: List[models.Book], similarBooks: List[models.Book], page: Int, pages: Int, query:String)
 @pageRoute(p:Int) = {
   @if(query) {
     @routes.Books.search(query, p)
@@ -7,35 +7,45 @@
   }
 }
 @pagination() = {
-<div class="row">
-  <div class="col-md-12 text-center">
-    <ul class="pagination">
-      <li><a href="@pageRoute(1)">&laquo;</a></li>
-      <li><a href="@pageRoute(page - 1)">&lsaquo;</a></li>
-      @for(p <- page - 5 to page - 1) {
-        @if(p >= 1 && p != page) {
-        <li>
-          <a href="@pageRoute(p)">@String.valueOf(p)</a>
-        </li>
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <ul class="pagination">
+        <li><a href="@pageRoute(1)">&laquo;</a></li>
+        <li><a href="@pageRoute(page - 1)">&lsaquo;</a></li>
+        @for(p <- page - 5 to page - 1) {
+          @if(p >= 1 && p != page) {
+          <li>
+            <a href="@pageRoute(p)">@String.valueOf(p)</a>
+          </li>
+          }
         }
-      }
-      <li class="active">
-        <a href="@pageRoute(page)">@String.valueOf(page + 1)</a>
-      </li>
-      @for(p <- page to page + 5) {
-        @if(p <= pages && p != page) {
-        <li>
-          <a href="@pageRoute(p)">@String.valueOf(p)</a>
+        <li class="active">
+          <a href="@pageRoute(page)">@String.valueOf(page + 1)</a>
         </li>
+        @for(p <- page to page + 5) {
+          @if(p <= pages && p != page) {
+          <li>
+            <a href="@pageRoute(p)">@String.valueOf(p)</a>
+          </li>
+          }
         }
-      }
-      <li><a href="@pageRoute(page + 1)">&rsaquo;</a></li>
-      <li><a href="@pageRoute(pages - 1)">&raquo;</a></li>
-    </ul>
+        <li><a href="@pageRoute(page + 1)">&rsaquo;</a></li>
+        <li><a href="@pageRoute(pages - 1)">&raquo;</a></li>
+      </ul>
+    </div>
   </div>
-</div>
 }
 @views.html.Application.main(title) {
-  @views.html.Books.partials.books(title, books)
+  <div class="page-header">
+    <h1>@title</h1>
+  </div>
+  <div class="row">
+    <div class="col-md-9">
+      @views.html.Books.partials.books(title, books)
+    </div>
+    <div class="col-md-3">
+      @views.html.Books.partials.similar("Recommendations", similarBooks)
+    </div>
+  </div>
   @pagination()
 }

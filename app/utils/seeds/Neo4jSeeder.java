@@ -39,19 +39,6 @@ public class Neo4jSeeder {
     return;
   }
 
-  public UniqueFactory<Node> uniqueNodeFactoryFor(Index<Node> index, final String indexName)
-  {
-    UniqueFactory<Node> factory = new UniqueFactory.UniqueNodeFactory(index)
-    {
-      @Override
-      protected void initialize(Node created, Map<String, Object> properties)
-      {
-        created.setProperty(indexName, properties.get(indexName));
-      }
-    };
-    return factory;
-  }
-
   private List<Node> alreadyConnectedNodes(Node from, RelationshipType type)
   {
       List<Node> connected = new ArrayList<Node>();
@@ -66,7 +53,14 @@ public class Neo4jSeeder {
   {
       System.out.println("Creating author nodes");
       List<Node> connectedAuthors = alreadyConnectedNodes(bookNode, Book.RELATIONSHIPS.WRITTEN_BY);
-      UniqueFactory<Node> authorFactory = uniqueNodeFactoryFor(authorsIndex, "name");
+      UniqueFactory<Node> authorFactory = new UniqueFactory.UniqueNodeFactory(authorsIndex)
+      {
+          @Override
+          protected void initialize(Node created, Map<String, Object> properties)
+          {
+              created.setProperty("name", properties.get("name"));
+          }
+      };
       BasicDBList authors = (BasicDBList) book.get("authors");
       for (int i = 0; i < authors.size(); i++)
       {
@@ -112,7 +106,14 @@ public class Neo4jSeeder {
   {
       System.out.println("Creating subject nodes");
       List<Node> connectedSubjects = alreadyConnectedNodes(bookNode, Book.RELATIONSHIPS.ABOUT);
-      UniqueFactory<Node> subjectFactory = uniqueNodeFactoryFor(subjectsIndex, "name");
+      UniqueFactory<Node> subjectFactory = new UniqueFactory.UniqueNodeFactory(subjectsIndex)
+      {
+          @Override
+          protected void initialize(Node created, Map<String, Object> properties)
+          {
+              created.setProperty("name", properties.get("name"));
+          }
+      };
       BasicDBList subjects = (BasicDBList) book.get("subjects");
       for (int i = 0; i < subjects.size(); i++)
       {
@@ -132,14 +133,20 @@ public class Neo4jSeeder {
       }
   }
 
-  public void enhanceBookRecord(BasicDBObject book)
+  public Long enhanceBookRecord(BasicDBObject book)
   {
+    Long id = null;
+    Node node = null;
     Transaction tx = graphDb.beginTx();
-    try
-    {
+    try {
         // Book
         System.out.println("Establishing unique Book node factory");
-        UniqueFactory<Node> bookFactory = uniqueNodeFactoryFor(booksIndex, "isbn");
+        UniqueFactory<Node> bookFactory = new UniqueFactory.UniqueNodeFactory(booksIndex) {
+            @Override
+            protected void initialize(Node created, Map<String, Object> properties) {
+                created.setProperty("isbn", properties.get("isbn"));
+            }
+        };
         System.out.println("Creating or finding book" + book.getString("isbn"));
         Node bookNode = bookFactory.getOrCreate("isbn", book.getString("isbn"));
         System.out.println("Setting node properties");
@@ -156,6 +163,9 @@ public class Neo4jSeeder {
         // Complete
         System.out.println("Finishing enhancement");
         tx.success();
+
+        node = bookNode;
+        System.out.println("Set the node " + id);
     }
     catch (Exception e)
     {
@@ -166,7 +176,11 @@ public class Neo4jSeeder {
     finally
     {
        tx.finish();
-       return;
+        if (node != null) {
+            id = node.getId();
+        }
+       System.out.println("Finishing book node " + node);
+       return id;
     }
   }
 
@@ -203,34 +217,4 @@ public class Neo4jSeeder {
           tx.finish();
       }
   }
-
-  public void displayDatabase()
-  {
-    ExecutionEngine engine = new ExecutionEngine(graphDb);
-    ExecutionResult result = engine.execute("start n=node(*) return n");
-    Iterator<Node> n_column = result.columnAs("n");
-    for (Node node : IteratorUtil.asIterable(n_column))
-    {
-      System.out.println("Node: " + node);
-      System.out.println("\tProperties:");
-      for (String key : node.getPropertyKeys())
-      {
-        System.out.println("\t\t" + key + ": " + node.getProperty(key));
-      }
-      System.out.println("\tRelationships:");
-      for (Relationship rel : node.getRelationships())
-      {
-        System.out.println("\t\t" +
-            rel.getStartNode().toString() +
-            "<-" + rel.getType().toString() + "->" +
-            rel.getEndNode().toString());
-            System.out.println("\t\tProperties:");
-            for (String key : rel.getPropertyKeys())
-            {
-              System.out.println("\t\t\t" + key + ": " + rel.getProperty(key));
-            }
-        }
-      }
-    }
-
 }

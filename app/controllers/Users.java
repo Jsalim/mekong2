@@ -61,6 +61,7 @@ public class Users extends Controller {
         String password = requestData.get("password");
 
         // Find the user, redirect to home if unable.
+        System.out.println("Starting to find user");
         User user = User.findByUsernameAndPassword(username, password);
         if (null == user) {
             String message = "Unable to login with username or password";

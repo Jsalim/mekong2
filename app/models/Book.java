@@ -31,6 +31,8 @@ public class Book extends Record<Book> {
     private static DBCollection mongoBooksDatabase = null;
     private static volatile Book instance = null;
 
+    private Integer stockCache = null;
+
     public static enum RELATIONSHIPS implements RelationshipType {
         WRITTEN_BY,
         ABOUT
@@ -67,41 +69,12 @@ public class Book extends Record<Book> {
 
     /**
      *
-     * @param query
-     * @return
-     */
-    public ExecutionResult executeNeo4jQuery(String query) {
-      ExecutionEngine exe = new ExecutionEngine(this.neo4jDatabase.getService());
-      return exe.execute(query);
-    }
-
-    /**
-     *
      * @param record
      * @return
      */
     @Override
     public Book fromMongoRecord(DBObject record) {
         return new Book(record);
-    }
-
-    /**
-     *
-     * @param isbn
-     * @return
-     */
-    public static Book findByISBN(String isbn) {
-        Book result = null;
-        try {
-            Book instance = Book.getInstance();
-            BasicDBObject isbnQuery = new BasicDBObject("isbn", isbn);
-            DBObject record = instance.getMongoCollection().findOne(isbnQuery);
-            result = instance.fromMongoRecord(record);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            return result;
-        }
     }
 
     /**
@@ -137,12 +110,62 @@ public class Book extends Record<Book> {
 
     /**
      *
+     * @param query
+     * @param params
+     * @param column
+     * @return
+     */
+    public static List<Book> queryToNodes(String query, Map<String, Object> params, String column) {
+        List<Book> result = new ArrayList<Book>();
+        GraphDatabaseService graphDB = neo4jDatabase.getService();
+        Transaction tx = graphDB.beginTx();
+        try {
+            ExecutionEngine queryExecuter = new ExecutionEngine(graphDB);
+            ExecutionResult executionResult = queryExecuter.execute(query, params);
+            Iterator<Node> bookNodes = executionResult.columnAs(column);
+            for (Node bookNode : IteratorUtil.asIterable(bookNodes)) {
+                Book book = new Book(bookNode);
+                result.add(book);
+            }
+            tx.success();
+        } catch (Exception e) {
+            tx.failure();
+            e.printStackTrace();
+        } finally {
+            tx.finish();
+            return result;
+        }
+    }
+
+    /**
+     *
      * @param pageSize
      * @param page
      * @return
      */
     public static Map<String, Object> all(Integer pageSize, Integer page) {
         return paginateQuery(new BasicDBObject(), pageSize, page);
+    }
+
+    /**
+     *
+     * @param isbn
+     * @return
+     */
+    public static Book findByISBN(String isbn) {
+        Book result = null;
+        try {
+            System.out.println("Finding by isbn " + isbn);
+            Book instance = Book.getInstance();
+            BasicDBObject isbnQuery = new BasicDBObject("isbn", isbn);
+            DBObject record = instance.getMongoCollection().findOne(isbnQuery);
+            result = instance.fromMongoRecord(record);
+        } catch (Exception e) {
+            System.out.println("Failed to find by isbn " + isbn);
+            e.printStackTrace();
+        } finally {
+            return result;
+        }
     }
 
     /**
@@ -186,44 +209,32 @@ public class Book extends Record<Book> {
 
     /**
      *
-     * @param query
-     * @param params
-     * @param column
      * @return
      */
-    public static List<Book> queryToNodes(String query, Map<String, Object> params, String column) {
-        List<Book> result = new ArrayList<Book>();
-        GraphDatabaseService graphDB = neo4jDatabase.getService();
-        Transaction tx = graphDB.beginTx();
-        try {
-            ExecutionEngine queryExecuter = new ExecutionEngine(graphDB);
-            ExecutionResult executionResult = queryExecuter.execute(query, params);
-            Iterator<Node> bookNodes = executionResult.columnAs(column);
-            for (Node bookNode : IteratorUtil.asIterable(bookNodes)) {
-                Book book = new Book(bookNode);
-                result.add(book);
-            }
-            tx.success();
-        } catch (Exception e) {
-            tx.failure();
-            e.printStackTrace();
-        } finally {
-            tx.finish();
-            return result;
-        }
-    }
-
-    /**
-     *
-     * @return
-     */
-    public List<Book> similarTo() {
+    public List<Book> similarBooks() {
         String query = "START n=node:Books(isbn = {isbn}), b=node(*)\n" +
                 "MATCH n-[:SIMILAR_TO]->b\n" +
                 "RETURN b";
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("isbn", String.valueOf(getMongo("isbn")));
         return queryToNodes(query, params, "b");
+    }
+
+    /**
+     *
+     * @return
+     */
+    public Integer getStock() {
+        if (null == stockCache) {
+            if (!neo4jRecordLoaded()) {
+                loadNeo4jRecord();
+            }
+            System.out.println("Mongo record " + this.getMongoRecord());
+            System.out.println("Reading from" + this.getNeo4jRecord());
+
+            stockCache = Integer.valueOf(getNeo4j("stock").toString());
+        }
+        return stockCache;
     }
 
     /**

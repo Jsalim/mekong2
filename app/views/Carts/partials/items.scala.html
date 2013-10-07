@@ -1,6 +1,7 @@
-@()
+@(items: List[models.Book])
 
 <form role="form" method="POST" action="@routes.Carts.update()">
+  <input id="relative" name="relative" type="hidden" value="false" />
   <table class="table">
     <thead>
       <tr>
@@ -10,12 +11,12 @@
       </tr>
     </thead>
     <tbody>
-
+    @for(item <- items) {
+      @views.html.Carts.partials.item(String.valueOf(item.getMongo("isbn")),
+        String.valueOf(item.getMongo("title")),
+        item.getMongo("quantity").asInstanceOf[Int])
+    }
     </tbody>
   </table>
-   <ul class="list-group">
-    <li class="list-group-item">
-      <button type="button" class="btn btn-warning pull-right">Update</button>
-    </li>
-  </ul>
+  <button type="submit" class="btn btn-warning pull-right">Update</button>
 </form>

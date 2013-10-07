@@ -27,7 +27,8 @@ public class Books extends Controller {
      */
     public static Result show(String isbn) {
         Book book = Book.findByISBN(isbn);
-        List<Book> similarBooks = book.similarTo();
+        book.loadNeo4jRecord();
+        List<Book> similarBooks = book.similarBooks();
         if (null == book) {
             return notFound();
         } else {
@@ -41,11 +42,14 @@ public class Books extends Controller {
      * @return
      */
     public static Result index(Integer page) {
+        String username = session("username");
+        User user = User.findByUsername(username);
         Map<String, Object> result = Book.all(PAGE_SIZE, page);
         List<Book> books = (List) result.get("records");
+        List<Book> recommendations = user.recommendedBooks();
         page = (Integer) result.get("page");
         Integer pages = (Integer) result.get("pages");
-        return ok(views.html.Books.index.render("All Books", books, page, pages, null));
+        return ok(views.html.Books.index.render("All Books", books, recommendations, page, pages, null));
     }
 
     /**
@@ -69,12 +73,15 @@ public class Books extends Controller {
      * @return
      */
     public static Result search(String query, Integer page) {
+        String username = session("username");
+        User user = User.findByUsername(username);
         Map<String, Object> result = Book.searchByTitleAndISBN(query, PAGE_SIZE, page);
         List<Book> books = (List) result.get("records");
+        List<Book> recommendations = user.recommendedBooks();
         page = (Integer) result.get("page");
         Integer pages = (Integer) result.get("pages");
         String title = "Results for '" + query + "'";
-        return ok(views.html.Books.index.render(title, books, page, pages, query));
+        return ok(views.html.Books.index.render(title, books, recommendations, page, pages, query));
     }
 
     /**
@@ -90,18 +97,6 @@ public class Books extends Controller {
         } else {
             return notFound();
         }
-    }
-
-    /**
-     *
-     * @return
-     */
-    public static Result recommendations() {
-        String username = session("username");
-        User user = User.findByUsername(username);
-//        List<Book> books = user.recommendedBooks();
-//        books = Book.synchronize(books);
-        return ok(); //(views.html.Books.index.render(title, books, page, pages, query));
     }
 
 }

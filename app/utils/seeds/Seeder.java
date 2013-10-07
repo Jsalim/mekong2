@@ -90,8 +90,8 @@ public class Seeder {
            cleanSeed(seed);
        }
        System.out.println("Finished connecting seeds");
-//       seedLock.createNewFile();
-         neo4jSeeder.displayDatabase();
+       seedLock.createNewFile();
+       neo4jConnection.printDatabase();
      }
      else
      {
@@ -112,7 +112,9 @@ public class Seeder {
         mongoSeeder.insertBookRecord(mongoBookRecord);
 
         System.out.println("\n\n# Neo4j\n");
-        neo4jSeeder.enhanceBookRecord(mongoBookRecord);
+        Long nodeId = neo4jSeeder.enhanceBookRecord(mongoBookRecord);
+        mongoBookRecord.put("_node", nodeId);
+        mongoBookRecord.remove("stock");
     }
     catch (Exception e)
     {
@@ -129,6 +131,7 @@ public class Seeder {
   public void cleanSeed(BasicDBObject book)
   {
       neo4jSeeder.createSimilarToRelationships(book);
+      mongoSeeder.updateRecord(book);
   }
 
 }
