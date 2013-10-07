@@ -1,0 +1,21 @@
+@(user: models.User)
+
+@views.html.Application.main("My Account") {
+  <div class="page-header">
+    <h1>
+      @String.valueOf(user.getMongo("username")) <br />
+    </h1>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <h4>Address</h4>
+      <div class="media">
+        <address>
+          @for((k, v) <- user.getMongo("address").asInstanceOf[com.mongodb.BasicDBObject]) {
+          @v<br>
+          }
+        </address>
+      </div>
+    </div>
+  </div>
+}

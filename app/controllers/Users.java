@@ -5,6 +5,7 @@ import play.data.DynamicForm;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
+import play.mvc.Security;
 
 /**
  *
@@ -80,6 +81,17 @@ public class Users extends Controller {
     public static Result logout() {
         session().clear();
         return redirect("/");
+    }
+
+    @Security.Authenticated(Secured.class)
+    public static Result profile() {
+        String username = session("username");
+        User user = User.findByUsername(username);
+        if (null != user) {
+            return ok(views.html.Users.profile.render(user));
+        } else {
+            return redirect(controllers.routes.Books.index(0));
+        }
     }
 
 }

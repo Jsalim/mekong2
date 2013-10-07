@@ -3,26 +3,27 @@
 # ~~~~
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file       controllers.Assets.at(path="/public", file)
+GET     /assets/*file               controllers.Assets.at(path="/public", file)
 
 # Root
-GET     /                   controllers.Users.startLogin()
+GET     /                           controllers.Users.startLogin()
 
 # Users
-GET     /users/register     controllers.Users.startRegister()
-POST    /users/register     controllers.Users.finishRegister()
-GET     /users/login        controllers.Users.startLogin()
-POST    /users/login        controllers.Users.finishLogin()
-GET     /users/logout       controllers.Users.logout()
+GET     /users/register             controllers.Users.startRegister()
+POST    /users/register             controllers.Users.finishRegister()
+GET     /users/login                controllers.Users.startLogin()
+POST    /users/login                controllers.Users.finishLogin()
+GET     /users/logout               controllers.Users.logout()
+GET     /users/profile              controllers.Users.profile()
 
 # Books
-GET     /books              controllers.Books.index(page: Integer ?=0)
-POST    /books/search       controllers.Books.searchForm()
-GET     /books/search       controllers.Books.search(query: String, page:Integer ?=0)
-GET     /books/:isbn        controllers.Books.show(isbn: String)
-GET     /books/cover/:isbn  controllers.Books.cover(isbn: String)
+GET     /books                      controllers.Books.index(page: Integer ?=0)
+POST    /books/search               controllers.Books.searchForm()
+GET     /books/search               controllers.Books.search(query: String, page:Integer ?=0)
+GET     /books/:isbn                controllers.Books.show(isbn: String)
+GET     /books/cover/:isbn          controllers.Books.cover(isbn: String)
 
 # Carts
-GET      /cart/checkout     controllers.Carts.find()
-POST     /cart/update       controllers.Carts.update()
-POST     /cart/checkout     controllers.Carts.checkout()
+GET      /cart/checkout             controllers.Carts.find()
+POST     /cart/update               controllers.Carts.update()
+POST     /cart/checkout             controllers.Carts.checkout()
