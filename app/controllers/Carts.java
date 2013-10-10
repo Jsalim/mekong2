@@ -112,7 +112,7 @@ public class Carts extends Controller {
         }
 
         // Check no creditcard fields are missing
-        Integer creditcardFieldCount = 2;
+        Integer creditcardFieldCount = 5;
         if(creditcard.keySet().size() != creditcardFieldCount) {
             fieldMissing = true;
             cart.addMessage(MessageContainer.MessageType.ERROR, "Creditcard field missing");

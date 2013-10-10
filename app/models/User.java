@@ -78,7 +78,7 @@ public class User extends Record<User> {
      * @param password
      * @return
      */
-    public static User registerWith(String username, String password) {
+    public static User registerWith(String username, String password, String firstName, String lastName) {
         GraphDatabaseService graphDB = Neo4jDatabaseConnection.getInstance().getService();
         Transaction tx = graphDB.beginTx();
         User user = null;
@@ -102,8 +102,11 @@ public class User extends Record<User> {
 
             // Check that the user did not exist.
             if (userEntity.wasCreated()) {
+
                 // MongoDB
                 BasicDBObject registration = new BasicDBObject();
+                registration.put("firstname", firstName);
+                registration.put("lastname", lastName);
                 registration.put("username", username);
                 registration.put("password", password);
                 registration.put("address", new BasicDBObject());

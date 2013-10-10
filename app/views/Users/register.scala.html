@@ -5,12 +5,25 @@
     <div class="row text-center">
       <img src="@routes.Assets.at("images/logo.png")" width="330">
     </div>
-    <form class="form-signin" method="POST" action="@routes.Users.finishRegister()">
-      <h2 class="form-signin-heading">Registration</h2>
-      <input type="text" class="form-control" name="username" placeholder="Username" autofocus>
-      <input type="password" class="form-control" name="password" placeholder="Password">
+    <form class="form-signup" method="POST" action="@routes.Users.finishRegister()">
+      <h2 class="form-signup-heading">Registration</h2>
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" class="form-control" name="username" placeholder="Username">
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" name="password" placeholder="Password">
+      </div>
+      <div class="form-group">
+        <label for="firstname">First Name</label>
+        <input type="text" class="form-control" name="firstname" placeholder="First Name">
+      </div>
+      <div class="form-group">
+        <label for="lastname">Last Name</label>
+        <input type="text" class="form-control" name="lastname" placeholder="Last Name">
+      </div>
       <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
     </form>
-    </div>
   </div>
 }

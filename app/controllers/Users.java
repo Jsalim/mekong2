@@ -30,10 +30,12 @@ public class Users extends Controller {
         DynamicForm requestData = Form.form().bindFromRequest();
         String username = requestData.get("username");
         String password = requestData.get("password");
+        String firstName = requestData.get("firstname");
+        String lastName = requestData.get("lastname");
 
         // Create the new user record and automatically log in the new user if
         // they were registered
-        User user = User.registerWith(username, password);
+        User user = User.registerWith(username, password, firstName, lastName);
         if (null != user) {
             session("username", String.valueOf(user.getMongo("username")));
             return redirect(routes.Books.index(0));
