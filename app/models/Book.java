@@ -92,7 +92,7 @@ public class Book extends Record<Book> {
             Book instance = getInstance();
             DBCursor allFoundBooks = instance.getMongoCollection().find(query);
             Integer pages = allFoundBooks.count() / pageSize;
-            if (pages > page) {
+            if (page > pages) {
                 page = pages - 1;
             } else if (page < 0) {
                 page = 0;

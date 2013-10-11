@@ -25,6 +25,12 @@ public class Global extends GlobalSettings {
     public static Cart carts;
     public static Book books;
 
+    /**
+     * Starting the application the program is first going to attempt to
+     * seed the information from the seeds.xml file into the corresponding
+     * MongoDB and Neo4j databases.
+     * @param app
+     */
     public void onStart(Application app) {
 
       Logger.info("Starting seeds ... ");
@@ -34,6 +40,8 @@ public class Global extends GlobalSettings {
         Logger.info("Finishing seeds ... ");
       } catch (Exception e) {
         Logger.info("Failed to seed ... " + e.toString());
+        e.printStackTrace();
+        Neo4jDatabaseConnection.getInstance().shutdown();
       }
 
       // Setup the database connections by default.
@@ -46,11 +54,16 @@ public class Global extends GlobalSettings {
         Logger.info("Unable to access MongoDB OR Neo4j");
       }
       Logger.info("Application has started");
-      Neo4jDatabaseConnection.getInstance().printDatabase();
       return;
     }
 
+    /**
+     *
+     * @param app
+     */
     public void onStop(Application app) {
+        Logger.info("Shutting down Neo4j");
+        Neo4jDatabaseConnection.getInstance().shutdown();
         Logger.info("Application shutdown...");
     }
 

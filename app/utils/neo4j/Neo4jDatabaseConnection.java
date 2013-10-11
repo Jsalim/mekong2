@@ -42,6 +42,10 @@ public class Neo4jDatabaseConnection extends DatabaseConnection {
       registerShutdownHook(graphDb);
     }
 
+    public void shutdown() {
+        this.graphDb.shutdown();
+    }
+
     private static void registerShutdownHook( final GraphDatabaseService graphDb )
     {
         // Registers a shutdown hook for the Neo4j instance so that it

@@ -68,7 +68,7 @@ public class GridFSSeeder
     gfsFile.setFilename(file.getName());
     gfsFile.put("aliases", aliases);
     gfsFile.save();
-    System.out.println("Inserted gridfs file " + gfsFile.toString());
+    //System.out.println("Inserted gridfs file " + gfsFile.toString());
     return gfsFile;
   }
 
@@ -79,7 +79,7 @@ public class GridFSSeeder
     GridFSDBFile gfsCoverImage = imageAlreadyOnGridFS(coverImage);
     if (null == gfsCoverImage)
     {
-      System.out.println("Cover " + url + " does not exist, creating.");
+      //System.out.println("Cover " + url + " does not exist, creating.");
       BasicDBList aliases = new BasicDBList();
       aliases.add(isbn);
       System.out.println("Creating gridfs image for " + coverImage.getName() + " aliases " + aliases.toString());
@@ -96,8 +96,8 @@ public class GridFSSeeder
       }
       gfsCoverImage.put("aliases", aliases);
       gfsCoverImage.save();
-      System.out.println("Added " + isbn + " to " + url + " aliases.");
-      System.out.println(gfsCoverImage.toString());
+      //System.out.println("Added " + isbn + " to " + url + " aliases.");
+      //System.out.println(gfsCoverImage.toString());
     }
     return gfsCoverImage;
   }

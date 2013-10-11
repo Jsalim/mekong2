@@ -24,22 +24,14 @@ public class Seeder {
    private MongoDBSeeder mongoSeeder = null;
    private Neo4jSeeder neo4jSeeder = null;
 
-   public Seeder(String folder)
-   throws UnknownHostException
-   {
+   private File lock = null;
+
+   public Seeder(String folder) throws UnknownHostException {
+     lock = new File(folder + "seeds.lock");
      this.folder = folder;
-     System.out.println("Getting MongoDB Seeder");
-     this.mongoConnection = MongoDatabaseConnection.getInstance();
-     this.gridfsSeeder = new GridFSSeeder(mongoConnection, folder);
-     this.mongoSeeder = new MongoDBSeeder(mongoConnection, gridfsSeeder);
-     System.out.println("Getting Neo4j Seeder");
-     this.neo4jConnection = Neo4jDatabaseConnection.getInstance();
-     this.neo4jSeeder = new Neo4jSeeder(neo4jConnection);
    }
 
-   private String xmlDocument(String filename)
-   throws FileNotFoundException, IOException
-   {
+   private String xmlDocument(String filename) throws IOException {
      FileReader fileReader = new FileReader(folder + filename);
      BufferedReader bufferedReader = new BufferedReader(fileReader);
      String xmlContent;
@@ -62,19 +54,34 @@ public class Seeder {
      return xmlContent;
    }
 
-   public void run(String filename)
-   throws FileNotFoundException, IOException, JSONException, MalformedURLException
-   {
-     File seedLock = new File(folder + "seeds.lock");
-     if (!seedLock.exists())
-     {
+   public void createLock() {
+       try {
+           lock.createNewFile();
+       } catch (IOException e) {
+           System.out.println("Failed to create lock");
+           e.printStackTrace();
+       }
+   }
+
+   public boolean lockExists() {
+       return lock.exists();
+   }
+
+   public void run(String filename) throws IOException, JSONException {
+     if (!lockExists()) {
+       System.out.println("Getting MongoDB Seeder");
+       this.mongoConnection = MongoDatabaseConnection.getInstance();
+       this.gridfsSeeder = new GridFSSeeder(mongoConnection, folder);
+       this.mongoSeeder = new MongoDBSeeder(mongoConnection, gridfsSeeder);
+       System.out.println("Getting Neo4j Seeder");
+       this.neo4jConnection = Neo4jDatabaseConnection.getInstance();
+       this.neo4jSeeder = new Neo4jSeeder(neo4jConnection);
        mongoConnection.dropDB();
        neo4jConnection.dropDB();
        mongoSeeder.createCollections();
        neo4jSeeder.setupDatabase();
        JSONObject books = XML.toJSONObject(xmlDocument(filename));
        JSONArray bookList = books.getJSONObject("books").getJSONArray("book");
-
        List<BasicDBObject> seeded = new ArrayList<BasicDBObject>();
        for (int i = 0; i < bookList.length(); i++) {
          BasicDBObject seed = createSeed(bookList.getJSONObject(i));
@@ -84,17 +91,14 @@ public class Seeder {
        }
 
        System.out.println("Connecting seeds");
-       System.out.println(seeded);
        for (BasicDBObject seed : seeded) {
            System.out.println("Connecting");
            cleanSeed(seed);
        }
        System.out.println("Finished connecting seeds");
-       seedLock.createNewFile();
+       createLock();
        neo4jConnection.printDatabase();
-     }
-     else
-     {
+     } else {
        System.out.println("Already seeded, seeds.lock exists. Skipping seeds!");
      }
    }
@@ -103,7 +107,7 @@ public class Seeder {
   {
     BasicDBObject mongoBookRecord = null;
     String isbn = String.valueOf(book.get("isbn"));
-    System.out.println("\n\n###################################################");
+    //System.out.println("\n\n###################################################");
     System.out.println("Seeding ... " + isbn);
     try
     {
@@ -123,15 +127,17 @@ public class Seeder {
     finally
     {
       System.out.println("Seeded " + isbn);
-      System.out.println("###################################################\n\n");
+      //System.out.println("###################################################\n\n");
       return mongoBookRecord;
     }
   }
 
   public void cleanSeed(BasicDBObject book)
   {
-      neo4jSeeder.createSimilarToRelationships(book);
-      mongoSeeder.updateRecord(book);
+      if (null != book.get("_id")) {
+        neo4jSeeder.createSimilarToRelationships(book);
+        mongoSeeder.updateRecord(book);
+      }
   }
 
 }

@@ -10,12 +10,12 @@
   <div class="row">
     <div class="col-md-12 text-center">
       <ul class="pagination">
-        <li><a href="@pageRoute(1)">&laquo;</a></li>
+        <li><a href="@pageRoute(0)">&laquo;</a></li>
         <li><a href="@pageRoute(page - 1)">&lsaquo;</a></li>
         @for(p <- page - 5 to page - 1) {
           @if(p >= 1 && p != page) {
           <li>
-            <a href="@pageRoute(p)">@String.valueOf(p)</a>
+            <a href="@pageRoute(p)">@String.valueOf(p + 1)</a>
           </li>
           }
         }
@@ -25,12 +25,12 @@
         @for(p <- page to page + 5) {
           @if(p <= pages && p != page) {
           <li>
-            <a href="@pageRoute(p)">@String.valueOf(p)</a>
+            <a href="@pageRoute(p)">@String.valueOf(p + 1)</a>
           </li>
           }
         }
         <li><a href="@pageRoute(page + 1)">&rsaquo;</a></li>
-        <li><a href="@pageRoute(pages - 1)">&raquo;</a></li>
+        <li><a href="@pageRoute(pages)">&raquo;</a></li>
       </ul>
     </div>
   </div>

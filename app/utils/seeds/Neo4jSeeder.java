@@ -26,16 +26,20 @@ public class Neo4jSeeder {
 
   public Neo4jSeeder(Neo4jDatabaseConnection connection)
   {
+    System.out.println("Neo4j Seeder getting connection and service");
     this.connection = connection;
     this.graphDb = this.connection.getService();
+     System.out.println("Neo4j connected and got service");
   }
 
   public void setupDatabase()
   {
+    System.out.println("Setting up neo4j database");
     usersIndex = connection.getService().index().forNodes("Users");
     booksIndex = connection.getService().index().forNodes("Books");
     authorsIndex = connection.getService().index().forNodes("Authors");
     subjectsIndex = connection.getService().index().forNodes("Subjects");
+    System.out.println("Setup neo4j database");
     return;
   }
 
@@ -62,42 +66,39 @@ public class Neo4jSeeder {
           }
       };
       BasicDBList authors = (BasicDBList) book.get("authors");
-      for (int i = 0; i < authors.size(); i++)
-      {
-          // Construct name
-          BasicDBObject author = (BasicDBObject) authors.get(i);
-          System.out.println(author.toString());
-          StringBuilder fullnameBuilder = new StringBuilder();
-          fullnameBuilder.append(author.getString("firstname"));
-          fullnameBuilder.append(" ");
-          fullnameBuilder.append(author.getString("lastname"));
-          String fullname = fullnameBuilder.toString();
+      if (null != authors) {
+          for (int i = 0; i < authors.size(); i++) {
+              // Construct name
+              BasicDBObject author = (BasicDBObject) authors.get(i);
+              System.out.println(author.toString());
+              StringBuilder fullnameBuilder = new StringBuilder();
+              fullnameBuilder.append(author.getString("firstname"));
+              fullnameBuilder.append(" ");
+              fullnameBuilder.append(author.getString("lastname"));
+              String fullname = fullnameBuilder.toString();
 
-          // Create node
-          System.out.println("Creating author node for " + fullname);
-          Node authorNode = authorFactory.getOrCreate("name", fullname);
+              // Create node
+              System.out.println("Creating author node for " + fullname);
+              Node authorNode = authorFactory.getOrCreate("name", fullname);
 
-          // Set properties
-          System.out.println("Setting author additional properties " + authorNode.toString());
-          authorNode.setProperty("firstname", author.getString("firstname"));
-          authorNode.setProperty("lastname", author.getString("lastname"));
-          System.out.println("Creating author WRITTEN_BY relationship");
+              // Set properties
+              System.out.println("Setting author additional properties " + authorNode.toString());
+              authorNode.setProperty("firstname", author.getString("firstname"));
+              authorNode.setProperty("lastname", author.getString("lastname"));
+              System.out.println("Creating author WRITTEN_BY relationship");
 
-          // Create relationships
-          if (!connectedAuthors.contains(bookNode))
-          {
-              Relationship writtenBy = bookNode.createRelationshipTo(authorNode, Book.RELATIONSHIPS.WRITTEN_BY);
-              System.out.println("Created author node");
-          }
-          else
-          {
-              System.out.println("Relationship already exists, skipping");
-          }
+              // Create relationships
+              if (!connectedAuthors.contains(bookNode)) {
+                  Relationship writtenBy = bookNode.createRelationshipTo(authorNode, Book.RELATIONSHIPS.WRITTEN_BY);
+                  System.out.println("Created author node");
+              } else {
+                  System.out.println("Relationship already exists, skipping");
+              }
 
-          // Index node
-          for (String key : Arrays.asList("name", "firstname", "lastname"))
-          {
-            authorsIndex.add(authorNode, key, authorNode.getProperty(key));
+              // Index node
+              for (String key : Arrays.asList("name", "firstname", "lastname")) {
+                authorsIndex.add(authorNode, key, authorNode.getProperty(key));
+              }
           }
       }
   }
@@ -115,20 +116,25 @@ public class Neo4jSeeder {
           }
       };
       BasicDBList subjects = (BasicDBList) book.get("subjects");
-      for (int i = 0; i < subjects.size(); i++)
-      {
-          System.out.println("Creating subject node");
-          String subject = String.valueOf(subjects.get(i));
-          Node subjectNode = subjectFactory.getOrCreate("name", subject);
-          System.out.println("Creating author ABOUT relationship");
-          if (!connectedSubjects.contains(subjectNode))
-          {
-              Relationship aboutSubject = bookNode.createRelationshipTo(subjectNode, Book.RELATIONSHIPS.ABOUT);
-              System.out.println("Created subject node");
-          }
-          else
-          {
-              System.out.println("Relationship already exists, skipping");
+      if (null != subjects) {
+          if (subjects != null) {
+              for (int i = 0; i < subjects.size(); i++) {
+                  System.out.println("Creating subject node");
+                  String subject = String.valueOf(subjects.get(i));
+                  Node subjectNode = subjectFactory.getOrCreate("name", subject);
+                  System.out.println("Creating author ABOUT relationship");
+                  if (!connectedSubjects.contains(subjectNode))
+                  {
+                      Relationship aboutSubject = bookNode.createRelationshipTo(subjectNode, Book.RELATIONSHIPS.ABOUT);
+                      System.out.println("Created subject node");
+                  }
+                  else
+                  {
+                      System.out.println("Relationship already exists, skipping");
+                  }
+              }
+          } else {
+              System.out.println("Book has no subjects");
           }
       }
   }
@@ -176,10 +182,7 @@ public class Neo4jSeeder {
     finally
     {
        tx.finish();
-        if (node != null) {
-            id = node.getId();
-        }
-       System.out.println("Finishing book node " + node);
+       System.out.println("Finishing enhancement");
        return id;
     }
   }
@@ -189,26 +192,26 @@ public class Neo4jSeeder {
       try {
           List<String> similarIsbns = new ArrayList<String>();
           BasicDBList similarities = (BasicDBList) book.get("similar");
-          for (int i = 0; i < similarities.size(); i++)
-          {
-              String similarIsbn = String.valueOf(similarities.get(i));
-              similarIsbns.add(similarIsbn);
+          if (null != similarities) {
+              for (int i = 0; i < similarities.size(); i++) {
+                  String similarIsbn = String.valueOf(similarities.get(i));
+                  similarIsbns.add(similarIsbn);
+              }
+              System.out.println("Found similar" + similarIsbns);
+
+              String query = "START root=node:Books(isbn={isbn}), book=node(*)\n" +
+                      "WHERE book.isbn! IN {similarities}\n" +
+                      "CREATE UNIQUE root-[:SIMILAR_TO]->book\n" +
+                      "RETURN root, book";
+
+              Map<String, Object> params = new HashMap<String, Object>();
+              params.put("isbn", book.getString("isbn"));
+              params.put("similarities", similarIsbns);
+
+              ExecutionEngine executionEngine = new ExecutionEngine(graphDb);
+              ExecutionResult executionResult = executionEngine.execute(query, params);
+              System.out.println("Query results " + executionResult);
           }
-          System.out.println("Found similar" + similarIsbns);
-
-          String query = "START root=node:Books(isbn={isbn}), book=node(*)\n" +
-                  "WHERE book.isbn! IN {similarities}\n" +
-                  "CREATE UNIQUE root-[:SIMILAR_TO]->book\n" +
-                  "RETURN root, book";
-
-          Map<String, Object> params = new HashMap<String, Object>();
-          params.put("isbn", book.getString("isbn"));
-          params.put("similarities", similarIsbns);
-
-          ExecutionEngine executionEngine = new ExecutionEngine(graphDb);
-          ExecutionResult executionResult = executionEngine.execute(query, params);
-          System.out.println("Query results " + executionResult);
-
           tx.success();
       } catch (Exception e) {
           e.printStackTrace();

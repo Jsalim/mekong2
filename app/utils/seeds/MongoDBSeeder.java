@@ -80,7 +80,7 @@ public class MongoDBSeeder
   private BasicDBList createSubjects(JSONArray jsonSubjects)
   throws JSONException
   {
-    System.out.println("Reading subjects " + jsonSubjects.toString());
+    //System.out.println("Reading subjects " + jsonSubjects.toString());
     BasicDBList subjects = new BasicDBList();
     for (int i = 0; i < jsonSubjects.length(); i++)
     {
@@ -107,12 +107,12 @@ public class MongoDBSeeder
 
   public BasicDBObject createBookRecord(JSONObject book)
   {
-    System.out.println("Received JSON Object");
-    System.out.println(book.toString());
+    //System.out.println("Received JSON Object");
+    //System.out.println(book.toString());
     BasicDBObject newBookRecordQuery = new BasicDBObject();
     try
     {
-      System.out.println("Parsing attributes");
+      //System.out.println("Parsing attributes");
       newBookRecordQuery.put("isbn", book.getString("isbn"));
       newBookRecordQuery.put("title", book.getString("title"));
       newBookRecordQuery.put("cover", book.getString("cover"));
@@ -120,23 +120,36 @@ public class MongoDBSeeder
       newBookRecordQuery.put("description", book.getString("description"));
       newBookRecordQuery.put("stock",  book.getInt("stock"));
 
-      System.out.println("Parsing authors");
-      Object rawAuthors = book.getJSONObject("authors").get("author");
-      JSONArray jsonAuthors = forceJsonArray(rawAuthors);
-      BasicDBList authors = createAuthors(jsonAuthors);
-      newBookRecordQuery.put("authors", authors);
+      //System.out.println("Parsing authors");
+        try {
+          Object rawAuthors = book.getJSONObject("authors").get("author");
+          JSONArray jsonAuthors = forceJsonArray(rawAuthors);
+          BasicDBList authors = createAuthors(jsonAuthors);
+          newBookRecordQuery.put("authors", authors);
+        } catch (Exception e) {
+            System.out.println("Subjects missing");
+        }
 
-      System.out.println("Parsing subjects");
-      Object rawSubjects = book.getJSONObject("subjects").get("subject");
-      JSONArray jsonSubjects = forceJsonArray(rawSubjects);
-      BasicDBList subjects = createSubjects(jsonSubjects);
-      newBookRecordQuery.put("subjects", subjects);
+      //System.out.println("Parsing subjects");
+      try {
+          Object rawSubjects = book.getJSONObject("subjects").get("subject");
+          JSONArray jsonSubjects = forceJsonArray(rawSubjects);
+          BasicDBList subjects = createSubjects(jsonSubjects);
+          newBookRecordQuery.put("subjects", subjects);
+      } catch (Exception e) {
+          System.out.println("Subjects missing");
+      }
 
-      System.out.println("Parsing similar");
-      Object rawSimilar = book.getJSONObject("similar").get("isbn");
-      JSONArray jsonSimilar = forceJsonArray(rawSimilar);
-      BasicDBList similar = createSimilar(jsonSimilar);
-      newBookRecordQuery.put("similar", similar);
+      //System.out.println("Parsing similar");
+        try {
+          Object rawSimilar = book.getJSONObject("similar").get("isbn");
+          JSONArray jsonSimilar = forceJsonArray(rawSimilar);
+          BasicDBList similar = createSimilar(jsonSimilar);
+          newBookRecordQuery.put("similar", similar);
+        } catch (Exception e) {
+            System.out.println("Similar  missing");
+        }
+
     }
     catch (JSONException je)
     {
@@ -144,7 +157,7 @@ public class MongoDBSeeder
     }
     catch (Exception e)
     {
-        System.out.println("Exception " + e.toString());
+       System.out.println("Exception " + e.toString());
     }
     finally
     {
@@ -153,13 +166,13 @@ public class MongoDBSeeder
   }
 
     public DBObject insertBookRecord(BasicDBObject newBookRecordQuery) throws IOException {
-        System.out.println("Inserting BSON Object");
-        System.out.println(newBookRecordQuery.toString());
+        //System.out.println("Inserting BSON Object");
+        //System.out.println(newBookRecordQuery.toString());
 
-        System.out.println("Parsing cover");
+        //System.out.println("Parsing cover");
         String isbn = newBookRecordQuery.getString("isbn");
         String cover = newBookRecordQuery.getString("cover");
-        System.out.println("Download and uploading " + isbn + " cover image " + cover);
+        //System.out.println("Download and uploading " + isbn + " cover image " + cover);
         GridFSDBFile coverImage = gridFsSeeder.createGridFSImageRecord(cover, isbn);
         newBookRecordQuery.put("cover", coverImage.get("filename"));
 
@@ -171,9 +184,9 @@ public class MongoDBSeeder
           System.out.println("Unable to create book record");
           return null;
         }
-        System.out.println("Created mongo record");
-        System.out.println(recordWritten.toString());
-        System.out.println();
+        //System.out.println("Created mongo record");
+        //System.out.println(recordWritten.toString());
+        //System.out.println();
         return newBookRecordQuery;
     }
 
@@ -189,15 +202,19 @@ public class MongoDBSeeder
         DB mekongDB = this.connection.getDB();
         DBCollection books = mekongDB.getCollection("books");
         ObjectId oid = new ObjectId(book.getString("_id"));
-
-        WriteResult recordWritten = books.update(new BasicDBObject("_id", oid), book);
-        CommandResult isRecordWritten = recordWritten.getLastError();
-        if (null != isRecordWritten.get("err")) {
-            System.out.println("Unable to update record");
+        try {
+            WriteResult recordWritten = books.update(new BasicDBObject("_id", oid), book);
+            CommandResult isRecordWritten = recordWritten.getLastError();
+            if (null != isRecordWritten.get("err")) {
+                System.out.println("Unable to update record");
+                return false;
+            } else {
+                System.out.println("Updated mongo record with neo4j");
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
             return false;
-        } else {
-            System.out.println("Updated mongo record with neo4j");
-            return true;
         }
     }
 }
