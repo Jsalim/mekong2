@@ -67,10 +67,10 @@ public abstract class Record<R extends Record> extends MessageContainer {
             }
         } else if (type.equals(DatabaseType.NEO4J) && null != this.mongoRecord) {
             try {
-                List<Book> books = queryNeo4jRecord();
-                if (null != books && book.size() > 0) {
-                  Book book = books.get(0);
-                  this.neo4jRecord = book.getNeo4jRecord();
+                List<R> records = queryNeo4jRecord();
+                if (null != records && records.size() > 0) {
+                  R record = records.get(0);
+                  this.neo4jRecord = record.getNeo4jRecord();
                   if (neo4jRecord != null) {
                       return true;
                   }
