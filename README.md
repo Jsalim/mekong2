@@ -1,6 +1,6 @@
 # README
 
-# INSTALLATION
+## INSTALLATION
 
 Install the Play 2.2.0 framework, it is important that this version is used. This
 can be done at http://www.playframework.com/. There may also the requirement to
