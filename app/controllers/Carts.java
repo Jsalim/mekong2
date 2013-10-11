@@ -18,12 +18,23 @@ import com.mongodb.gridfs.*;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ *
+ * @author Jack Galilee (430395187)
+ *
+ * Authenticated controller, meaning that the user must be logged in before they
+ * are able to access this information.
+ *
+ * This primarily deals with the MongoDB instances of the carts.
+ *
+ */
 @Security.Authenticated(Secured.class)
 public class Carts extends Controller {
 
     /**
-     *
-     * @return
+     * Finds the cart for the user that is currently logged in, or creates one
+     * for them if they don't exist.
+     * @return The cart belonging to the user.
      */
     public static Result find() {
         User user = User.findByUsername(session("username"));
@@ -32,8 +43,8 @@ public class Carts extends Controller {
     }
 
     /**
-     *
-     * @return
+     * Updates the cart with the new isbn information.
+     * @return The updated cart that belongs to the user.
      */
     public static Result update() {
 
@@ -77,8 +88,11 @@ public class Carts extends Controller {
     }
 
     /**
-     *
-     * @return
+     * Find the current cart for the user and attempt to checkout the stock, it
+     * is possible that there is not enough stock available, and we must inform
+     * the user if that is the case.
+     * @return The successful checkout page if the checkout did succeed, otherwise
+     * show the cart show page which may or may not include a number of errors.
      */
     public static Result checkout() {
         String username = session("username");
@@ -86,6 +100,8 @@ public class Carts extends Controller {
         Cart cart = Cart.findOrCreateUsersCart(user);
 
         // Checking information parsing.
+        // This extracts all of the address and creditcard information
+        // from the form that has been passed to the method.
         boolean fieldMissing = false;
         DynamicForm dynamicForm = Form.form().bindFromRequest();
         BasicDBObject creditcard = new BasicDBObject();
@@ -104,14 +120,16 @@ public class Carts extends Controller {
             }
         }
 
-        // Check no address fields are missing
+        // Check no address fields are missing, simple check that everything
+        // that should have been entered has been entered.
         Integer addressFieldCount = 4;
         if(address.keySet().size() != addressFieldCount) {
             fieldMissing = true;
             cart.addMessage(MessageContainer.MessageType.ERROR, "Address field missing");
         }
 
-        // Check no creditcard fields are missing
+        // Check no credit card fields are missing, simple check that everything
+        // that should have been entered has been entered.
         Integer creditcardFieldCount = 5;
         if(creditcard.keySet().size() != creditcardFieldCount) {
             fieldMissing = true;
@@ -128,10 +146,16 @@ public class Carts extends Controller {
             user.loadMongoRecord();
         }
 
+        // If the checkout succeeded then just show the review of the complete
+        // order.
         if (checkoutSuccess) {
             Logger.info("Checkout for " + user.getMongo("username") + " successful!");
             Neo4jDatabaseConnection.getInstance().printDatabase();
             return ok(views.html.Carts.success.render(cart));
+
+        // If the checkout was not a success then show the cart again and it
+        // will have populated its own set of of error messages that must
+        // be displayed to the user.
         } else {
             Logger.info("Checkout for " + user.getMongo("username") + " failed!");
             Neo4jDatabaseConnection.getInstance().printDatabase();

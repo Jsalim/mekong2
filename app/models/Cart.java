@@ -16,18 +16,24 @@ import java.net.UnknownHostException;
 import java.util.*;
 
 /**
+ * @author Jack Galile (430395187)
+ *
+ * Handles all of the polyglot database logic for dealing with the assignment
+ * requirements for Carts.
  *
  */
 public class Cart extends Record<Cart> {
 
     private static final String CARTS_COLLECTION = "carts";
+
     private static MongoDatabaseConnection mongoDatabase = null;
     private static Neo4jDatabaseConnection neo4jDatabase = null;
     private static DBCollection mongoBooksDatabase = null;
+
     private static volatile Cart instance = null;
 
     /**
-     *
+     * Construct a cart object that wraps the MongoDB document
      * @param record
      */
     protected Cart(DBObject record) {
@@ -35,7 +41,7 @@ public class Cart extends Record<Cart> {
     }
 
     /**
-     *
+     * Create the single record for the carts.
      * @throws UnknownHostException
      */
     protected Cart() throws UnknownHostException {
@@ -45,9 +51,10 @@ public class Cart extends Record<Cart> {
     }
 
     /**
-     *
-     * @return
-     * @throws UnknownHostException
+     * Returns or creates the singleton instance for the Cart records.
+     * @return The singleton instance for the Cart records.
+     * @throws UnknownHostException This is thrown if there was an issue
+     * when connecting with the MongoDB database.
      */
     public static Cart getInstance() throws UnknownHostException {
         if (instance == null) {
@@ -57,8 +64,9 @@ public class Cart extends Record<Cart> {
     }
 
     /**
-     *
-     * @return
+     * Get the MongoDB collection for the carts so that it can be used for
+     * parsing through the carts if necessary.
+     * @return MongoDB collection that contains all of the cart objects.
      */
     @Override
     public DBCollection getMongoCollection() {
@@ -69,9 +77,9 @@ public class Cart extends Record<Cart> {
     }
 
     /**
-     *
-     * @param record
-     * @return
+     * Creates a new Cart record from the provided MongoDB document.
+     * @param record MongoDB document to create the cart for.
+     * @return The new Cart object from the MongoDB document.
      */
     @Override
     public Cart fromMongoRecord(DBObject record) {
@@ -124,10 +132,23 @@ public class Cart extends Record<Cart> {
     }
 
     /**
+     * Provided a map of books and their new amounts it attempts to update
+     * the stock for the cart. If the stock levels that are persisted in the
+     * database have changed then a message is added and the transaction will
+     * not be succeeded. However it will not abort directly until all the stock
+     * has been checked. This means that the user can update all of their choices
+     * first before anything bad occurs.
      *
-     * @param entries
-     * @param relative
-     * @return
+     * If the user adds way more stock than is available, instead of failing we
+     * simply only given them the rest of the stock. Letting them know with
+     * a message that we don't have enough stock, but they have been given the
+     * rest of it.
+     *
+     * @param entries Mapping of Books to their new quantities.
+     * @param relative If true then the current stock levels are adjusted by the
+     *                 new quantity amounts. If false the the stock levels are
+     *                 set explicitly as the new amounts.
+     * @return The cart which has been mutated to reflect the changes.
      */
     public Cart adjustQuantityOfBook(Map<Book, Integer> entries, boolean relative) {
         try {
@@ -226,8 +247,10 @@ public class Cart extends Record<Cart> {
     }
 
     /**
-     *
-     * @return
+     * Gets a list of book representations for the items in the cart. This does
+     * not mean that each book has all of the information, in order for that
+     * to occur is must force load the MongoDB record again.
+     * @return List of book representations.
      */
     public List<Book> getItemsInCart() {
         List<Book> result = new ArrayList<Book>();
@@ -249,10 +272,12 @@ public class Cart extends Record<Cart> {
     }
 
     /**
-     *
-     * @param priceOne
-     * @param priceTwo
-     * @return
+     * Helper method to assist in checking the values are within two
+     * decimal places as the Double representations on MongoDB and Neo4j
+     * are not equal due to precision.
+     * @param priceOne The first MongoDB OR Neo4j double to compare.
+     * @param priceTwo The first MongoDB OR Neo4j double to compare.
+     * @return True if as 2 decimal place prices they are correct, false otherwise.
      */
     private boolean pricesAreEqual(Double priceOne, Double priceTwo) {
         BigDecimal scaledPriceOne = new BigDecimal(priceOne);
@@ -263,8 +288,21 @@ public class Cart extends Record<Cart> {
     }
 
     /**
+     * Attempts to checkout all of the items in the cart, either all of the items
+     * checkout out and the MongoDB document is updated following, or nothing
+     * succeeds.
      *
-     * @return
+     * Neo4j is updated first and the status of this update is effectively persisted
+     * into the MongoDB document with an atomic write on the document. If this
+     * does not succeed, assuming the neo4j transaction is so far valid, then
+     * the whole transaction is succeeded.
+     *
+     * Nothing should be possible to invalidate the transaction as write locks
+     * are attached to the Nodes for the stock so the case of the success
+     * transaction failing is a serious situation and would point to an issue
+     * that lies beyond the bounds of this application.
+     *
+     * @return True if the checkout was a success, false otherwise.
      */
     public boolean checkout(String username, BasicDBObject creditcard, BasicDBObject address) {
 

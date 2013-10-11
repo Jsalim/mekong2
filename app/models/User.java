@@ -17,6 +17,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Jack Galile (430395187)
+ *
+ * Handles all of the polyglot database logic for dealing with the assignment
+ * requirements for Users.
+ *
+ */
 public class User extends Record<User> {
 
     private static final String USER_COLLECTION = "users";
@@ -25,23 +32,28 @@ public class User extends Record<User> {
     private static Neo4jDatabaseConnection neo4jDatabaseConnection = null;
     private static DBCollection mongoUsersDatabase = null;
 
-    private static User instance = null;
+    private static volatile User instance = null;
 
+    /*
+     * Relationships for the User record in Neo4j.
+     */
     public static enum RELATIONSHIPS implements RelationshipType {
         BUYS
     }
 
     /**
-     *
-     * @param record
+     * Constructs a new User record from the provided MongoDB document.
+     * @param record The mongodb document to construct the new User record
+     *               from.
      */
     protected User(DBObject record) {
         super(record);
     }
 
     /**
-     *
-     * @throws UnknownHostException
+     * Constructs the User singleton instance.
+     * @throws UnknownHostException If there was an error connecting to the
+     * MongoDB server.
      */
     protected User() throws UnknownHostException {
         super();
@@ -51,8 +63,8 @@ public class User extends Record<User> {
     }
 
     /**
-     *
-     * @return
+     * Gets or creates the singleton instance for the User.
+     * @return The singleton instance for User records.
      * @throws UnknownHostException
      */
     public static User getInstance() throws UnknownHostException {
@@ -62,21 +74,33 @@ public class User extends Record<User> {
         return instance;
     }
 
+    /**
+     * Returns the Users MongoDB collection
+     * @return Users MongoDB collection
+     */
     @Override
     public DBCollection getMongoCollection() {
         return this.mongoUsersDatabase;
     }
 
+    /**
+     * Constructs a User record from the provided MongoDB document.
+     * @param record MongoDB document representing the user.
+     * @return The new User record for the provided MongoDB document.
+     */
     @Override
     public User fromMongoRecord(DBObject record) {
         return new User(record);
     }
 
     /**
-     *
-     * @param username
-     * @param password
-     * @return
+     * Create a new user in the users collection with the provided username,
+     * password, firstname, and lastname.
+     * @param username Username desired for registering the user with.
+     * @param password Password to associate with the account.
+     * @param firstName Fisrt name of the user to be registered.
+     * @param lastName Last name of the user to be registered.
+     * @return The newly created user in the MongoDB users collection.
      */
     public static User registerWith(String username, String password, String firstName, String lastName) {
         GraphDatabaseService graphDB = Neo4jDatabaseConnection.getInstance().getService();
@@ -141,9 +165,11 @@ public class User extends Record<User> {
     }
 
     /**
-     *
-     * @param username
-     * @return
+     * Finds a user only by their username. This is valid because there is
+     * a unique constraint against the username.
+     * @param username Username of the user to find in the users colleciton.
+     * @return User record that represents the MongoDB document for the user
+     * with the same username.
      */
     public static User findByUsername(String username) {
         User result = null;
@@ -163,10 +189,11 @@ public class User extends Record<User> {
     }
 
     /**
-     *
-     * @param username
-     * @param password
-     * @return
+     * Finds a user with the given username and password combination.
+     * @param username Username of the user to find.
+     * @param password Password of the user to find.
+     * @return User that represents the MongoDB document that has been found
+     * with the given username and password parameters.
      */
     public static User findByUsernameAndPassword(String username, String password) {
         User result = null;
@@ -187,8 +214,10 @@ public class User extends Record<User> {
     }
 
     /**
-     *
-     * @return
+     * Creates a list of recommendations for users based on the books
+     * that they have bought and the books that other users have bought.
+     * @return List of books that are recommended for the user and can
+     * be rendered to them.
      */
     public List<Book> recommendedBooks() {
         String query = "START user=node:Users(username={username})\n" +
@@ -206,9 +235,11 @@ public class User extends Record<User> {
     }
 
     /**
-     *
-     * @param address
-     * @return
+     * Updates the address and credit card information for the user by adding
+     * it to their document in MongoDB.
+     * @param creditcard The credit card document to embed with the user document.
+     * @param address The address document to embed with the user document.
+     * @return True if the update was a success, false otherwise.
      */
     public boolean updateCreditcardAndAddress(BasicDBObject creditcard, BasicDBObject address) {
         try {

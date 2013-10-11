@@ -19,6 +19,11 @@ import models.Book;
 import utils.neo4j.Neo4jDatabaseConnection;
 import utils.seeds.*;
 
+/**
+ *
+ * @author Jack Galilee (430395187)
+ *
+ */
 public class Global extends GlobalSettings {
 
     public static User users;

@@ -13,6 +13,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ *
+ * @author  Jack Galilee (430395187)
+ *
  * Authenticated controller, meaning that the user must be logged in before they
  * are able to access this information.
  *
