@@ -13,17 +13,23 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * Authenticated controller, meaning that the user must be logged in before they
+ * are able to access this information.
  *
+ * This primarily deals with the MongoDB instances of the books, except for the
+ * show instance where it will use the Neo4j database for the fine details
+ * that cannot simply be stored and cached within the MongoDB document.
  */
 @Security.Authenticated(Secured.class)
 public class Books extends Controller {
 
-    private static Integer PAGE_SIZE = 3;
+    private static Integer PAGE_SIZE = 10;
 
     /**
-     *
-     * @param isbn
-     * @return
+     * Returns a single book, and also loads the corresponding Neo4j record
+     * for handling the stock and relational properties.
+     * @param isbn Isbn of the book that is requested
+     * @return HttpResponse with the result of the book in a html view.
      */
     public static Result show(String isbn) {
         Book book = Book.findByISBN(isbn);
@@ -37,9 +43,9 @@ public class Books extends Controller {
     }
 
     /**
-     *
-     * @param page
-     * @return
+     * This lists all of the books for the page, the default page size is 10.
+     * @param page Page from the results to display, the default page size is 10
+     * @return List of all of the books for the current page, defaulting to 0.
      */
     public static Result index(Integer page) {
         String username = session("username");
@@ -53,8 +59,8 @@ public class Books extends Controller {
     }
 
     /**
-     *
-     * @return
+     * Prepares and renders the search form, required by the routing framework.
+     * @return Rendered form for searching the application.
      */
     public static Result searchForm() {
         DynamicForm requestData = Form.form().bindFromRequest();
@@ -67,10 +73,13 @@ public class Books extends Controller {
     }
 
     /**
-     *
-     * @param query
-     * @param page
-     * @return
+     * Searches with a case insensitive regex against either the title or
+     * the isbn of all the books in the database and returns the matches.
+     * Matches are limited to ten per page.
+     * @param query String to match against the title or isbn of all books.
+     * @param page Page of the search to return, returns the max or min page if
+     *             greater or smaller than either respective value.
+     * @return Http result rendering the results.
      */
     public static Result search(String query, Integer page) {
         String username = session("username");
@@ -85,9 +94,9 @@ public class Books extends Controller {
     }
 
     /**
-     *
-     * @param isbn
-     * @return
+     * Queries GridFS for the cover image binary and sends it to the user.
+     * @param isbn Match against the aliases of all files in the GridFS store.
+     * @return Matched file, or nothing if not found.
      */
     public static Result cover(String isbn) {
         GridFSDBFile cover = Book.findCoverByISBN(isbn);

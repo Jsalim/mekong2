@@ -91,6 +91,7 @@ public class Book extends Record<Book> {
         try {
             Book instance = getInstance();
             DBCursor allFoundBooks = instance.getMongoCollection().find(query);
+            allFoundBooks.sort(new BasicDBObject("title", 1));
             Integer pages = allFoundBooks.count() / pageSize;
             if (page > pages) {
                 page = pages - 1;
@@ -190,7 +191,7 @@ public class Book extends Record<Book> {
      */
     public static Map<String, Object> searchByTitleAndISBN(String rawQuery, Integer pageSize, Integer page) {
         List<BasicDBObject> search = new ArrayList<BasicDBObject>();
-        Pattern compiledQuery = Pattern.compile(rawQuery, Pattern.CASE_INSENSITIVE);
+        Pattern compiledQuery = Pattern.compile(Pattern.quote(rawQuery), Pattern.CASE_INSENSITIVE);
         BasicDBObject isbnQuery = new BasicDBObject("isbn", compiledQuery);
         BasicDBObject titleQuery = new BasicDBObject("title", compiledQuery);
         search.add(isbnQuery);
