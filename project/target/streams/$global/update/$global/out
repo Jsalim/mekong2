@@ -1,4 +1,4 @@
-[0m[[0minfo[0m] [0mUpdating {file:/C:/Users/jgali_000/Documents/comp5338/mekong2/project/}mekong2-build...[0m
+[0m[[0minfo[0m] [0mUpdating {file:/Users/jgalilee/Documents/Workspace/mekong2/project/}mekong2-build...[0m
 [0m[[0mdebug[0m] [0m:: resolving dependencies :: default#mekong2-build;0.1-SNAPSHOT[0m
 [0m[[0mdebug[0m] [0m	confs: [compile, runtime, test, provided, optional, compile-internal, runtime-internal, test-internal, plugin, sources, docs, pom, scala-tool][0m
 [0m[[0mdebug[0m] [0m	validate = true[0m
@@ -8,42 +8,88 @@
 [0m[[0mdebug[0m] [0m== resolving dependencies default#mekong2-build;0.1-SNAPSHOT->com.typesafe.play#sbt-plugin;2.2.0 [compile->default(compile)][0m
 [0m[[0minfo[0m] [0mResolving com.typesafe.play#sbt-plugin;2.2.0 ...[0m
 [0m[[0mdebug[0m] [0msbt-chain: Checking cache for: dependency: com.typesafe.play#sbt-plugin;2.2.0 {compile=[default(compile)]}[0m
-[0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: com.typesafe.play#sbt-plugin;2.2.0[0m
-[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: revision in cache: com.typesafe.play#sbt-plugin;2.2.0[0m
-[0m[[0mdebug[0m] [0m	found com.typesafe.play#sbt-plugin;2.2.0 in sbt-chain[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.play/sbt-plugin/scala_2.10/sbt_0.13/2.2.0/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: found md file for com.typesafe.play#sbt-plugin;2.2.0[0m
+[0m[[0mdebug[0m] [0m		=> http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.play/sbt-plugin/scala_2.10/sbt_0.13/2.2.0/ivys/ivy.xml (2.2.0)[0m
+[0m[[0mdebug[0m] [0mdownloading http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.play/sbt-plugin/scala_2.10/sbt_0.13/2.2.0/ivys/ivy.xml ...[0m
+[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: downloading http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.play/sbt-plugin/scala_2.10/sbt_0.13/2.2.0/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: downloading http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.play/sbt-plugin/scala_2.10/sbt_0.13/2.2.0/ivys/ivy.xml.sha1[0m
+[0m[[0mdebug[0m] [0msha1 OK for http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.play/sbt-plugin/scala_2.10/sbt_0.13/2.2.0/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	[SUCCESSFUL ] com.typesafe.play#sbt-plugin;2.2.0!ivy.xml(ivy.original) (1208ms)[0m
+[0m[[0mdebug[0m] [0m	found com.typesafe.play#sbt-plugin;2.2.0 in typesafe-ivy-releases[0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#sbt-plugin;2.2.0->com.typesafe.play#sbt-link;2.2.0 [compile->default(compile)][0m
 [0m[[0minfo[0m] [0mResolving com.typesafe.play#sbt-link;2.2.0 ...[0m
 [0m[[0mdebug[0m] [0msbt-chain: Checking cache for: dependency: com.typesafe.play#sbt-link;2.2.0 {compile=[default(compile)]}[0m
-[0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: com.typesafe.play#sbt-link;2.2.0[0m
-[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: revision in cache: com.typesafe.play#sbt-link;2.2.0[0m
-[0m[[0mdebug[0m] [0m	found com.typesafe.play#sbt-link;2.2.0 in sbt-chain[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.play/sbt-link/2.2.0/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.play/sbt-link/2.2.0/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: no ivy file found for com.typesafe.play#sbt-link;2.2.0[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/com.typesafe.play/sbt-link/2.2.0/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/com.typesafe.play/sbt-link/2.2.0/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	sbt-plugin-releases: no ivy file found for com.typesafe.play#sbt-link;2.2.0[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/com.typesafe.play/sbt-link/2.2.0/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	local: found md file for com.typesafe.play#sbt-link;2.2.0[0m
+[0m[[0mdebug[0m] [0m		=> /usr/local/Cellar/play/2.2.0/libexec/repository/local/com.typesafe.play/sbt-link/2.2.0/ivys/ivy.xml (2.2.0)[0m
+[0m[[0mdebug[0m] [0m	[NOT REQUIRED] com.typesafe.play#sbt-link;2.2.0!ivy.xml(ivy.original)[0m
+[0m[[0mdebug[0m] [0m	found com.typesafe.play#sbt-link;2.2.0 in local[0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#sbt-link;2.2.0->org.javassist#javassist;3.18.0-GA [compile->default(compile)][0m
 [0m[[0minfo[0m] [0mResolving org.javassist#javassist;3.18.0-GA ...[0m
 [0m[[0mdebug[0m] [0msbt-chain: Checking cache for: dependency: org.javassist#javassist;3.18.0-GA {compile=[default(compile)]}[0m
-[0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: org.javassist#javassist;3.18.0-GA[0m
-[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: revision in cache: org.javassist#javassist;3.18.0-GA[0m
-[0m[[0mdebug[0m] [0m	found org.javassist#javassist;3.18.0-GA in sbt-chain[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.typesafe.com/typesafe/ivy-releases/org.javassist/javassist/3.18.0-GA/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.typesafe.com/typesafe/ivy-releases/org.javassist/javassist/3.18.0-GA/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: no ivy file found for org.javassist#javassist;3.18.0-GA[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/org.javassist/javassist/3.18.0-GA/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/org.javassist/javassist/3.18.0-GA/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	sbt-plugin-releases: no ivy file found for org.javassist#javassist;3.18.0-GA[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/org.javassist/javassist/3.18.0-GA/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	local: found md file for org.javassist#javassist;3.18.0-GA[0m
+[0m[[0mdebug[0m] [0m		=> /usr/local/Cellar/play/2.2.0/libexec/repository/local/org.javassist/javassist/3.18.0-GA/ivys/ivy.xml (3.18.0-GA)[0m
+[0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.javassist#javassist;3.18.0-GA!ivy.xml(ivy.original)[0m
+[0m[[0mdebug[0m] [0m	found org.javassist#javassist;3.18.0-GA in local[0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#sbt-link;2.2.0->org.javassist#javassist;3.18.0-GA [compile->runtime][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#sbt-link;2.2.0->org.javassist#javassist;3.18.0-GA [compile->compile][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#sbt-link;2.2.0->org.javassist#javassist;3.18.0-GA [compile->master][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#sbt-plugin;2.2.0->com.typesafe.play#play-exceptions;2.2.0 [compile->default(compile)][0m
 [0m[[0minfo[0m] [0mResolving com.typesafe.play#play-exceptions;2.2.0 ...[0m
 [0m[[0mdebug[0m] [0msbt-chain: Checking cache for: dependency: com.typesafe.play#play-exceptions;2.2.0 {compile=[default(compile)]}[0m
-[0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: com.typesafe.play#play-exceptions;2.2.0[0m
-[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: revision in cache: com.typesafe.play#play-exceptions;2.2.0[0m
-[0m[[0mdebug[0m] [0m	found com.typesafe.play#play-exceptions;2.2.0 in sbt-chain[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.play/play-exceptions/2.2.0/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.play/play-exceptions/2.2.0/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: no ivy file found for com.typesafe.play#play-exceptions;2.2.0[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/com.typesafe.play/play-exceptions/2.2.0/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/com.typesafe.play/play-exceptions/2.2.0/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	sbt-plugin-releases: no ivy file found for com.typesafe.play#play-exceptions;2.2.0[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/com.typesafe.play/play-exceptions/2.2.0/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	local: found md file for com.typesafe.play#play-exceptions;2.2.0[0m
+[0m[[0mdebug[0m] [0m		=> /usr/local/Cellar/play/2.2.0/libexec/repository/local/com.typesafe.play/play-exceptions/2.2.0/ivys/ivy.xml (2.2.0)[0m
+[0m[[0mdebug[0m] [0m	[NOT REQUIRED] com.typesafe.play#play-exceptions;2.2.0!ivy.xml(ivy.original)[0m
+[0m[[0mdebug[0m] [0m	found com.typesafe.play#play-exceptions;2.2.0 in local[0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#sbt-plugin;2.2.0->com.typesafe.play#routes-compiler_2.10;2.2.0 [compile->default(compile)][0m
 [0m[[0minfo[0m] [0mResolving com.typesafe.play#routes-compiler_2.10;2.2.0 ...[0m
 [0m[[0mdebug[0m] [0msbt-chain: Checking cache for: dependency: com.typesafe.play#routes-compiler_2.10;2.2.0 {compile=[default(compile)]}[0m
-[0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: com.typesafe.play#routes-compiler_2.10;2.2.0[0m
-[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: revision in cache: com.typesafe.play#routes-compiler_2.10;2.2.0[0m
-[0m[[0mdebug[0m] [0m	found com.typesafe.play#routes-compiler_2.10;2.2.0 in sbt-chain[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.play/routes-compiler_2.10/2.2.0/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.play/routes-compiler_2.10/2.2.0/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: no ivy file found for com.typesafe.play#routes-compiler_2.10;2.2.0[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/com.typesafe.play/routes-compiler_2.10/2.2.0/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/com.typesafe.play/routes-compiler_2.10/2.2.0/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	sbt-plugin-releases: no ivy file found for com.typesafe.play#routes-compiler_2.10;2.2.0[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/com.typesafe.play/routes-compiler_2.10/2.2.0/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	local: found md file for com.typesafe.play#routes-compiler_2.10;2.2.0[0m
+[0m[[0mdebug[0m] [0m		=> /usr/local/Cellar/play/2.2.0/libexec/repository/local/com.typesafe.play/routes-compiler_2.10/2.2.0/ivys/ivy.xml (2.2.0)[0m
+[0m[[0mdebug[0m] [0m	[NOT REQUIRED] com.typesafe.play#routes-compiler_2.10;2.2.0!ivy.xml(ivy.original)[0m
+[0m[[0mdebug[0m] [0m	found com.typesafe.play#routes-compiler_2.10;2.2.0 in local[0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#routes-compiler_2.10;2.2.0->com.github.scala-incubator.io#scala-io-file_2.10;0.4.2 [compile->default(compile)][0m
 [0m[[0minfo[0m] [0mResolving com.github.scala-incubator.io#scala-io-file_2.10;0.4.2 ...[0m
 [0m[[0mdebug[0m] [0msbt-chain: Checking cache for: dependency: com.github.scala-incubator.io#scala-io-file_2.10;0.4.2 {compile=[default(compile)]}[0m
-[0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: com.github.scala-incubator.io#scala-io-file_2.10;0.4.2[0m
-[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: revision in cache: com.github.scala-incubator.io#scala-io-file_2.10;0.4.2[0m
-[0m[[0mdebug[0m] [0m	found com.github.scala-incubator.io#scala-io-file_2.10;0.4.2 in sbt-chain[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.typesafe.com/typesafe/ivy-releases/com.github.scala-incubator.io/scala-io-file_2.10/0.4.2/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.typesafe.com/typesafe/ivy-releases/com.github.scala-incubator.io/scala-io-file_2.10/0.4.2/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: no ivy file found for com.github.scala-incubator.io#scala-io-file_2.10;0.4.2[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/com.github.scala-incubator.io/scala-io-file_2.10/0.4.2/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/com.github.scala-incubator.io/scala-io-file_2.10/0.4.2/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	sbt-plugin-releases: no ivy file found for com.github.scala-incubator.io#scala-io-file_2.10;0.4.2[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/com.github.scala-incubator.io/scala-io-file_2.10/0.4.2/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	local: found md file for com.github.scala-incubator.io#scala-io-file_2.10;0.4.2[0m
+[0m[[0mdebug[0m] [0m		=> /usr/local/Cellar/play/2.2.0/libexec/repository/local/com.github.scala-incubator.io/scala-io-file_2.10/0.4.2/ivys/ivy.xml (0.4.2)[0m
+[0m[[0mdebug[0m] [0m	[NOT REQUIRED] com.github.scala-incubator.io#scala-io-file_2.10;0.4.2!ivy.xml(ivy.original)[0m
+[0m[[0mdebug[0m] [0m	found com.github.scala-incubator.io#scala-io-file_2.10;0.4.2 in local[0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#routes-compiler_2.10;2.2.0->com.github.scala-incubator.io#scala-io-file_2.10;0.4.2 [compile->runtime][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#routes-compiler_2.10;2.2.0->com.github.scala-incubator.io#scala-io-file_2.10;0.4.2 [compile->compile][0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.10.0 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.10.2 {compile=[compile(*), master(*)], runtime=[runtime(*)]}[0m
@@ -51,9 +97,17 @@
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.10.0 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.10.2 {compile=[compile(*), master(*)], runtime=[runtime(*)]}[0m
 [0m[[0minfo[0m] [0mResolving com.github.scala-incubator.io#scala-io-core_2.10;0.4.2 ...[0m
 [0m[[0mdebug[0m] [0msbt-chain: Checking cache for: dependency: com.github.scala-incubator.io#scala-io-core_2.10;0.4.2 {compile=[compile(*), master(*)], runtime=[runtime(*)]}[0m
-[0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: com.github.scala-incubator.io#scala-io-core_2.10;0.4.2[0m
-[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: revision in cache: com.github.scala-incubator.io#scala-io-core_2.10;0.4.2[0m
-[0m[[0mdebug[0m] [0m	found com.github.scala-incubator.io#scala-io-core_2.10;0.4.2 in sbt-chain[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.typesafe.com/typesafe/ivy-releases/com.github.scala-incubator.io/scala-io-core_2.10/0.4.2/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.typesafe.com/typesafe/ivy-releases/com.github.scala-incubator.io/scala-io-core_2.10/0.4.2/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: no ivy file found for com.github.scala-incubator.io#scala-io-core_2.10;0.4.2[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/com.github.scala-incubator.io/scala-io-core_2.10/0.4.2/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/com.github.scala-incubator.io/scala-io-core_2.10/0.4.2/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	sbt-plugin-releases: no ivy file found for com.github.scala-incubator.io#scala-io-core_2.10;0.4.2[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/com.github.scala-incubator.io/scala-io-core_2.10/0.4.2/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	local: found md file for com.github.scala-incubator.io#scala-io-core_2.10;0.4.2[0m
+[0m[[0mdebug[0m] [0m		=> /usr/local/Cellar/play/2.2.0/libexec/repository/local/com.github.scala-incubator.io/scala-io-core_2.10/0.4.2/ivys/ivy.xml (0.4.2)[0m
+[0m[[0mdebug[0m] [0m	[NOT REQUIRED] com.github.scala-incubator.io#scala-io-core_2.10;0.4.2!ivy.xml(ivy.original)[0m
+[0m[[0mdebug[0m] [0m	found com.github.scala-incubator.io#scala-io-core_2.10;0.4.2 in local[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.10.0 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.10.2 {compile=[compile(*), master(*)], runtime=[runtime(*)]}[0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.github.scala-incubator.io#scala-io-file_2.10;0.4.2->com.github.scala-incubator.io#scala-io-core_2.10;0.4.2 [compile->compile(*)][0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.10.0 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.10.2 {compile=[compile(*), master(*)], runtime=[runtime(*)]}[0m
@@ -81,9 +135,17 @@
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.10.0 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.10.2 {compile=[compile(*), master(*)], runtime=[runtime(*)]}[0m
 [0m[[0minfo[0m] [0mResolving com.jsuereth#scala-arm_2.10;1.3 ...[0m
 [0m[[0mdebug[0m] [0msbt-chain: Checking cache for: dependency: com.jsuereth#scala-arm_2.10;1.3 {compile=[compile(*), master(*)], runtime=[runtime(*)]}[0m
-[0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: com.jsuereth#scala-arm_2.10;1.3[0m
-[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: revision in cache: com.jsuereth#scala-arm_2.10;1.3[0m
-[0m[[0mdebug[0m] [0m	found com.jsuereth#scala-arm_2.10;1.3 in sbt-chain[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.typesafe.com/typesafe/ivy-releases/com.jsuereth/scala-arm_2.10/1.3/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.typesafe.com/typesafe/ivy-releases/com.jsuereth/scala-arm_2.10/1.3/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: no ivy file found for com.jsuereth#scala-arm_2.10;1.3[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/com.jsuereth/scala-arm_2.10/1.3/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/com.jsuereth/scala-arm_2.10/1.3/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	sbt-plugin-releases: no ivy file found for com.jsuereth#scala-arm_2.10;1.3[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/com.jsuereth/scala-arm_2.10/1.3/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	local: found md file for com.jsuereth#scala-arm_2.10;1.3[0m
+[0m[[0mdebug[0m] [0m		=> /usr/local/Cellar/play/2.2.0/libexec/repository/local/com.jsuereth/scala-arm_2.10/1.3/ivys/ivy.xml (1.3)[0m
+[0m[[0mdebug[0m] [0m	[NOT REQUIRED] com.jsuereth#scala-arm_2.10;1.3!ivy.xml(ivy.original)[0m
+[0m[[0mdebug[0m] [0m	found com.jsuereth#scala-arm_2.10;1.3 in local[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.10.0 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.10.2 {compile=[compile(*), master(*)], runtime=[runtime(*)]}[0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.github.scala-incubator.io#scala-io-core_2.10;0.4.2->com.jsuereth#scala-arm_2.10;1.3 [compile->compile(*)][0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.10.0 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.10.2 {compile=[compile(*), master(*)], runtime=[runtime(*)]}[0m
@@ -113,9 +175,17 @@
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#sbt-plugin;2.2.0->com.typesafe.play#templates-compiler_2.10;2.2.0 [compile->default(compile)][0m
 [0m[[0minfo[0m] [0mResolving com.typesafe.play#templates-compiler_2.10;2.2.0 ...[0m
 [0m[[0mdebug[0m] [0msbt-chain: Checking cache for: dependency: com.typesafe.play#templates-compiler_2.10;2.2.0 {compile=[default(compile)]}[0m
-[0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: com.typesafe.play#templates-compiler_2.10;2.2.0[0m
-[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: revision in cache: com.typesafe.play#templates-compiler_2.10;2.2.0[0m
-[0m[[0mdebug[0m] [0m	found com.typesafe.play#templates-compiler_2.10;2.2.0 in sbt-chain[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.play/templates-compiler_2.10/2.2.0/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.play/templates-compiler_2.10/2.2.0/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: no ivy file found for com.typesafe.play#templates-compiler_2.10;2.2.0[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/com.typesafe.play/templates-compiler_2.10/2.2.0/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/com.typesafe.play/templates-compiler_2.10/2.2.0/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	sbt-plugin-releases: no ivy file found for com.typesafe.play#templates-compiler_2.10;2.2.0[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/com.typesafe.play/templates-compiler_2.10/2.2.0/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	local: found md file for com.typesafe.play#templates-compiler_2.10;2.2.0[0m
+[0m[[0mdebug[0m] [0m		=> /usr/local/Cellar/play/2.2.0/libexec/repository/local/com.typesafe.play/templates-compiler_2.10/2.2.0/ivys/ivy.xml (2.2.0)[0m
+[0m[[0mdebug[0m] [0m	[NOT REQUIRED] com.typesafe.play#templates-compiler_2.10;2.2.0!ivy.xml(ivy.original)[0m
+[0m[[0mdebug[0m] [0m	found com.typesafe.play#templates-compiler_2.10;2.2.0 in local[0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#templates-compiler_2.10;2.2.0->com.github.scala-incubator.io#scala-io-file_2.10;0.4.2 [compile->default(compile)][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#templates-compiler_2.10;2.2.0->com.github.scala-incubator.io#scala-io-file_2.10;0.4.2 [compile->runtime][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#templates-compiler_2.10;2.2.0->com.github.scala-incubator.io#scala-io-file_2.10;0.4.2 [compile->compile][0m
@@ -149,9 +219,17 @@
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#sbt-plugin;2.2.0->com.typesafe.play#console_2.10;2.2.0 [compile->default(compile)][0m
 [0m[[0minfo[0m] [0mResolving com.typesafe.play#console_2.10;2.2.0 ...[0m
 [0m[[0mdebug[0m] [0msbt-chain: Checking cache for: dependency: com.typesafe.play#console_2.10;2.2.0 {compile=[default(compile)]}[0m
-[0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: com.typesafe.play#console_2.10;2.2.0[0m
-[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: revision in cache: com.typesafe.play#console_2.10;2.2.0[0m
-[0m[[0mdebug[0m] [0m	found com.typesafe.play#console_2.10;2.2.0 in sbt-chain[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.play/console_2.10/2.2.0/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.play/console_2.10/2.2.0/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: no ivy file found for com.typesafe.play#console_2.10;2.2.0[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/com.typesafe.play/console_2.10/2.2.0/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/com.typesafe.play/console_2.10/2.2.0/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	sbt-plugin-releases: no ivy file found for com.typesafe.play#console_2.10;2.2.0[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/com.typesafe.play/console_2.10/2.2.0/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	local: found md file for com.typesafe.play#console_2.10;2.2.0[0m
+[0m[[0mdebug[0m] [0m		=> /usr/local/Cellar/play/2.2.0/libexec/repository/local/com.typesafe.play/console_2.10/2.2.0/ivys/ivy.xml (2.2.0)[0m
+[0m[[0mdebug[0m] [0m	[NOT REQUIRED] com.typesafe.play#console_2.10;2.2.0!ivy.xml(ivy.original)[0m
+[0m[[0mdebug[0m] [0m	found com.typesafe.play#console_2.10;2.2.0 in local[0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#console_2.10;2.2.0->com.github.scala-incubator.io#scala-io-file_2.10;0.4.2 [compile->default(compile)][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#console_2.10;2.2.0->com.github.scala-incubator.io#scala-io-file_2.10;0.4.2 [compile->runtime][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#console_2.10;2.2.0->com.github.scala-incubator.io#scala-io-file_2.10;0.4.2 [compile->compile][0m
@@ -178,27 +256,51 @@
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#sbt-plugin;2.2.0->com.typesafe#config;1.0.2 [compile->default(compile)][0m
 [0m[[0minfo[0m] [0mResolving com.typesafe#config;1.0.2 ...[0m
 [0m[[0mdebug[0m] [0msbt-chain: Checking cache for: dependency: com.typesafe#config;1.0.2 {compile=[default(compile)]}[0m
-[0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: com.typesafe#config;1.0.2[0m
-[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: revision in cache: com.typesafe#config;1.0.2[0m
-[0m[[0mdebug[0m] [0m	found com.typesafe#config;1.0.2 in sbt-chain[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe/config/1.0.2/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe/config/1.0.2/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: no ivy file found for com.typesafe#config;1.0.2[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/com.typesafe/config/1.0.2/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/com.typesafe/config/1.0.2/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	sbt-plugin-releases: no ivy file found for com.typesafe#config;1.0.2[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/com.typesafe/config/1.0.2/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	local: found md file for com.typesafe#config;1.0.2[0m
+[0m[[0mdebug[0m] [0m		=> /usr/local/Cellar/play/2.2.0/libexec/repository/local/com.typesafe/config/1.0.2/ivys/ivy.xml (1.0.2)[0m
+[0m[[0mdebug[0m] [0m	[NOT REQUIRED] com.typesafe#config;1.0.2!ivy.xml(ivy.original)[0m
+[0m[[0mdebug[0m] [0m	found com.typesafe#config;1.0.2 in local[0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#sbt-plugin;2.2.0->com.typesafe#config;1.0.2 [compile->runtime][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#sbt-plugin;2.2.0->com.typesafe#config;1.0.2 [compile->compile][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#sbt-plugin;2.2.0->com.typesafe#config;1.0.2 [compile->master][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#sbt-plugin;2.2.0->org.mozilla#rhino;1.7R4 [compile->default(compile)][0m
 [0m[[0minfo[0m] [0mResolving org.mozilla#rhino;1.7R4 ...[0m
 [0m[[0mdebug[0m] [0msbt-chain: Checking cache for: dependency: org.mozilla#rhino;1.7R4 {compile=[default(compile)]}[0m
-[0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: org.mozilla#rhino;1.7R4[0m
-[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: revision in cache: org.mozilla#rhino;1.7R4[0m
-[0m[[0mdebug[0m] [0m	found org.mozilla#rhino;1.7R4 in sbt-chain[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.typesafe.com/typesafe/ivy-releases/org.mozilla/rhino/1.7R4/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.typesafe.com/typesafe/ivy-releases/org.mozilla/rhino/1.7R4/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: no ivy file found for org.mozilla#rhino;1.7R4[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/org.mozilla/rhino/1.7R4/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/org.mozilla/rhino/1.7R4/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	sbt-plugin-releases: no ivy file found for org.mozilla#rhino;1.7R4[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/org.mozilla/rhino/1.7R4/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	local: found md file for org.mozilla#rhino;1.7R4[0m
+[0m[[0mdebug[0m] [0m		=> /usr/local/Cellar/play/2.2.0/libexec/repository/local/org.mozilla/rhino/1.7R4/ivys/ivy.xml (1.7R4)[0m
+[0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.mozilla#rhino;1.7R4!ivy.xml(ivy.original)[0m
+[0m[[0mdebug[0m] [0m	found org.mozilla#rhino;1.7R4 in local[0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#sbt-plugin;2.2.0->org.mozilla#rhino;1.7R4 [compile->runtime][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#sbt-plugin;2.2.0->org.mozilla#rhino;1.7R4 [compile->compile][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#sbt-plugin;2.2.0->org.mozilla#rhino;1.7R4 [compile->master][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#sbt-plugin;2.2.0->com.google.javascript#closure-compiler;v20130603 [compile->default(compile)][0m
 [0m[[0minfo[0m] [0mResolving com.google.javascript#closure-compiler;v20130603 ...[0m
 [0m[[0mdebug[0m] [0msbt-chain: Checking cache for: dependency: com.google.javascript#closure-compiler;v20130603 {compile=[default(compile)]}[0m
-[0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: com.google.javascript#closure-compiler;v20130603[0m
-[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: revision in cache: com.google.javascript#closure-compiler;v20130603[0m
-[0m[[0mdebug[0m] [0m	found com.google.javascript#closure-compiler;v20130603 in sbt-chain[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.typesafe.com/typesafe/ivy-releases/com.google.javascript/closure-compiler/v20130603/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.typesafe.com/typesafe/ivy-releases/com.google.javascript/closure-compiler/v20130603/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: no ivy file found for com.google.javascript#closure-compiler;v20130603[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/com.google.javascript/closure-compiler/v20130603/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/com.google.javascript/closure-compiler/v20130603/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	sbt-plugin-releases: no ivy file found for com.google.javascript#closure-compiler;v20130603[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/com.google.javascript/closure-compiler/v20130603/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	local: found md file for com.google.javascript#closure-compiler;v20130603[0m
+[0m[[0mdebug[0m] [0m		=> /usr/local/Cellar/play/2.2.0/libexec/repository/local/com.google.javascript/closure-compiler/v20130603/ivys/ivy.xml (v20130603)[0m
+[0m[[0mdebug[0m] [0m	[NOT REQUIRED] com.google.javascript#closure-compiler;v20130603!ivy.xml(ivy.original)[0m
+[0m[[0mdebug[0m] [0m	found com.google.javascript#closure-compiler;v20130603 in local[0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#sbt-plugin;2.2.0->com.google.javascript#closure-compiler;v20130603 [compile->runtime][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#sbt-plugin;2.2.0->com.google.javascript#closure-compiler;v20130603 [compile->compile][0m
 [0m[[0mdebug[0m] [0mexcluding dependency: args4j#args4j;2.0.16 {compile=[compile(*), master(*)], runtime=[runtime(*)]} in compile[0m
@@ -210,9 +312,17 @@
 [0m[[0mdebug[0m] [0mexcluding dependency: com.google.code.findbugs#jsr305;1.3.9 {compile=[compile(*), master(*)], runtime=[runtime(*)]} in compile[0m
 [0m[[0minfo[0m] [0mResolving com.google.guava#guava;14.0.1 ...[0m
 [0m[[0mdebug[0m] [0msbt-chain: Checking cache for: dependency: com.google.guava#guava;14.0.1 {compile=[compile(*), master(*)], runtime=[runtime(*)]}[0m
-[0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: com.google.guava#guava;14.0.1[0m
-[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: revision in cache: com.google.guava#guava;14.0.1[0m
-[0m[[0mdebug[0m] [0m	found com.google.guava#guava;14.0.1 in sbt-chain[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.typesafe.com/typesafe/ivy-releases/com.google.guava/guava/14.0.1/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.typesafe.com/typesafe/ivy-releases/com.google.guava/guava/14.0.1/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: no ivy file found for com.google.guava#guava;14.0.1[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/com.google.guava/guava/14.0.1/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/com.google.guava/guava/14.0.1/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	sbt-plugin-releases: no ivy file found for com.google.guava#guava;14.0.1[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/com.google.guava/guava/14.0.1/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	local: found md file for com.google.guava#guava;14.0.1[0m
+[0m[[0mdebug[0m] [0m		=> /usr/local/Cellar/play/2.2.0/libexec/repository/local/com.google.guava/guava/14.0.1/ivys/ivy.xml (14.0.1)[0m
+[0m[[0mdebug[0m] [0m	[NOT REQUIRED] com.google.guava#guava;14.0.1!ivy.xml(ivy.original)[0m
+[0m[[0mdebug[0m] [0m	found com.google.guava#guava;14.0.1 in local[0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.google.javascript#closure-compiler;v20130603->com.google.guava#guava;14.0.1 [compile->compile(*)][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.google.javascript#closure-compiler;v20130603->com.google.guava#guava;14.0.1 [compile->default(compile)][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.google.javascript#closure-compiler;v20130603->com.google.guava#guava;14.0.1 [compile->runtime][0m
@@ -224,9 +334,17 @@
 [0m[[0mdebug[0m] [0mexcluding dependency: com.google.code.findbugs#jsr305;1.3.9 {compile=[compile(*), master(*)], runtime=[runtime(*)]} in compile[0m
 [0m[[0minfo[0m] [0mResolving org.json#json;20090211 ...[0m
 [0m[[0mdebug[0m] [0msbt-chain: Checking cache for: dependency: org.json#json;20090211 {compile=[compile(*), master(*)], runtime=[runtime(*)]}[0m
-[0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: org.json#json;20090211[0m
-[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: revision in cache: org.json#json;20090211[0m
-[0m[[0mdebug[0m] [0m	found org.json#json;20090211 in sbt-chain[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.typesafe.com/typesafe/ivy-releases/org.json/json/20090211/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.typesafe.com/typesafe/ivy-releases/org.json/json/20090211/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: no ivy file found for org.json#json;20090211[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/org.json/json/20090211/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/org.json/json/20090211/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	sbt-plugin-releases: no ivy file found for org.json#json;20090211[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/org.json/json/20090211/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	local: found md file for org.json#json;20090211[0m
+[0m[[0mdebug[0m] [0m		=> /usr/local/Cellar/play/2.2.0/libexec/repository/local/org.json/json/20090211/ivys/ivy.xml (20090211)[0m
+[0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.json#json;20090211!ivy.xml(ivy.original)[0m
+[0m[[0mdebug[0m] [0m	found org.json#json;20090211 in local[0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.google.javascript#closure-compiler;v20130603->org.json#json;20090211 [compile->compile(*)][0m
 [0m[[0mdebug[0m] [0mexcluding dependency: args4j#args4j;2.0.16 {compile=[compile(*), master(*)], runtime=[runtime(*)]} in runtime[0m
 [0m[[0mdebug[0m] [0mexcluding dependency: com.google.protobuf#protobuf-java;2.4.1 {compile=[compile(*), master(*)], runtime=[runtime(*)]} in runtime[0m
@@ -247,18 +365,34 @@
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#sbt-plugin;2.2.0->org.avaje.ebeanorm#avaje-ebeanorm-agent;3.2.1 [compile->default(compile)][0m
 [0m[[0minfo[0m] [0mResolving org.avaje.ebeanorm#avaje-ebeanorm-agent;3.2.1 ...[0m
 [0m[[0mdebug[0m] [0msbt-chain: Checking cache for: dependency: org.avaje.ebeanorm#avaje-ebeanorm-agent;3.2.1 {compile=[default(compile)]}[0m
-[0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: org.avaje.ebeanorm#avaje-ebeanorm-agent;3.2.1[0m
-[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: revision in cache: org.avaje.ebeanorm#avaje-ebeanorm-agent;3.2.1[0m
-[0m[[0mdebug[0m] [0m	found org.avaje.ebeanorm#avaje-ebeanorm-agent;3.2.1 in sbt-chain[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.typesafe.com/typesafe/ivy-releases/org.avaje.ebeanorm/avaje-ebeanorm-agent/3.2.1/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.typesafe.com/typesafe/ivy-releases/org.avaje.ebeanorm/avaje-ebeanorm-agent/3.2.1/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: no ivy file found for org.avaje.ebeanorm#avaje-ebeanorm-agent;3.2.1[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/org.avaje.ebeanorm/avaje-ebeanorm-agent/3.2.1/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/org.avaje.ebeanorm/avaje-ebeanorm-agent/3.2.1/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	sbt-plugin-releases: no ivy file found for org.avaje.ebeanorm#avaje-ebeanorm-agent;3.2.1[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/org.avaje.ebeanorm/avaje-ebeanorm-agent/3.2.1/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	local: found md file for org.avaje.ebeanorm#avaje-ebeanorm-agent;3.2.1[0m
+[0m[[0mdebug[0m] [0m		=> /usr/local/Cellar/play/2.2.0/libexec/repository/local/org.avaje.ebeanorm/avaje-ebeanorm-agent/3.2.1/ivys/ivy.xml (3.2.1)[0m
+[0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.avaje.ebeanorm#avaje-ebeanorm-agent;3.2.1!ivy.xml(ivy.original)[0m
+[0m[[0mdebug[0m] [0m	found org.avaje.ebeanorm#avaje-ebeanorm-agent;3.2.1 in local[0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#sbt-plugin;2.2.0->org.avaje.ebeanorm#avaje-ebeanorm-agent;3.2.1 [compile->runtime][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#sbt-plugin;2.2.0->org.avaje.ebeanorm#avaje-ebeanorm-agent;3.2.1 [compile->compile][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#sbt-plugin;2.2.0->org.avaje.ebeanorm#avaje-ebeanorm-agent;3.2.1 [compile->master][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#sbt-plugin;2.2.0->com.h2database#h2;1.3.172 [compile->default(compile)][0m
 [0m[[0minfo[0m] [0mResolving com.h2database#h2;1.3.172 ...[0m
 [0m[[0mdebug[0m] [0msbt-chain: Checking cache for: dependency: com.h2database#h2;1.3.172 {compile=[default(compile)]}[0m
-[0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: com.h2database#h2;1.3.172[0m
-[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: revision in cache: com.h2database#h2;1.3.172[0m
-[0m[[0mdebug[0m] [0m	found com.h2database#h2;1.3.172 in sbt-chain[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.typesafe.com/typesafe/ivy-releases/com.h2database/h2/1.3.172/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.typesafe.com/typesafe/ivy-releases/com.h2database/h2/1.3.172/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: no ivy file found for com.h2database#h2;1.3.172[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/com.h2database/h2/1.3.172/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/com.h2database/h2/1.3.172/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	sbt-plugin-releases: no ivy file found for com.h2database#h2;1.3.172[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/com.h2database/h2/1.3.172/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	local: found md file for com.h2database#h2;1.3.172[0m
+[0m[[0mdebug[0m] [0m		=> /usr/local/Cellar/play/2.2.0/libexec/repository/local/com.h2database/h2/1.3.172/ivys/ivy.xml (1.3.172)[0m
+[0m[[0mdebug[0m] [0m	[NOT REQUIRED] com.h2database#h2;1.3.172!ivy.xml(ivy.original)[0m
+[0m[[0mdebug[0m] [0m	found com.h2database#h2;1.3.172 in local[0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#sbt-plugin;2.2.0->com.h2database#h2;1.3.172 [compile->runtime][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#sbt-plugin;2.2.0->com.h2database#h2;1.3.172 [compile->compile][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#sbt-plugin;2.2.0->com.h2database#h2;1.3.172 [compile->master][0m
@@ -269,30 +403,58 @@
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#sbt-plugin;2.2.0->net.contentobjects.jnotify#jnotify;0.94 [compile->default(compile)][0m
 [0m[[0minfo[0m] [0mResolving net.contentobjects.jnotify#jnotify;0.94 ...[0m
 [0m[[0mdebug[0m] [0msbt-chain: Checking cache for: dependency: net.contentobjects.jnotify#jnotify;0.94 {compile=[default(compile)]}[0m
-[0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: net.contentobjects.jnotify#jnotify;0.94[0m
-[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: revision in cache: net.contentobjects.jnotify#jnotify;0.94[0m
-[0m[[0mdebug[0m] [0m	found net.contentobjects.jnotify#jnotify;0.94 in sbt-chain[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.typesafe.com/typesafe/ivy-releases/net.contentobjects.jnotify/jnotify/0.94/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.typesafe.com/typesafe/ivy-releases/net.contentobjects.jnotify/jnotify/0.94/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: no ivy file found for net.contentobjects.jnotify#jnotify;0.94[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/net.contentobjects.jnotify/jnotify/0.94/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/net.contentobjects.jnotify/jnotify/0.94/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	sbt-plugin-releases: no ivy file found for net.contentobjects.jnotify#jnotify;0.94[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/net.contentobjects.jnotify/jnotify/0.94/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	local: found md file for net.contentobjects.jnotify#jnotify;0.94[0m
+[0m[[0mdebug[0m] [0m		=> /usr/local/Cellar/play/2.2.0/libexec/repository/local/net.contentobjects.jnotify/jnotify/0.94/ivys/ivy.xml (0.94)[0m
+[0m[[0mdebug[0m] [0m	[NOT REQUIRED] net.contentobjects.jnotify#jnotify;0.94!ivy.xml(ivy.original)[0m
+[0m[[0mdebug[0m] [0m	found net.contentobjects.jnotify#jnotify;0.94 in local[0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#sbt-plugin;2.2.0->net.contentobjects.jnotify#jnotify;0.94 [compile->runtime][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#sbt-plugin;2.2.0->net.contentobjects.jnotify#jnotify;0.94 [compile->compile][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#sbt-plugin;2.2.0->net.contentobjects.jnotify#jnotify;0.94 [compile->master][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#sbt-plugin;2.2.0->com.typesafe.sbteclipse#sbteclipse-plugin;2.3.0 [compile->default(compile)][0m
 [0m[[0minfo[0m] [0mResolving com.typesafe.sbteclipse#sbteclipse-plugin;2.3.0 ...[0m
 [0m[[0mdebug[0m] [0msbt-chain: Checking cache for: dependency: com.typesafe.sbteclipse#sbteclipse-plugin;2.3.0 {compile=[default(compile)]}[0m
-[0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: com.typesafe.sbteclipse#sbteclipse-plugin;2.3.0[0m
-[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: revision in cache: com.typesafe.sbteclipse#sbteclipse-plugin;2.3.0[0m
-[0m[[0mdebug[0m] [0m	found com.typesafe.sbteclipse#sbteclipse-plugin;2.3.0 in sbt-chain[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.sbteclipse/sbteclipse-plugin/scala_2.10/sbt_0.13/2.3.0/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: found md file for com.typesafe.sbteclipse#sbteclipse-plugin;2.3.0[0m
+[0m[[0mdebug[0m] [0m		=> http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.sbteclipse/sbteclipse-plugin/scala_2.10/sbt_0.13/2.3.0/ivys/ivy.xml (2.3.0)[0m
+[0m[[0mdebug[0m] [0mdownloading http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.sbteclipse/sbteclipse-plugin/scala_2.10/sbt_0.13/2.3.0/ivys/ivy.xml ...[0m
+[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: downloading http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.sbteclipse/sbteclipse-plugin/scala_2.10/sbt_0.13/2.3.0/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: downloading http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.sbteclipse/sbteclipse-plugin/scala_2.10/sbt_0.13/2.3.0/ivys/ivy.xml.sha1[0m
+[0m[[0mdebug[0m] [0msha1 OK for http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.sbteclipse/sbteclipse-plugin/scala_2.10/sbt_0.13/2.3.0/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	[SUCCESSFUL ] com.typesafe.sbteclipse#sbteclipse-plugin;2.3.0!ivy.xml(ivy.original) (1230ms)[0m
+[0m[[0mdebug[0m] [0m	found com.typesafe.sbteclipse#sbteclipse-plugin;2.3.0 in typesafe-ivy-releases[0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.sbteclipse#sbteclipse-plugin;2.3.0->com.typesafe.sbteclipse#sbteclipse-core;2.3.0 [compile->default(compile)][0m
 [0m[[0minfo[0m] [0mResolving com.typesafe.sbteclipse#sbteclipse-core;2.3.0 ...[0m
 [0m[[0mdebug[0m] [0msbt-chain: Checking cache for: dependency: com.typesafe.sbteclipse#sbteclipse-core;2.3.0 {compile=[default(compile)]}[0m
-[0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: com.typesafe.sbteclipse#sbteclipse-core;2.3.0[0m
-[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: revision in cache: com.typesafe.sbteclipse#sbteclipse-core;2.3.0[0m
-[0m[[0mdebug[0m] [0m	found com.typesafe.sbteclipse#sbteclipse-core;2.3.0 in sbt-chain[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.sbteclipse/sbteclipse-core/scala_2.10/sbt_0.13/2.3.0/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: found md file for com.typesafe.sbteclipse#sbteclipse-core;2.3.0[0m
+[0m[[0mdebug[0m] [0m		=> http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.sbteclipse/sbteclipse-core/scala_2.10/sbt_0.13/2.3.0/ivys/ivy.xml (2.3.0)[0m
+[0m[[0mdebug[0m] [0mdownloading http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.sbteclipse/sbteclipse-core/scala_2.10/sbt_0.13/2.3.0/ivys/ivy.xml ...[0m
+[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: downloading http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.sbteclipse/sbteclipse-core/scala_2.10/sbt_0.13/2.3.0/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: downloading http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.sbteclipse/sbteclipse-core/scala_2.10/sbt_0.13/2.3.0/ivys/ivy.xml.sha1[0m
+[0m[[0mdebug[0m] [0msha1 OK for http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.sbteclipse/sbteclipse-core/scala_2.10/sbt_0.13/2.3.0/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	[SUCCESSFUL ] com.typesafe.sbteclipse#sbteclipse-core;2.3.0!ivy.xml(ivy.original) (1334ms)[0m
+[0m[[0mdebug[0m] [0m	found com.typesafe.sbteclipse#sbteclipse-core;2.3.0 in typesafe-ivy-releases[0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.sbteclipse#sbteclipse-core;2.3.0->org.scalaz#scalaz-core_2.10;7.0.2 [compile->default(compile)][0m
 [0m[[0minfo[0m] [0mResolving org.scalaz#scalaz-core_2.10;7.0.2 ...[0m
 [0m[[0mdebug[0m] [0msbt-chain: Checking cache for: dependency: org.scalaz#scalaz-core_2.10;7.0.2 {compile=[default(compile)]}[0m
-[0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: org.scalaz#scalaz-core_2.10;7.0.2[0m
-[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: revision in cache: org.scalaz#scalaz-core_2.10;7.0.2[0m
-[0m[[0mdebug[0m] [0m	found org.scalaz#scalaz-core_2.10;7.0.2 in sbt-chain[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.typesafe.com/typesafe/ivy-releases/org.scalaz/scalaz-core_2.10/7.0.2/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.typesafe.com/typesafe/ivy-releases/org.scalaz/scalaz-core_2.10/7.0.2/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: no ivy file found for org.scalaz#scalaz-core_2.10;7.0.2[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/org.scalaz/scalaz-core_2.10/7.0.2/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/org.scalaz/scalaz-core_2.10/7.0.2/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	sbt-plugin-releases: no ivy file found for org.scalaz#scalaz-core_2.10;7.0.2[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/org.scalaz/scalaz-core_2.10/7.0.2/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	local: found md file for org.scalaz#scalaz-core_2.10;7.0.2[0m
+[0m[[0mdebug[0m] [0m		=> /usr/local/Cellar/play/2.2.0/libexec/repository/local/org.scalaz/scalaz-core_2.10/7.0.2/ivys/ivy.xml (7.0.2)[0m
+[0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.scalaz#scalaz-core_2.10;7.0.2!ivy.xml(ivy.original)[0m
+[0m[[0mdebug[0m] [0m	found org.scalaz#scalaz-core_2.10;7.0.2 in local[0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.sbteclipse#sbteclipse-core;2.3.0->org.scalaz#scalaz-core_2.10;7.0.2 [compile->runtime][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.sbteclipse#sbteclipse-core;2.3.0->org.scalaz#scalaz-core_2.10;7.0.2 [compile->compile][0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.10.1 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.10.2 {compile=[compile(*), master(*)], runtime=[runtime(*)]}[0m
@@ -308,9 +470,17 @@
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.sbteclipse#sbteclipse-core;2.3.0->org.scalaz#scalaz-effect_2.10;7.0.2 [compile->default(compile)][0m
 [0m[[0minfo[0m] [0mResolving org.scalaz#scalaz-effect_2.10;7.0.2 ...[0m
 [0m[[0mdebug[0m] [0msbt-chain: Checking cache for: dependency: org.scalaz#scalaz-effect_2.10;7.0.2 {compile=[default(compile)]}[0m
-[0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: org.scalaz#scalaz-effect_2.10;7.0.2[0m
-[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: revision in cache: org.scalaz#scalaz-effect_2.10;7.0.2[0m
-[0m[[0mdebug[0m] [0m	found org.scalaz#scalaz-effect_2.10;7.0.2 in sbt-chain[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.typesafe.com/typesafe/ivy-releases/org.scalaz/scalaz-effect_2.10/7.0.2/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.typesafe.com/typesafe/ivy-releases/org.scalaz/scalaz-effect_2.10/7.0.2/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: no ivy file found for org.scalaz#scalaz-effect_2.10;7.0.2[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/org.scalaz/scalaz-effect_2.10/7.0.2/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/org.scalaz/scalaz-effect_2.10/7.0.2/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	sbt-plugin-releases: no ivy file found for org.scalaz#scalaz-effect_2.10;7.0.2[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/org.scalaz/scalaz-effect_2.10/7.0.2/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	local: found md file for org.scalaz#scalaz-effect_2.10;7.0.2[0m
+[0m[[0mdebug[0m] [0m		=> /usr/local/Cellar/play/2.2.0/libexec/repository/local/org.scalaz/scalaz-effect_2.10/7.0.2/ivys/ivy.xml (7.0.2)[0m
+[0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.scalaz#scalaz-effect_2.10;7.0.2!ivy.xml(ivy.original)[0m
+[0m[[0mdebug[0m] [0m	found org.scalaz#scalaz-effect_2.10;7.0.2 in local[0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.sbteclipse#sbteclipse-core;2.3.0->org.scalaz#scalaz-effect_2.10;7.0.2 [compile->runtime][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.sbteclipse#sbteclipse-core;2.3.0->org.scalaz#scalaz-effect_2.10;7.0.2 [compile->compile][0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.10.1 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.10.2 {compile=[compile(*), master(*)], runtime=[runtime(*)]}[0m
@@ -331,17 +501,33 @@
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#sbt-plugin;2.2.0->com.github.mpeltonen#sbt-idea;1.5.1 [compile->default(compile)][0m
 [0m[[0minfo[0m] [0mResolving com.github.mpeltonen#sbt-idea;1.5.1 ...[0m
 [0m[[0mdebug[0m] [0msbt-chain: Checking cache for: dependency: com.github.mpeltonen#sbt-idea;1.5.1 {compile=[default(compile)]}[0m
-[0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: com.github.mpeltonen#sbt-idea;1.5.1[0m
-[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: revision in cache: com.github.mpeltonen#sbt-idea;1.5.1[0m
-[0m[[0mdebug[0m] [0m	found com.github.mpeltonen#sbt-idea;1.5.1 in sbt-chain[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.typesafe.com/typesafe/ivy-releases/com.github.mpeltonen/sbt-idea/scala_2.10/sbt_0.13/1.5.1/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.typesafe.com/typesafe/ivy-releases/com.github.mpeltonen/sbt-idea/scala_2.10/sbt_0.13/1.5.1/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: no ivy file found for com.github.mpeltonen#sbt-idea;1.5.1[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/com.github.mpeltonen/sbt-idea/scala_2.10/sbt_0.13/1.5.1/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/com.github.mpeltonen/sbt-idea/scala_2.10/sbt_0.13/1.5.1/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	sbt-plugin-releases: no ivy file found for com.github.mpeltonen#sbt-idea;1.5.1[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/com.github.mpeltonen/sbt-idea/scala_2.10/sbt_0.13/1.5.1/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	local: found md file for com.github.mpeltonen#sbt-idea;1.5.1[0m
+[0m[[0mdebug[0m] [0m		=> /usr/local/Cellar/play/2.2.0/libexec/repository/local/com.github.mpeltonen/sbt-idea/scala_2.10/sbt_0.13/1.5.1/ivys/ivy.xml (1.5.1)[0m
+[0m[[0mdebug[0m] [0m	[NOT REQUIRED] com.github.mpeltonen#sbt-idea;1.5.1!ivy.xml(ivy.original)[0m
+[0m[[0mdebug[0m] [0m	found com.github.mpeltonen#sbt-idea;1.5.1 in local[0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#sbt-plugin;2.2.0->com.github.mpeltonen#sbt-idea;1.5.1 [compile->runtime][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#sbt-plugin;2.2.0->com.github.mpeltonen#sbt-idea;1.5.1 [compile->compile][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.github.mpeltonen#sbt-idea;1.5.1->commons-io#commons-io;2.0.1 [compile->master(*)][0m
 [0m[[0minfo[0m] [0mResolving commons-io#commons-io;2.0.1 ...[0m
 [0m[[0mdebug[0m] [0msbt-chain: Checking cache for: dependency: commons-io#commons-io;2.0.1 {compile=[compile(*), master(*)], runtime=[runtime(*)]}[0m
-[0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: commons-io#commons-io;2.0.1[0m
-[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: revision in cache: commons-io#commons-io;2.0.1[0m
-[0m[[0mdebug[0m] [0m	found commons-io#commons-io;2.0.1 in sbt-chain[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.typesafe.com/typesafe/ivy-releases/commons-io/commons-io/2.0.1/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.typesafe.com/typesafe/ivy-releases/commons-io/commons-io/2.0.1/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: no ivy file found for commons-io#commons-io;2.0.1[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/commons-io/commons-io/2.0.1/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/commons-io/commons-io/2.0.1/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	sbt-plugin-releases: no ivy file found for commons-io#commons-io;2.0.1[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/commons-io/commons-io/2.0.1/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	local: found md file for commons-io#commons-io;2.0.1[0m
+[0m[[0mdebug[0m] [0m		=> /usr/local/Cellar/play/2.2.0/libexec/repository/local/commons-io/commons-io/2.0.1/ivys/ivy.xml (2.0.1)[0m
+[0m[[0mdebug[0m] [0m	[NOT REQUIRED] commons-io#commons-io;2.0.1!ivy.xml(ivy.original)[0m
+[0m[[0mdebug[0m] [0m	found commons-io#commons-io;2.0.1 in local[0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.github.mpeltonen#sbt-idea;1.5.1->commons-io#commons-io;2.0.1 [compile->compile(*)][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.github.mpeltonen#sbt-idea;1.5.1->commons-io#commons-io;2.0.1 [runtime->runtime(*)][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.github.mpeltonen#sbt-idea;1.5.1->commons-io#commons-io;2.0.1 [runtime->compile][0m
@@ -349,23 +535,48 @@
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#sbt-plugin;2.2.0->com.typesafe.sbt#sbt-native-packager;0.6.2 [compile->default(compile)][0m
 [0m[[0minfo[0m] [0mResolving com.typesafe.sbt#sbt-native-packager;0.6.2 ...[0m
 [0m[[0mdebug[0m] [0msbt-chain: Checking cache for: dependency: com.typesafe.sbt#sbt-native-packager;0.6.2 {compile=[default(compile)]}[0m
-[0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: com.typesafe.sbt#sbt-native-packager;0.6.2[0m
-[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: revision in cache: com.typesafe.sbt#sbt-native-packager;0.6.2[0m
-[0m[[0mdebug[0m] [0m	found com.typesafe.sbt#sbt-native-packager;0.6.2 in sbt-chain[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.sbt/sbt-native-packager/scala_2.10/sbt_0.13/0.6.2/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.sbt/sbt-native-packager/scala_2.10/sbt_0.13/0.6.2/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: no ivy file found for com.typesafe.sbt#sbt-native-packager;0.6.2[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/com.typesafe.sbt/sbt-native-packager/scala_2.10/sbt_0.13/0.6.2/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	sbt-plugin-releases: found md file for com.typesafe.sbt#sbt-native-packager;0.6.2[0m
+[0m[[0mdebug[0m] [0m		=> http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/com.typesafe.sbt/sbt-native-packager/scala_2.10/sbt_0.13/0.6.2/ivys/ivy.xml (0.6.2)[0m
+[0m[[0mdebug[0m] [0mdownloading http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/com.typesafe.sbt/sbt-native-packager/scala_2.10/sbt_0.13/0.6.2/ivys/ivy.xml ...[0m
+[0m[[0mdebug[0m] [0m	sbt-plugin-releases: downloading http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/com.typesafe.sbt/sbt-native-packager/scala_2.10/sbt_0.13/0.6.2/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	sbt-plugin-releases: downloading http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/com.typesafe.sbt/sbt-native-packager/scala_2.10/sbt_0.13/0.6.2/ivys/ivy.xml.sha1[0m
+[0m[[0mdebug[0m] [0msha1 OK for http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/com.typesafe.sbt/sbt-native-packager/scala_2.10/sbt_0.13/0.6.2/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	[SUCCESSFUL ] com.typesafe.sbt#sbt-native-packager;0.6.2!ivy.xml(ivy.original) (1230ms)[0m
+[0m[[0mdebug[0m] [0m	found com.typesafe.sbt#sbt-native-packager;0.6.2 in sbt-plugin-releases[0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.sbt#sbt-native-packager;0.6.2->org.apache.commons#commons-compress;1.4.1 [compile->default(compile)][0m
 [0m[[0minfo[0m] [0mResolving org.apache.commons#commons-compress;1.4.1 ...[0m
 [0m[[0mdebug[0m] [0msbt-chain: Checking cache for: dependency: org.apache.commons#commons-compress;1.4.1 {compile=[default(compile)]}[0m
-[0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: org.apache.commons#commons-compress;1.4.1[0m
-[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: revision in cache: org.apache.commons#commons-compress;1.4.1[0m
-[0m[[0mdebug[0m] [0m	found org.apache.commons#commons-compress;1.4.1 in sbt-chain[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.typesafe.com/typesafe/ivy-releases/org.apache.commons/commons-compress/1.4.1/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.typesafe.com/typesafe/ivy-releases/org.apache.commons/commons-compress/1.4.1/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: no ivy file found for org.apache.commons#commons-compress;1.4.1[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/org.apache.commons/commons-compress/1.4.1/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/org.apache.commons/commons-compress/1.4.1/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	sbt-plugin-releases: no ivy file found for org.apache.commons#commons-compress;1.4.1[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/org.apache.commons/commons-compress/1.4.1/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	local: found md file for org.apache.commons#commons-compress;1.4.1[0m
+[0m[[0mdebug[0m] [0m		=> /usr/local/Cellar/play/2.2.0/libexec/repository/local/org.apache.commons/commons-compress/1.4.1/ivys/ivy.xml (1.4.1)[0m
+[0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.apache.commons#commons-compress;1.4.1!ivy.xml(ivy.original)[0m
+[0m[[0mdebug[0m] [0m	found org.apache.commons#commons-compress;1.4.1 in local[0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.sbt#sbt-native-packager;0.6.2->org.apache.commons#commons-compress;1.4.1 [compile->runtime][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.sbt#sbt-native-packager;0.6.2->org.apache.commons#commons-compress;1.4.1 [compile->compile][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies org.apache.commons#commons-compress;1.4.1->org.tukaani#xz;1.0 [compile->master(*)][0m
 [0m[[0minfo[0m] [0mResolving org.tukaani#xz;1.0 ...[0m
 [0m[[0mdebug[0m] [0msbt-chain: Checking cache for: dependency: org.tukaani#xz;1.0 {compile=[compile(*), master(*)], runtime=[runtime(*)]}[0m
-[0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: org.tukaani#xz;1.0[0m
-[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: revision in cache: org.tukaani#xz;1.0[0m
-[0m[[0mdebug[0m] [0m	found org.tukaani#xz;1.0 in sbt-chain[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.typesafe.com/typesafe/ivy-releases/org.tukaani/xz/1.0/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.typesafe.com/typesafe/ivy-releases/org.tukaani/xz/1.0/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: no ivy file found for org.tukaani#xz;1.0[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/org.tukaani/xz/1.0/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/org.tukaani/xz/1.0/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	sbt-plugin-releases: no ivy file found for org.tukaani#xz;1.0[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/org.tukaani/xz/1.0/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	local: found md file for org.tukaani#xz;1.0[0m
+[0m[[0mdebug[0m] [0m		=> /usr/local/Cellar/play/2.2.0/libexec/repository/local/org.tukaani/xz/1.0/ivys/ivy.xml (1.0)[0m
+[0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.tukaani#xz;1.0!ivy.xml(ivy.original)[0m
+[0m[[0mdebug[0m] [0m	found org.tukaani#xz;1.0 in local[0m
 [0m[[0mdebug[0m] [0m== resolving dependencies org.apache.commons#commons-compress;1.4.1->org.tukaani#xz;1.0 [compile->compile(*)][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies org.apache.commons#commons-compress;1.4.1->org.tukaani#xz;1.0 [runtime->runtime(*)][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies org.apache.commons#commons-compress;1.4.1->org.tukaani#xz;1.0 [runtime->compile][0m
@@ -373,9 +584,17 @@
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#sbt-plugin;2.2.0->org.specs2#specs2_2.10;2.1.1 [compile->default(compile)][0m
 [0m[[0minfo[0m] [0mResolving org.specs2#specs2_2.10;2.1.1 ...[0m
 [0m[[0mdebug[0m] [0msbt-chain: Checking cache for: dependency: org.specs2#specs2_2.10;2.1.1 {compile=[default(compile)]}[0m
-[0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: org.specs2#specs2_2.10;2.1.1[0m
-[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: revision in cache: org.specs2#specs2_2.10;2.1.1[0m
-[0m[[0mdebug[0m] [0m	found org.specs2#specs2_2.10;2.1.1 in sbt-chain[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.typesafe.com/typesafe/ivy-releases/org.specs2/specs2_2.10/2.1.1/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.typesafe.com/typesafe/ivy-releases/org.specs2/specs2_2.10/2.1.1/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: no ivy file found for org.specs2#specs2_2.10;2.1.1[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/org.specs2/specs2_2.10/2.1.1/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/org.specs2/specs2_2.10/2.1.1/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	sbt-plugin-releases: no ivy file found for org.specs2#specs2_2.10;2.1.1[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/org.specs2/specs2_2.10/2.1.1/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	local: found md file for org.specs2#specs2_2.10;2.1.1[0m
+[0m[[0mdebug[0m] [0m		=> /usr/local/Cellar/play/2.2.0/libexec/repository/local/org.specs2/specs2_2.10/2.1.1/ivys/ivy.xml (2.1.1)[0m
+[0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.specs2#specs2_2.10;2.1.1!ivy.xml(ivy.original)[0m
+[0m[[0mdebug[0m] [0m	found org.specs2#specs2_2.10;2.1.1 in local[0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#sbt-plugin;2.2.0->org.specs2#specs2_2.10;2.1.1 [compile->runtime][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies com.typesafe.play#sbt-plugin;2.2.0->org.specs2#specs2_2.10;2.1.1 [compile->compile][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies org.specs2#specs2_2.10;2.1.1->org.scalaz#scalaz-core_2.10;7.0.2 [compile->master(*)][0m
@@ -383,9 +602,17 @@
 [0m[[0mdebug[0m] [0m== resolving dependencies org.specs2#specs2_2.10;2.1.1->org.scalaz#scalaz-concurrent_2.10;7.0.2 [compile->master(*)][0m
 [0m[[0minfo[0m] [0mResolving org.scalaz#scalaz-concurrent_2.10;7.0.2 ...[0m
 [0m[[0mdebug[0m] [0msbt-chain: Checking cache for: dependency: org.scalaz#scalaz-concurrent_2.10;7.0.2 {compile=[compile(*), master(*)], runtime=[runtime(*)]}[0m
-[0m[[0mdebug[0m] [0msbt-chain: module revision found in cache: org.scalaz#scalaz-concurrent_2.10;7.0.2[0m
-[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: revision in cache: org.scalaz#scalaz-concurrent_2.10;7.0.2[0m
-[0m[[0mdebug[0m] [0m	found org.scalaz#scalaz-concurrent_2.10;7.0.2 in sbt-chain[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.typesafe.com/typesafe/ivy-releases/org.scalaz/scalaz-concurrent_2.10/7.0.2/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.typesafe.com/typesafe/ivy-releases/org.scalaz/scalaz-concurrent_2.10/7.0.2/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: no ivy file found for org.scalaz#scalaz-concurrent_2.10;7.0.2[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/org.scalaz/scalaz-concurrent_2.10/7.0.2/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0mCLIENT ERROR: Not Found url=http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/org.scalaz/scalaz-concurrent_2.10/7.0.2/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	sbt-plugin-releases: no ivy file found for org.scalaz#scalaz-concurrent_2.10;7.0.2[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/org.scalaz/scalaz-concurrent_2.10/7.0.2/ivys/ivy.xml[0m
+[0m[[0mdebug[0m] [0m	local: found md file for org.scalaz#scalaz-concurrent_2.10;7.0.2[0m
+[0m[[0mdebug[0m] [0m		=> /usr/local/Cellar/play/2.2.0/libexec/repository/local/org.scalaz/scalaz-concurrent_2.10/7.0.2/ivys/ivy.xml (7.0.2)[0m
+[0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.scalaz#scalaz-concurrent_2.10;7.0.2!ivy.xml(ivy.original)[0m
+[0m[[0mdebug[0m] [0m	found org.scalaz#scalaz-concurrent_2.10;7.0.2 in local[0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.10.1 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.10.2 {compile=[compile(*), master(*)], runtime=[runtime(*)]}[0m
 [0m[[0mdebug[0m] [0m== resolving dependencies org.specs2#specs2_2.10;2.1.1->org.scalaz#scalaz-concurrent_2.10;7.0.2 [compile->compile(*)][0m
 [0m[[0mdebug[0m] [0mdependency descriptor has been mediated: dependency: org.scala-lang#scala-library;2.10.1 {compile=[compile(*), master(*)], runtime=[runtime(*)]} => dependency: org.scala-lang#scala-library;2.10.2 {compile=[compile(*), master(*)], runtime=[runtime(*)]}[0m
@@ -2782,41 +3009,86 @@
 [0m[[0mdebug[0m] [0m== resolving dependencies default#mekong2-build;0.1-SNAPSHOT->org.scala-lang#scala-library;2.10.2 [scala-tool->compile][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies default#mekong2-build;0.1-SNAPSHOT->org.scala-lang#scala-library;2.10.2 [scala-tool->master][0m
 [0m[[0mdebug[0m] [0m== resolving dependencies default#mekong2-build;0.1-SNAPSHOT->org.scala-lang#scala-library;2.10.2 [scala-tool->optional(default)][0m
-[0m[[0mdebug[0m] [0m	resolved ivy file produced in C:\Users\jgali_000\Documents\comp5338\mekong2\project\target\resolution-cache\default\mekong2-build\scala_2.10\sbt_0.13\0.1-SNAPSHOT\resolved.xml.xml[0m
+[0m[[0mdebug[0m] [0m	resolved ivy file produced in /Users/jgalilee/Documents/Workspace/mekong2/project/target/resolution-cache/default/mekong2-build/scala_2.10/sbt_0.13/0.1-SNAPSHOT/resolved.xml.xml[0m
 [0m[[0mdebug[0m] [0m:: downloading artifacts ::[0m
-[0m[[0mdebug[0m] [0m	[NOT REQUIRED] com.typesafe.play#sbt-plugin;2.2.0!sbt-plugin.jar[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.play/sbt-plugin/scala_2.10/sbt_0.13/2.2.0/jars/sbt-plugin.jar[0m
+[0m[[0minfo[0m] [0mdownloading http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.play/sbt-plugin/scala_2.10/sbt_0.13/2.2.0/jars/sbt-plugin.jar ...[0m
+[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: downloading http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.play/sbt-plugin/scala_2.10/sbt_0.13/2.2.0/jars/sbt-plugin.jar[0m
+[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: downloading http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.play/sbt-plugin/scala_2.10/sbt_0.13/2.2.0/jars/sbt-plugin.jar.sha1[0m
+[0m[[0mdebug[0m] [0msha1 OK for http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.play/sbt-plugin/scala_2.10/sbt_0.13/2.2.0/jars/sbt-plugin.jar[0m
+[0m[[0minfo[0m] [0m	[SUCCESSFUL ] com.typesafe.play#sbt-plugin;2.2.0!sbt-plugin.jar (5890ms)[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/com.typesafe.play/sbt-link/2.2.0/jars/sbt-link.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] com.typesafe.play#sbt-link;2.2.0!sbt-link.jar[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/com.typesafe.play/play-exceptions/2.2.0/jars/play-exceptions.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] com.typesafe.play#play-exceptions;2.2.0!play-exceptions.jar[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/com.typesafe.play/routes-compiler_2.10/2.2.0/jars/routes-compiler_2.10.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] com.typesafe.play#routes-compiler_2.10;2.2.0!routes-compiler_2.10.jar[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/com.typesafe.play/templates-compiler_2.10/2.2.0/jars/templates-compiler_2.10.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] com.typesafe.play#templates-compiler_2.10;2.2.0!templates-compiler_2.10.jar[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/com.typesafe.play/console_2.10/2.2.0/jars/console_2.10.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] com.typesafe.play#console_2.10;2.2.0!console_2.10.jar[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/com.typesafe/config/1.0.2/bundles/config.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] com.typesafe#config;1.0.2!config.jar(bundle)[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/org.mozilla/rhino/1.7R4/jars/rhino.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.mozilla#rhino;1.7R4!rhino.jar[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/com.google.javascript/closure-compiler/v20130603/jars/closure-compiler.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] com.google.javascript#closure-compiler;v20130603!closure-compiler.jar[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/com.google.guava/guava/14.0.1/bundles/guava.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] com.google.guava#guava;14.0.1!guava.jar(bundle)[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/com.github.scala-incubator.io/scala-io-file_2.10/0.4.2/jars/scala-io-file_2.10.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] com.github.scala-incubator.io#scala-io-file_2.10;0.4.2!scala-io-file_2.10.jar[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/org.avaje.ebeanorm/avaje-ebeanorm-agent/3.2.1/jars/avaje-ebeanorm-agent.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.avaje.ebeanorm#avaje-ebeanorm-agent;3.2.1!avaje-ebeanorm-agent.jar[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/com.h2database/h2/1.3.172/jars/h2.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] com.h2database#h2;1.3.172!h2.jar[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/org.javassist/javassist/3.18.0-GA/bundles/javassist.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.javassist#javassist;3.18.0-GA!javassist.jar(bundle)[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/net.contentobjects.jnotify/jnotify/0.94/jars/jnotify.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] net.contentobjects.jnotify#jnotify;0.94!jnotify.jar[0m
-[0m[[0mdebug[0m] [0m	[NOT REQUIRED] com.typesafe.sbteclipse#sbteclipse-plugin;2.3.0!sbteclipse-plugin.jar[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.sbteclipse/sbteclipse-plugin/scala_2.10/sbt_0.13/2.3.0/jars/sbteclipse-plugin.jar[0m
+[0m[[0minfo[0m] [0mdownloading http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.sbteclipse/sbteclipse-plugin/scala_2.10/sbt_0.13/2.3.0/jars/sbteclipse-plugin.jar ...[0m
+[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: downloading http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.sbteclipse/sbteclipse-plugin/scala_2.10/sbt_0.13/2.3.0/jars/sbteclipse-plugin.jar[0m
+[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: downloading http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.sbteclipse/sbteclipse-plugin/scala_2.10/sbt_0.13/2.3.0/jars/sbteclipse-plugin.jar.sha1[0m
+[0m[[0mdebug[0m] [0msha1 OK for http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.sbteclipse/sbteclipse-plugin/scala_2.10/sbt_0.13/2.3.0/jars/sbteclipse-plugin.jar[0m
+[0m[[0minfo[0m] [0m	[SUCCESSFUL ] com.typesafe.sbteclipse#sbteclipse-plugin;2.3.0!sbteclipse-plugin.jar (1581ms)[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/com.github.mpeltonen/sbt-idea/scala_2.10/sbt_0.13/1.5.1/jars/sbt-idea.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] com.github.mpeltonen#sbt-idea;1.5.1!sbt-idea.jar[0m
-[0m[[0mdebug[0m] [0m	[NOT REQUIRED] com.typesafe.sbt#sbt-native-packager;0.6.2!sbt-native-packager.jar[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/com.typesafe.sbt/sbt-native-packager/scala_2.10/sbt_0.13/0.6.2/jars/sbt-native-packager.jar[0m
+[0m[[0minfo[0m] [0mdownloading http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/com.typesafe.sbt/sbt-native-packager/scala_2.10/sbt_0.13/0.6.2/jars/sbt-native-packager.jar ...[0m
+[0m[[0mdebug[0m] [0m	sbt-plugin-releases: downloading http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/com.typesafe.sbt/sbt-native-packager/scala_2.10/sbt_0.13/0.6.2/jars/sbt-native-packager.jar[0m
+[0m[[0mdebug[0m] [0m	sbt-plugin-releases: downloading http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/com.typesafe.sbt/sbt-native-packager/scala_2.10/sbt_0.13/0.6.2/jars/sbt-native-packager.jar.sha1[0m
+[0m[[0mdebug[0m] [0msha1 OK for http://repo.scala-sbt.org/scalasbt/sbt-plugin-releases/com.typesafe.sbt/sbt-native-packager/scala_2.10/sbt_0.13/0.6.2/jars/sbt-native-packager.jar[0m
+[0m[[0minfo[0m] [0m	[SUCCESSFUL ] com.typesafe.sbt#sbt-native-packager;0.6.2!sbt-native-packager.jar (5021ms)[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/org.specs2/specs2_2.10/2.1.1/jars/specs2_2.10.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.specs2#specs2_2.10;2.1.1!specs2_2.10.jar[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/com.github.scala-incubator.io/scala-io-core_2.10/0.4.2/jars/scala-io-core_2.10.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] com.github.scala-incubator.io#scala-io-core_2.10;0.4.2!scala-io-core_2.10.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.scala-lang#scala-library;2.10.2!scala-library.jar[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/com.jsuereth/scala-arm_2.10/1.3/jars/scala-arm_2.10.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] com.jsuereth#scala-arm_2.10;1.3!scala-arm_2.10.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.scala-lang#scala-compiler;2.10.2!scala-compiler.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.scala-lang#scala-reflect;2.10.2!scala-reflect.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.scala-sbt#launcher-interface;0.13.0!launcher-interface.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] jline#jline;2.11!jline.jar[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/org.json/json/20090211/jars/json.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.json#json;20090211!json.jar[0m
-[0m[[0mdebug[0m] [0m	[NOT REQUIRED] com.typesafe.sbteclipse#sbteclipse-core;2.3.0!sbteclipse-core.jar[0m
+[0m[[0mdebug[0m] [0m		tried http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.sbteclipse/sbteclipse-core/scala_2.10/sbt_0.13/2.3.0/jars/sbteclipse-core.jar[0m
+[0m[[0minfo[0m] [0mdownloading http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.sbteclipse/sbteclipse-core/scala_2.10/sbt_0.13/2.3.0/jars/sbteclipse-core.jar ...[0m
+[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: downloading http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.sbteclipse/sbteclipse-core/scala_2.10/sbt_0.13/2.3.0/jars/sbteclipse-core.jar[0m
+[0m[[0mdebug[0m] [0m	typesafe-ivy-releases: downloading http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.sbteclipse/sbteclipse-core/scala_2.10/sbt_0.13/2.3.0/jars/sbteclipse-core.jar.sha1[0m
+[0m[[0mdebug[0m] [0msha1 OK for http://repo.typesafe.com/typesafe/ivy-releases/com.typesafe.sbteclipse/sbteclipse-core/scala_2.10/sbt_0.13/2.3.0/jars/sbteclipse-core.jar[0m
+[0m[[0minfo[0m] [0m	[SUCCESSFUL ] com.typesafe.sbteclipse#sbteclipse-core;2.3.0!sbteclipse-core.jar (3966ms)[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/org.scalaz/scalaz-core_2.10/7.0.2/bundles/scalaz-core_2.10.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.scalaz#scalaz-core_2.10;7.0.2!scalaz-core_2.10.jar(bundle)[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/org.scalaz/scalaz-effect_2.10/7.0.2/bundles/scalaz-effect_2.10.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.scalaz#scalaz-effect_2.10;7.0.2!scalaz-effect_2.10.jar(bundle)[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/commons-io/commons-io/2.0.1/jars/commons-io.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] commons-io#commons-io;2.0.1!commons-io.jar[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/org.apache.commons/commons-compress/1.4.1/jars/commons-compress.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.apache.commons#commons-compress;1.4.1!commons-compress.jar[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/org.tukaani/xz/1.0/jars/xz.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.tukaani#xz;1.0!xz.jar[0m
+[0m[[0mdebug[0m] [0m		tried /usr/local/Cellar/play/2.2.0/libexec/repository/local/org.scalaz/scalaz-concurrent_2.10/7.0.2/bundles/scalaz-concurrent_2.10.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.scalaz#scalaz-concurrent_2.10;7.0.2!scalaz-concurrent_2.10.jar(bundle)[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.scala-sbt#sbt;0.13.0!sbt.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.scala-sbt#main;0.13.0!main.jar[0m
@@ -2860,19 +3132,19 @@
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.scala-sbt#apply-macro;0.13.0!apply-macro.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.scala-lang#jline;2.10.2!jline.jar[0m
 [0m[[0mdebug[0m] [0m	[NOT REQUIRED] org.fusesource.jansi#jansi;1.4!jansi.jar[0m
-[0m[[0mdebug[0m] [0m:: resolution report :: resolve 2447ms :: artifacts dl 67ms[0m
-[0m[[0mdebug[0m] [0m	report for default#mekong2-build;0.1-SNAPSHOT compile produced in C:\Users\jgali_000\Documents\comp5338\mekong2\project\target\resolution-cache\reports\default-mekong2-build-compile.xml[0m
-[0m[[0mdebug[0m] [0m	report for default#mekong2-build;0.1-SNAPSHOT runtime produced in C:\Users\jgali_000\Documents\comp5338\mekong2\project\target\resolution-cache\reports\default-mekong2-build-runtime.xml[0m
-[0m[[0mdebug[0m] [0m	report for default#mekong2-build;0.1-SNAPSHOT test produced in C:\Users\jgali_000\Documents\comp5338\mekong2\project\target\resolution-cache\reports\default-mekong2-build-test.xml[0m
-[0m[[0mdebug[0m] [0m	report for default#mekong2-build;0.1-SNAPSHOT provided produced in C:\Users\jgali_000\Documents\comp5338\mekong2\project\target\resolution-cache\reports\default-mekong2-build-provided.xml[0m
-[0m[[0mdebug[0m] [0m	report for default#mekong2-build;0.1-SNAPSHOT optional produced in C:\Users\jgali_000\Documents\comp5338\mekong2\project\target\resolution-cache\reports\default-mekong2-build-optional.xml[0m
-[0m[[0mdebug[0m] [0m	report for default#mekong2-build;0.1-SNAPSHOT compile-internal produced in C:\Users\jgali_000\Documents\comp5338\mekong2\project\target\resolution-cache\reports\default-mekong2-build-compile-internal.xml[0m
-[0m[[0mdebug[0m] [0m	report for default#mekong2-build;0.1-SNAPSHOT runtime-internal produced in C:\Users\jgali_000\Documents\comp5338\mekong2\project\target\resolution-cache\reports\default-mekong2-build-runtime-internal.xml[0m
-[0m[[0mdebug[0m] [0m	report for default#mekong2-build;0.1-SNAPSHOT test-internal produced in C:\Users\jgali_000\Documents\comp5338\mekong2\project\target\resolution-cache\reports\default-mekong2-build-test-internal.xml[0m
-[0m[[0mdebug[0m] [0m	report for default#mekong2-build;0.1-SNAPSHOT plugin produced in C:\Users\jgali_000\Documents\comp5338\mekong2\project\target\resolution-cache\reports\default-mekong2-build-plugin.xml[0m
-[0m[[0mdebug[0m] [0m	report for default#mekong2-build;0.1-SNAPSHOT sources produced in C:\Users\jgali_000\Documents\comp5338\mekong2\project\target\resolution-cache\reports\default-mekong2-build-sources.xml[0m
-[0m[[0mdebug[0m] [0m	report for default#mekong2-build;0.1-SNAPSHOT docs produced in C:\Users\jgali_000\Documents\comp5338\mekong2\project\target\resolution-cache\reports\default-mekong2-build-docs.xml[0m
-[0m[[0mdebug[0m] [0m	report for default#mekong2-build;0.1-SNAPSHOT pom produced in C:\Users\jgali_000\Documents\comp5338\mekong2\project\target\resolution-cache\reports\default-mekong2-build-pom.xml[0m
-[0m[[0mdebug[0m] [0m	report for default#mekong2-build;0.1-SNAPSHOT scala-tool produced in C:\Users\jgali_000\Documents\comp5338\mekong2\project\target\resolution-cache\reports\default-mekong2-build-scala-tool.xml[0m
-[0m[[0mdebug[0m] [0m	resolve done (2447ms resolve - 67ms download)[0m
+[0m[[0mdebug[0m] [0m:: resolution report :: resolve 26478ms :: artifacts dl 16566ms[0m
+[0m[[0mdebug[0m] [0m	report for default#mekong2-build;0.1-SNAPSHOT compile produced in /Users/jgalilee/Documents/Workspace/mekong2/project/target/resolution-cache/reports/default-mekong2-build-compile.xml[0m
+[0m[[0mdebug[0m] [0m	report for default#mekong2-build;0.1-SNAPSHOT runtime produced in /Users/jgalilee/Documents/Workspace/mekong2/project/target/resolution-cache/reports/default-mekong2-build-runtime.xml[0m
+[0m[[0mdebug[0m] [0m	report for default#mekong2-build;0.1-SNAPSHOT test produced in /Users/jgalilee/Documents/Workspace/mekong2/project/target/resolution-cache/reports/default-mekong2-build-test.xml[0m
+[0m[[0mdebug[0m] [0m	report for default#mekong2-build;0.1-SNAPSHOT provided produced in /Users/jgalilee/Documents/Workspace/mekong2/project/target/resolution-cache/reports/default-mekong2-build-provided.xml[0m
+[0m[[0mdebug[0m] [0m	report for default#mekong2-build;0.1-SNAPSHOT optional produced in /Users/jgalilee/Documents/Workspace/mekong2/project/target/resolution-cache/reports/default-mekong2-build-optional.xml[0m
+[0m[[0mdebug[0m] [0m	report for default#mekong2-build;0.1-SNAPSHOT compile-internal produced in /Users/jgalilee/Documents/Workspace/mekong2/project/target/resolution-cache/reports/default-mekong2-build-compile-internal.xml[0m
+[0m[[0mdebug[0m] [0m	report for default#mekong2-build;0.1-SNAPSHOT runtime-internal produced in /Users/jgalilee/Documents/Workspace/mekong2/project/target/resolution-cache/reports/default-mekong2-build-runtime-internal.xml[0m
+[0m[[0mdebug[0m] [0m	report for default#mekong2-build;0.1-SNAPSHOT test-internal produced in /Users/jgalilee/Documents/Workspace/mekong2/project/target/resolution-cache/reports/default-mekong2-build-test-internal.xml[0m
+[0m[[0mdebug[0m] [0m	report for default#mekong2-build;0.1-SNAPSHOT plugin produced in /Users/jgalilee/Documents/Workspace/mekong2/project/target/resolution-cache/reports/default-mekong2-build-plugin.xml[0m
+[0m[[0mdebug[0m] [0m	report for default#mekong2-build;0.1-SNAPSHOT sources produced in /Users/jgalilee/Documents/Workspace/mekong2/project/target/resolution-cache/reports/default-mekong2-build-sources.xml[0m
+[0m[[0mdebug[0m] [0m	report for default#mekong2-build;0.1-SNAPSHOT docs produced in /Users/jgalilee/Documents/Workspace/mekong2/project/target/resolution-cache/reports/default-mekong2-build-docs.xml[0m
+[0m[[0mdebug[0m] [0m	report for default#mekong2-build;0.1-SNAPSHOT pom produced in /Users/jgalilee/Documents/Workspace/mekong2/project/target/resolution-cache/reports/default-mekong2-build-pom.xml[0m
+[0m[[0mdebug[0m] [0m	report for default#mekong2-build;0.1-SNAPSHOT scala-tool produced in /Users/jgalilee/Documents/Workspace/mekong2/project/target/resolution-cache/reports/default-mekong2-build-scala-tool.xml[0m
+[0m[[0mdebug[0m] [0m	resolve done (26478ms resolve - 16566ms download)[0m
 [0m[[0minfo[0m] [0mDone updating.[0m

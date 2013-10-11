@@ -67,12 +67,13 @@ public abstract class Record<R extends Record> extends MessageContainer {
             }
         } else if (type.equals(DatabaseType.NEO4J) && null != this.mongoRecord) {
             try {
-                Long nodeId = Long.valueOf(this.mongoRecord.get("_node").toString());
-                Neo4jDatabaseConnection instance = Neo4jDatabaseConnection.getInstance();
-                GraphDatabaseService graphDB = instance.getService();
-                this.neo4jRecord = graphDB.getNodeById(nodeId);
-                if (neo4jRecord != null) {
-                    return true;
+                List<Book> books = queryNeo4jRecord();
+                if (null != books && book.size() > 0) {
+                  Book book = books.get(0);
+                  this.neo4jRecord = book.getNeo4jRecord();
+                  if (neo4jRecord != null) {
+                      return true;
+                  }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -124,6 +125,10 @@ public abstract class Record<R extends Record> extends MessageContainer {
 
     public boolean loadNeo4jRecord() {
         return loadRecord(DatabaseType.NEO4J);
+    }
+
+    public List<R> queryNeo4jRecord() {
+      return new ArrayList<R>();
     }
 
     public boolean neo4jRecordLoaded() {

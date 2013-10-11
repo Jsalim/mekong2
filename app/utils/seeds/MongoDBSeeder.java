@@ -100,7 +100,6 @@ public class MongoDBSeeder
       BasicDBObject author = new BasicDBObject();
       author.put("firstname", jsonAuthor.get("firstname"));
       author.put("lastname", jsonAuthor.get("lastname"));
-      author.put("biography", jsonAuthor.get("biography"));
       authors.add(author);
     }
     return authors;

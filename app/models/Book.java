@@ -138,6 +138,17 @@ public class Book extends Record<Book> {
         }
     }
 
+    public List<R> queryNeo4jRecord() {
+      String query = "START book=node:Books(isbn={isbn}) RETURN book LIMIT 1";
+      Map<String, Object> params = new HashMap<String, Object>();
+      String isbn = getMongo("isbn");
+      if (null != isbn) {
+        return Book.queryToNodes(query, params, "book");
+      } else {
+        return new ArrayList<Book>();
+      }
+    }
+
     /**
      *
      * @param pageSize
