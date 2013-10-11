@@ -8,6 +8,13 @@ install scala since, like Neo4j, much of it is built in scala.
 
 After installing Play and Scala
 
+Please note that it assumes MongoDB is available at localhost:27017.
+If this is not correct it can be changed in utils.mongodb.MongoDatabaseConnection.java.
+
+Neo4j is embedded however it is important that the applicatio is shutdown correctly otherwise the app
+may fail to start again. In such an event please delete the entire Neo4j database folder and the seeds/seeds.lock
+file which will repopulate the database.
+
 1. Open a command prompt
 2. Navigate to the mekong directory (same directory as this README)
 3. Enter the command 'play run'
