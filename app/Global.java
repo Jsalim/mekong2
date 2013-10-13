@@ -58,6 +58,7 @@ public class Global extends GlobalSettings {
       } catch (Exception e) {
         Logger.info("Unable to access MongoDB OR Neo4j");
       }
+      Neo4jDatabaseConnection.getInstance().printDatabase();
       Logger.info("Application has started");
       return;
     }

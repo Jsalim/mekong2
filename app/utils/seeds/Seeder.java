@@ -147,6 +147,8 @@ public class Seeder {
             mongoBookRecord = mongoSeeder.createBookRecord(book);
             mongoSeeder.insertBookRecord(mongoBookRecord);
             System.out.println("\n\n# Neo4j\n");
+            neo4jSeeder.enhanceBookRecord(mongoBookRecord);
+            mongoBookRecord.remove("cover");
             mongoBookRecord.remove("stock");
         } catch (Exception e) {
             System.out.println("Failed to create seed for " + isbn + ", reason " + e.toString());
