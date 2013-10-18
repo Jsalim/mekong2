@@ -298,10 +298,14 @@ public abstract class Record<R extends Record> extends MessageContainer {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Neo4j: ");
-        sb.append(getNeo4jRecord().toString());
-        sb.append("\n");
-        sb.append("MongoDB: ");
-        sb.append(getMongoRecord().toString());
+        if (neo4jRecordLoaded()) {
+            sb.append(getNeo4jRecord().toString());
+            sb.append("\n");
+        }
+        if (mongoRecordLoaded()) {
+            sb.append("MongoDB: ");
+            sb.append(getMongoRecord().toString());
+        }
         return sb.toString();
     }
 

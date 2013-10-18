@@ -98,7 +98,7 @@ public class Cart extends Record<Cart> {
             Cart instance = Cart.getInstance();
             DBCollection cartCollection = instance.getMongoCollection();
             BasicDBObject cartQuery = new BasicDBObject();
-            cartQuery.append("user_id", user.getMongo("_id"));
+            cartQuery.append("username", user.getMongo("username"));
             cartQuery.append("status", "pending");
 
             // Find the cart.
@@ -154,7 +154,7 @@ public class Cart extends Record<Cart> {
         try {
             Cart instance = Cart.getInstance();
             ObjectId cartId = (ObjectId) getMongo("_id");
-            ObjectId userId = (ObjectId) getMongo("user_id");
+            String  username = (String) getMongo("username");
             BasicDBObject item = null;
             BasicDBList items = (BasicDBList) this.getMongo("items");
 
@@ -174,7 +174,7 @@ public class Cart extends Record<Cart> {
                 // Item is not in the cart it must be added.
                 BasicDBObject cartProjection = new BasicDBObject();
                 cartProjection.append("_id", cartId);
-                cartProjection.append("user_id", userId);
+                cartProjection.append("username", username);
                 cartProjection.append("status", "pending");
 
                 BasicDBObject updateQuery = new BasicDBObject();

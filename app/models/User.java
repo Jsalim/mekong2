@@ -220,7 +220,7 @@ public class User extends Record<User> {
      * be rendered to them.
      */
     public List<Book> recommendedBooks() {
-        String query = "START user=node:Users(username={username})\n" +
+        String socialquery = "START user=node:Users(username={username})\n" +
                 "MATCH (user)-[:BUYS]->(book)<-[:BUYS]-(other)\n" +
                 "WHERE HAS(book.isbn) AND HAS(other.username) AND user <> other\n" +
                 "WITH user, other\n" +
@@ -228,10 +228,29 @@ public class User extends Record<User> {
                 "WHERE NOT ((user)-[:BUYS]->(recommendation))\n" +
                 "AND HAS (recommendation.isbn)\n" +
                 "WITH distinct(recommendation) AS recommendations\n" +
+                "LIMIT 5\n" +
                 "RETURN recommendations";
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("username", getMongo("username").toString());
-        return Book.queryToNodes(query, params, "recommendations");
+        Map<String, Object> socialparams = new HashMap<String, Object>();
+        socialparams.put("username", getMongo("username").toString());
+        List<Book> recommendedList = Book.queryToNodes(socialquery, socialparams, "recommendations");
+
+        /* Similar books query */
+        if (recommendedList.size() == 0) {
+            String similarBookquery = "START user=node:Users(username={username})\n" +
+                    "MATCH (user)-[:BUYS]->(book)\n" +
+                    "WHERE HAS(book.isbn)\n" +
+                    "WITH book\n" +
+                    "MATCH (book)-[:SIMILAR_TO]->(recommendation)\n" +
+                    "WHERE book <> recommendation\n" +
+                    "AND HAS (recommendation.isbn)\n" +
+                    "WITH distinct(recommendation) AS recommendations\n" +
+                    "LIMIT 5\n" +
+                    "RETURN recommendations";
+            Map<String, Object> similarBookparams = new HashMap<String, Object>();
+            similarBookparams.put("username", getMongo("username").toString());
+            recommendedList = Book.queryToNodes(similarBookquery, similarBookparams, "recommendations");
+        }
+        return recommendedList;
     }
 
     /**
